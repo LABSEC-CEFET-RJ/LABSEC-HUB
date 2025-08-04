@@ -1,0 +1,29 @@
+.menu-div{
+    background-color: #001f3f;
+    background-color: #8fbdf0;
+    display: flex;
+    gap: 100px;
+    padding-left: 8%;
+    text-align: center;
+    align-items: center;
+    img{
+        width: 5rem;
+        padding-right: 2%;
+    }
+    ul{
+        
+        display: flex;
+        gap: 24px;
+        margin-left: auto;
+        padding-right: 8%;
+        li{
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            transition: transform 0.2s ease-in-out;
+            &:hover{
+                transform: scale(1.2);
+            }
+        }
+    }
+}
