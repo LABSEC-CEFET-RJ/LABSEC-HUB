@@ -1,4 +1,5 @@
 .menu-div{
+    
     background-color: #001f3f;
     background-color: #8fbdf0;
     display: flex;
@@ -6,14 +7,22 @@
     padding-left: 8%;
     text-align: center;
     align-items: center;
+    h1{
+        .vermelho{
+            color: rgb(144, 19, 38,0.95)
+        }
+        .azul{
+            color: rgb(25, 25, 112,0.95)
+        }
+    }
     img{
         width: 5rem;
-        padding-right: 2%;
     }
     ul{
         
         display: flex;
         gap: 24px;
+        margin: 0;
         margin-left: auto;
         padding-right: 8%;
         li{
