@@ -7,6 +7,10 @@
   
 }
 
+html{
+  scroll-behavior: smooth;
+}
+
 div#root{
   background-color: #242424;
 }

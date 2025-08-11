@@ -1,6 +1,7 @@
 .menu-div{
-    
-    background-color: #001f3f;
+    position: sticky;
+    width: 100%;
+    top: 0;
     background-color: #8fbdf0;
     display: flex;
     gap: 100px;
