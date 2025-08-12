@@ -1,23 +1,15 @@
 import 'dotenv/config'
 import express from 'express';
-import VMService from './services/VMService.js';
+import VMRoutes from './routes/VMRoutes.js';
+import cors from 'cors';
+
 const app = express()
 
 const port = process.env.PORT 
 
-app.get('/inicia', (req, res) => {
-  res.send(VMService.createVM())
-})
-
-app.get('/ip', (req, res) => {
-  res.send(VMService.returnIPVM());
-})
-
-app.get('/mata', (req, res) => {
-  res.send(VMService.KillVM());
-})
-
-
+app.use(cors()); 
+app.use(express.json()); 
+app.use(VMRoutes)
 
 app.listen(port, () => {
   console.log(`Server runing at the port: ${port} \nGood Hacking! 👀`)

@@ -1,10 +1,21 @@
 import './styles.css'
 import { useState } from 'react'
 import { Footer } from '../components/Footer/footer'
+import { createVM } from '../APIs/API_VM'
+
 export const MainPage = () => {
     const[ipEye,setIp] = useState('Clique no botão para carregar a máquina e obter o IP dela')
     const[ipEcho,setEcho] = useState('Clique no botão para carregar a máquina e obter o IP dela')
-    const[ipBunny,setBuny] = useState('Clique no botão para carregar a máquina e obter o IP dela')
+    const[ipBunny,setBunny] = useState('Clique no botão para carregar a máquina e obter o IP dela')
+
+    async function handleClick(namevm) {
+        setBunny("Criando VM... aguardando IP");
+
+        await createVM(namevm, (ip) => {
+            setBunny(ip);
+        });
+    }
+
     return(
         <>
             <section id='sobre' className='pt-5 container'>
@@ -37,7 +48,7 @@ export const MainPage = () => {
                         completos serão disponibilizados para as máquinas assim como explicação e utilização das ferramentas utilizadas durante a invasão, além é claro da criação de novas VMs.
                     </p>
                 
-                <form id='SauronEye' className='container mb-4 pb-2' action="">
+                <div id='SauronEye' className='container mb-4 pb-2' action="">
                     <h3>Olho de Sauron &#x1f441;</h3>
                     <p>Você foi encarregado de realizar um reconhecimento completo dos serviços que estão rodando na máquina.
                         Utilize suas habilidades para identificar portas abertas, versões de serviços, e interpretar os resultados que encontrar com o scaneamento do Nmap 
@@ -49,9 +60,9 @@ export const MainPage = () => {
                     <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
                     <button className='btn btn-success offset-md-2  col-md-2  '>Confirmar</button>
                     </div>
-                </form>
+                </div>
 
-                <form id='Echo' className='container mb-4 pb-2' action="">
+                <div id='Echo' className='container mb-4 pb-2' action="">
                     <h3>Arquivos Sigilosos 💾 </h3>
                     <p>
                         Um colega seu pediu sua ajuda para recuperar um arquivo importante para ele que acabou ficando no computador da 
@@ -66,23 +77,23 @@ export const MainPage = () => {
                     <button className='btn btn-success offset-md-2  col-md-2  '>Confirmar</button>
                     </div>
                     
-                </form>
+                </div>
 
-                <form id='BunnyHole' className='container pb-2' action="">
+                <div id='BunnyHole' className='container pb-2' >
                     <h3>Buraco do Coelho &#128007; </h3>
                     <p>
                         Um Coelho escapou de sua dona e acabou caindo dentro de uma máquina rodando o windows server 2016...
-                        Você precisa imediatamente fazer um reverse shell na máquina e resgatar o coitado do coelho e salvá-lo 
+                        Você precisa salva-lo, ganhe acesso ao shell da máquina e resgatate o coitado do coelho
                         de ter que viver em uma versão tão vulnerável do windows server.
                     </p>
                     <p>[{ipBunny}]</p>
-                    <button className='btn btn-primary'>Carregar Máquina</button>
+                    <button className='btn btn-primary' onClick={() => handleClick("Bunny")}>Carregar Máquina</button>
                     <p className='m-0'>Perguntar sobre a VM</p>
                     <div className='resposta-flex row container pb-2'>
                     <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
-                    <button className='btn btn-success offset-md-2  col-md-2  '>Confirmar</button>
+                    <button className='btn btn-success offset-md-2  col-md-2 '>Confirmar</button>
                     </div>
-                </form>
+                </div>
             </section>
 
             <section id='equipe' className='container '>
