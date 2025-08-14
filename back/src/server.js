@@ -1,14 +1,16 @@
 import 'dotenv/config'
 import express from 'express';
+import VMRoutes from './routes/VMRoutes.js';
+import cors from 'cors';
+
 const app = express()
 
 const port = process.env.PORT 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
+app.use(cors()); 
+app.use(express.json()); 
+app.use(VMRoutes)
 
 app.listen(port, () => {
-  console.log(`Servidor rodando na porta: ${port} \nGood Hacking! 👀`)
+  console.log(`Server runing at the port: ${port} \nGood Hacking! 👀`)
 })
