@@ -1,0 +1,39 @@
+.menu-div{
+    position: sticky;
+    width: 100%;
+    top: 0;
+    background-color: #8fbdf0;
+    display: flex;
+    gap: 100px;
+    padding-left: 8%;
+    text-align: center;
+    align-items: center;
+    h1{
+        .vermelho{
+            color: rgb(144, 19, 38,0.95)
+        }
+        .azul{
+            color: rgb(25, 25, 112,0.95)
+        }
+    }
+    img{
+        width: 5rem;
+    }
+    ul{
+        
+        display: flex;
+        gap: 24px;
+        margin: 0;
+        margin-left: auto;
+        padding-right: 8%;
+        li{
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            transition: transform 0.2s ease-in-out;
+            &:hover{
+                transform: scale(1.2);
+            }
+        }
+    }
+}
