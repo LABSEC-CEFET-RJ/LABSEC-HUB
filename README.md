@@ -1,4 +1,4 @@
-# LABSEC-HUB
+# LABSEC-HUB Release 0.1
 <p align="center">
   <img alt="ReactJS" src="https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=React&logoColor=black">
   <img alt="Node.js" src="https://img.shields.io/badge/Node.js-5FA04E.svg?style=for-the-badge&logo=nodedotjs&logoColor=white">
@@ -6,7 +6,7 @@
   <img alt="Express.js" src="https://img.shields.io/badge/Shell-4EAA25.svg?style=for-the-badge&logo=gnubash&logoColor=white">
 </p>
 
-This is the first version of the Labsec Hub website. The Labsec Hub will serve as an online platform for students of CEFET-RJ to learn and test their pentesting, bugbounty, and network defense skills in a secure environment separate from other networks.
+This is the first functional version of the Labsec Hub website. The Labsec Hub will serve as an online platform for students of CEFET-RJ to learn and test their pentesting, bugbounty, and network defense skills in a secure environment separate from other networks.
 
 ## How to Run the Project in dev mode
 
