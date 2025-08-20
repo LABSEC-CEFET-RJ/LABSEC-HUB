@@ -1,4 +1,5 @@
-# LABSEC-HUB
+# *This is a deprecated branch and is only here for documentation*
+# LABSEC HUB Release 0.1
 <p align="center">
   <img alt="ReactJS" src="https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=React&logoColor=black">
   <img alt="Node.js" src="https://img.shields.io/badge/Node.js-5FA04E.svg?style=for-the-badge&logo=nodedotjs&logoColor=white">
