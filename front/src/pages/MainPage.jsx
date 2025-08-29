@@ -1,4 +1,4 @@
-import './styles.css'
+import styles from "./style.module.css";
 import { useState } from 'react'
 import { Footer } from '../components/Footer/footer'
 import { createVM } from '../APIs/API_VM'
@@ -6,7 +6,7 @@ import { createVM } from '../APIs/API_VM'
 export const MainPage = () => {
     const[ipEye,setIp] = useState('Clique no botão para carregar a máquina e obter o IP dela')
     const[ipEcho,setEcho] = useState('Clique no botão para carregar a máquina e obter o IP dela')
-    const[ipBunny,setBunny] = useState('Clique no botão para carregar a máquina e obter o IP dela')
+    const[ipBunny,setBunny] = useState('[Clique no botão para carregar a máquina e obter o IP dela]')
 
     async function handleClick(namevm) {
         setBunny("Criando VM... aguardando IP");
@@ -18,7 +18,7 @@ export const MainPage = () => {
 
     return(
         <>
-            <section id='sobre' className='pt-5 container'>
+            <section id='sobre' className={`pt-5 container ${styles.section}`}>
                 <div className=' row '>
                     <div className='col-md-7'>
                             <h2 className='text-center pb-2'>Sobre o Projeto</h2>
@@ -37,7 +37,7 @@ export const MainPage = () => {
                 </div>
             </section>
 
-            <section id='maquinas' className='pt-5 container'>
+            <section id='maquinas' className={`pt-5 container ${styles.section}`}>
                 <h2 className='text-center'>Máquinas Virtuais</h2>
                 <h3>O que são</h3>
                 <p>Atualmente temos 3 máquinas virtuais ativas (VM). Elas servem para simular um sistema real e poder treinar com as mesmas.
@@ -53,7 +53,7 @@ export const MainPage = () => {
                     <p>Você foi encarregado de realizar um reconhecimento completo dos serviços que estão rodando na máquina.
                         Utilize suas habilidades para identificar portas abertas, versões de serviços, e interpretar os resultados que encontrar com o scaneamento do Nmap 
                         </p>
-                    <p>[{ipEye}]</p>
+                    <p>{ipEye}</p>
                     <button className='btn btn-primary'>Carregar Máquina</button>
                     <p className='m-0'>Pergunta sobre a VM</p>
                     <div className='resposta-flex row container pb-2'>
@@ -69,7 +69,7 @@ export const MainPage = () => {
                         empresa antiga que ele trabalhava. Ele disse que a empresa utiliza o proocolo FTP para transferencias entre arquivos na rede.
                         Faça o download do arquivo jpeg e diga qual é o héroi favorito do seu colega.
                     </p>
-                    <p>[{ipEcho}]</p>
+                    <p>{ipEcho}</p>
                     <button className='btn btn-primary'>Carregar Máquina</button>
                     <p className='m-0'>Pergunta sobre a VM</p>
                     <div className='resposta-flex row container pb-2'>
@@ -86,7 +86,7 @@ export const MainPage = () => {
                         Você precisa salva-lo, ganhe acesso ao shell da máquina e resgatate o coitado do coelho
                         de ter que viver em uma versão tão vulnerável do windows server.
                     </p>
-                    <p>[{ipBunny}]</p>
+                    <p>{ipBunny}</p>
                     <button className='btn btn-primary' onClick={() => handleClick("Bunny")}>Carregar Máquina</button>
                     <p className='m-0'>Perguntar sobre a VM</p>
                     <div className='resposta-flex row container pb-2'>
@@ -96,7 +96,7 @@ export const MainPage = () => {
                 </div>
             </section>
 
-            <section id='equipe' className='container '>
+            <section id='equipe' className={` container ${styles.section} ${styles.equipe}`}>
                 <h2 className='text-center pt-4 pb-4'>Equipe por trás do projeto</h2>
                 <div className='row justify-content-around text-center'>
                     <div className='col-md-3'>

@@ -1,4 +1,4 @@
-section{
+.section{
     background-color: #eeeeee;
     form{
         background-color: #242424;
@@ -6,8 +6,9 @@ section{
     }
 }
 
-#Equipe{
+.equipe{
     p{
         margin: 0;
+        margin-bottom: 1rem;
     }
 }
