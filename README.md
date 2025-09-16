@@ -44,7 +44,7 @@ Get-Package -Name *VirtualBox*
 
 Download the Bunny Virtual Machine (That version only has one Vunerable Virtual Machine)
 
-[**Clique aqui para baixar a VM**](https://drive.google.com/file/d/1IraYBIgoGIsl2pnwfRAtmeVea7eELTC2/view?usp=sharing)
+[**Click here to download the VM**](https://drive.google.com/file/d/1IraYBIgoGIsl2pnwfRAtmeVea7eELTC2/view?usp=sharing)
  
 **Warning:** That VM is vulnarable and should only be used for this project. Do not put any personal information or use the Virtual Machine for daily routine
 

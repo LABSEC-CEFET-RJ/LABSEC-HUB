@@ -62,16 +62,20 @@ export const MainPage = () => {
                     <h3>Olho de Sauron &#x1f441;</h3>
                     <p>Você foi encarregado de realizar um reconhecimento completo dos serviços que estão rodando na máquina.
                         Utilize suas habilidades para identificar portas abertas, versões de serviços, e interpretar os resultados que encontrar com o scaneamento do Nmap 
-                        </p>
+                    </p>
 
-                    {ipEye == null ? <p> Clique no botão para carregar a máquina e obter o IP dela </p> : 
-                    <p style={{color: /\d/.test(ipEye)? "green": "yellow"}}> {ipEye}</p>}
+                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Eye",setEye)}>
+                    {ipEye == null ? <p> Clique Aqui para carregar a máquina e obter o IP dela </p> : 
+                        <p style={{cursor: 'auto', color: /\d/.test(ipEye)? "green": "yellow"}} > {ipEye} </p>}
+                    </div>
 
-                    <button className='btn btn-primary' onClick={() => handleClick("Eye",setEye)} >Carregar Máquina</button>
-                    <p >Pergunta sobre a VM</p>
+                    <p >Qual serviço está rodando em uma porta não usual?</p>
                     <div className='resposta-flex row container pb-2'>
-                    <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
-                    <button className='btn btn-success offset-md-2  col-md-2  '>Confirmar</button>
+                        <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
+                        <button className='btn btn-success offset-md-2  col-md-2 '>Confirmar</button>
+                        <button className='btn btn-warning offset-md-1 col-md-1' onClick={() => 
+                        handleTip("a VM vulnerável ainda não foi criada")}>Dica
+                        </button>
                     </div>
                 </div>
 
@@ -80,17 +84,22 @@ export const MainPage = () => {
                     <p>
                         Um colega seu pediu sua ajuda para recuperar um arquivo importante para ele que acabou ficando no computador da 
                         empresa antiga que ele trabalhava. Ele disse que a empresa utiliza o proocolo FTP para transferencias entre arquivos na rede.
-                        Faça o download do arquivo jpeg e diga qual é o héroi favorito do seu colega.
+                        Faça o download do arquivo jpeg.
                     </p>
 
-                    {ipEcho == null ? <p> Clique no botão para carregar a máquina e obter o IP dela </p> : 
-                    <p style={{color: /\d/.test(ipEcho)? "green": "yellow"}}> {ipEcho}</p>}
-
-                    <button className='btn btn-primary' onClick={() => handleClick("Echo",setEcho)} >Carregar Máquina</button>
-                    <p >Pergunta sobre a VM</p>
+                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Echo",setEcho)}>
+                    {ipEcho == null ? <p> Clique Aqui para carregar a máquina e obter o IP dela </p> : 
+                        <p style={{cursor: 'auto', color: /\d/.test(ipEcho)? "green": "yellow"}} > {ipEcho} </p>}
+                    </div>
+                    
+                    <p >Com a foto baixada no seu computador, qual é o herói favorito desse seu colega?</p>
+                    
                     <div className='resposta-flex row container pb-2'>
-                    <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
-                    <button className='btn btn-success offset-md-2  col-md-2  '>Confirmar</button>
+                        <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
+                        <button className='btn btn-success offset-md-2  col-md-2 '>Confirmar</button>
+                        <button className='btn btn-warning offset-md-1 col-md-1' onClick={() => 
+                        handleTip("a VM vulnerável ainda não foi criada")}>Dica
+                        </button>
                     </div>
                     
                 </div>
@@ -102,18 +111,20 @@ export const MainPage = () => {
                         Você precisa salva-lo, ganhe acesso ao shell da máquina e resgatate o coitado do coelho
                         de ter que viver em uma versão tão vulnerável do windows server.
                     </p>
-                    <div className="">
-                        {ipBunny == null ? <p> Clique no botão para carregar a máquina e obter o IP dela </p> : 
-                        <p style={{color: /\d/.test(ipBunny)? "green": "yellow"}}> {ipBunny}</p>}
 
-                        <button className='btn btn-primary' onClick={() => handleClick("Bunny",setBunny)}>Carregar Máquina</button>
-                        
+                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Bunny",setBunny)}>
+                    {ipBunny == null ? <p> Clique Aqui para carregar a máquina e obter o IP dela </p> : 
+                        <p style={{cursor: 'auto', color: /\d/.test(ipBunny)? "green": "yellow"}} > {ipBunny} </p>}
                     </div>
+                    
                     <p>Qual é o nome do Coelho que você resgatou?</p>
-                    <button className='btn btn-warning' onClick={() => handleTip("Windows server 2016 são conhecidos por serem vulneráveis ao ataque Eternal Blue")}>Dica</button>
+                    
                     <div className='resposta-flex row container pb-2'>
-                    <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
-                    <button className='btn btn-success offset-md-2  col-md-2 '>Confirmar</button>
+                        <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
+                        <button className='btn btn-success offset-md-2  col-md-2 '>Confirmar</button>
+                        <button className='btn btn-warning offset-md-1 col-md-1' onClick={() => 
+                        handleTip("Windows server 2016 são conhecidos por serem vulneráveis ao ataque Eternal Blue")}>Dica
+                        </button>
                     </div>
                 </div>
             </section>

@@ -1,5 +1,6 @@
 .section{
     background-color: #eeeeee;
+    scroll-margin-top: 70px;
 }
 
 .equipe{
@@ -16,13 +17,26 @@
     color: #a4b1cd;
     box-sizing: border-box;
     display: block;
+    
     p{
         margin: 0;
+        margin-top: 1rem;
+        font-size: 110%;
     }
+    > * + * {
+        margin-top: 1rem;
+    }
+
 }
 
-
-
-.card__box > * + * {
+.ip__div__text{
+    display: inline-block;
+    p{
+    display: inline-block;
     margin-top: 1rem;
+    font-size: medium;
+    font-weight: bold;
+    cursor: pointer;
+    }
+    
 }
