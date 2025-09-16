@@ -2,19 +2,29 @@ import styles from "./style.module.css";
 import { useState } from 'react'
 import { Footer } from '../components/Footer/footer'
 import { createVM } from '../APIs/API_VM'
+import { ModalTip } from '../components/ModalTip/ModalTip'
 
 export const MainPage = () => {
-    const[ipEye,setIp] = useState('Clique no botão para carregar a máquina e obter o IP dela')
-    const[ipEcho,setEcho] = useState('Clique no botão para carregar a máquina e obter o IP dela')
-    const[ipBunny,setBunny] = useState('[Clique no botão para carregar a máquina e obter o IP dela]')
-
-    async function handleClick(namevm) {
-        setBunny("Criando VM... aguardando IP");
+    const[ipEye,setEye] = useState(null)
+    const[ipEcho,setEcho] = useState(null)
+    const[ipBunny,setBunny] = useState(null)
+    const [showTip, setShowTip] = useState(false);
+    const [textTip, setTextTip] = useState('');
+    
+    async function handleClick(namevm, set) {
+        set("Criando VM... aguardando IP");
 
         await createVM(namevm, (ip) => {
-            setBunny(ip);
+            
+            set(ip);
         });
     }
+
+    function handleTip(text) {
+        setTextTip(text || "foi")
+        setShowTip(!showTip);
+    }
+
 
     return(
         <>
@@ -48,30 +58,36 @@ export const MainPage = () => {
                         completos serão disponibilizados para as máquinas assim como explicação e utilização das ferramentas utilizadas durante a invasão, além é claro da criação de novas VMs.
                     </p>
                 
-                <div id='SauronEye' className='container mb-4 pb-2' action="">
+                <div id='SauronEye' className={`container pt-2 pb-2 mb-5 ${styles.card__box} `}  >
                     <h3>Olho de Sauron &#x1f441;</h3>
                     <p>Você foi encarregado de realizar um reconhecimento completo dos serviços que estão rodando na máquina.
                         Utilize suas habilidades para identificar portas abertas, versões de serviços, e interpretar os resultados que encontrar com o scaneamento do Nmap 
                         </p>
-                    <p>{ipEye}</p>
-                    <button className='btn btn-primary'>Carregar Máquina</button>
-                    <p className='m-0'>Pergunta sobre a VM</p>
+
+                    {ipEye == null ? <p> Clique no botão para carregar a máquina e obter o IP dela </p> : 
+                    <p style={{color: /\d/.test(ipEye)? "green": "yellow"}}> {ipEye}</p>}
+
+                    <button className='btn btn-primary' onClick={() => handleClick("Eye",setEye)} >Carregar Máquina</button>
+                    <p >Pergunta sobre a VM</p>
                     <div className='resposta-flex row container pb-2'>
                     <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
                     <button className='btn btn-success offset-md-2  col-md-2  '>Confirmar</button>
                     </div>
                 </div>
 
-                <div id='Echo' className='container mb-4 pb-2' action="">
+                <div id='Echo' className={`container pt-2 pb-2 mb-5  ${styles.card__box} `}>
                     <h3>Arquivos Sigilosos 💾 </h3>
                     <p>
                         Um colega seu pediu sua ajuda para recuperar um arquivo importante para ele que acabou ficando no computador da 
                         empresa antiga que ele trabalhava. Ele disse que a empresa utiliza o proocolo FTP para transferencias entre arquivos na rede.
                         Faça o download do arquivo jpeg e diga qual é o héroi favorito do seu colega.
                     </p>
-                    <p>{ipEcho}</p>
-                    <button className='btn btn-primary'>Carregar Máquina</button>
-                    <p className='m-0'>Pergunta sobre a VM</p>
+
+                    {ipEcho == null ? <p> Clique no botão para carregar a máquina e obter o IP dela </p> : 
+                    <p style={{color: /\d/.test(ipEcho)? "green": "yellow"}}> {ipEcho}</p>}
+
+                    <button className='btn btn-primary' onClick={() => handleClick("Echo",setEcho)} >Carregar Máquina</button>
+                    <p >Pergunta sobre a VM</p>
                     <div className='resposta-flex row container pb-2'>
                     <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
                     <button className='btn btn-success offset-md-2  col-md-2  '>Confirmar</button>
@@ -79,16 +95,22 @@ export const MainPage = () => {
                     
                 </div>
 
-                <div id='BunnyHole' className='container pb-2' >
+                <div id='BunnyHole' className={`container pt-2 pb-2  ${styles.card__box} `} >
                     <h3>Buraco do Coelho &#128007; </h3>
                     <p>
                         Um Coelho escapou de sua dona e acabou caindo dentro de uma máquina rodando o windows server 2016...
                         Você precisa salva-lo, ganhe acesso ao shell da máquina e resgatate o coitado do coelho
                         de ter que viver em uma versão tão vulnerável do windows server.
                     </p>
-                    <p>{ipBunny}</p>
-                    <button className='btn btn-primary' onClick={() => handleClick("Bunny")}>Carregar Máquina</button>
-                    <p className='m-0'>Perguntar sobre a VM</p>
+                    <div className="">
+                        {ipBunny == null ? <p> Clique no botão para carregar a máquina e obter o IP dela </p> : 
+                        <p style={{color: /\d/.test(ipBunny)? "green": "yellow"}}> {ipBunny}</p>}
+
+                        <button className='btn btn-primary' onClick={() => handleClick("Bunny",setBunny)}>Carregar Máquina</button>
+                        
+                    </div>
+                    <p>Qual é o nome do Coelho que você resgatou?</p>
+                    <button className='btn btn-warning' onClick={() => handleTip("Windows server 2016 são conhecidos por serem vulneráveis ao ataque Eternal Blue")}>Dica</button>
                     <div className='resposta-flex row container pb-2'>
                     <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
                     <button className='btn btn-success offset-md-2  col-md-2 '>Confirmar</button>
@@ -139,6 +161,7 @@ export const MainPage = () => {
                 </div>
 
             </section>
+            {showTip && <ModalTip text={textTip} showTip={showTip} />}
             <Footer></Footer>
         </>
         

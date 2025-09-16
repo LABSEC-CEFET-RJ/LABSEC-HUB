@@ -1,9 +1,5 @@
 .section{
     background-color: #eeeeee;
-    form{
-        background-color: #242424;
-        color: #ffff
-    }
 }
 
 .equipe{
@@ -11,4 +7,22 @@
         margin: 0;
         margin-bottom: 1rem;
     }
+}
+
+.card__box{
+    background-color: #1a2332;
+    border-radius: .25rem;
+    word-wrap: break-word;
+    color: #a4b1cd;
+    box-sizing: border-box;
+    display: block;
+    p{
+        margin: 0;
+    }
+}
+
+
+
+.card__box > * + * {
+    margin-top: 1rem;
 }
