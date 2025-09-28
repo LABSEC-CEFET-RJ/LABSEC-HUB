@@ -11,13 +11,16 @@ export const MainPage = () => {
     const [showTip, setShowTip] = useState(false);
     const [textTip, setTextTip] = useState('');
     
-    async function handleClick(namevm, set) {
-        set("Criando VM... aguardando IP");
+    async function handleClick(namevm, set,ip) {
+        if(ip == null){
+            set("Criando VM... aguardando IP");
 
         await createVM(namevm, (ip) => {
             
             set(ip);
         });
+        } 
+        
     }
 
     function handleTip(text) {
@@ -31,13 +34,13 @@ export const MainPage = () => {
             <section id='sobre' className={`pt-5 container ${styles.section}`}>
                 <div className=' row '>
                     <div className='col-md-7'>
-                            <h2 className='text-center pb-2'>Sobre o Projeto</h2>
+                            <h2 className='text-center pb-2 fw-bolder'>Sobre o Projeto</h2>
                             <p className='text-justify'>Este projeto web foi desenvolvido pela extensão do LABSEC para atuar como uma plataforma de treinamento segura e aberta para a troca de conhecimento sobre a segurança da informação. 
                                 permitindo que a comunidade acadêmica do CEFET-RJ tenha acesso a desafios, conteúdos e atividades que simulam cenários de invasão de redes.</p>
                                 
                     </div>
                     <div className='col-md-5'>
-                            <h2 className='text-center pb-2'>Objetivos do projeto</h2>
+                            <h2 className='text-center pb-2 fw-bolder'>Objetivos do projeto</h2>
                                 <ul  style={{listStyle:"disc" }}>
                                     <li >Desenvolver habilidades voltadas ao Hacking ético</li>
                                     <li>Capacitar novos Profissonais da Segurança</li>
@@ -48,8 +51,8 @@ export const MainPage = () => {
             </section>
 
             <section id='maquinas' className={`pt-5 container ${styles.section}`}>
-                <h2 className='text-center'>Máquinas Virtuais</h2>
-                <h3>O que são</h3>
+                <h2 className='text-center fw-bolder'>Máquinas Virtuais</h2>
+                <h3 className=" fw-bold">O que são</h3>
                 <p>Atualmente temos 3 máquinas virtuais ativas (VM). Elas servem para simular um sistema real e poder treinar com as mesmas.
                     Para uma máquina ser considerada resolvida é necessária fornecer uma flag que, ou estará escondida no sistema ou então será
                     representada por algo relacionado a VM, como alguma versão ou nome de algum protocolo que você devê descobrir que está rodando na máquina. 
@@ -58,13 +61,13 @@ export const MainPage = () => {
                         completos serão disponibilizados para as máquinas assim como explicação e utilização das ferramentas utilizadas durante a invasão, além é claro da criação de novas VMs.
                     </p>
                 
-                <div id='SauronEye' className={`container pt-2 pb-2 mb-5 ${styles.card__box} `}  >
+                <div id='SauronEye' className={`container pt-2 pb-2 mt-5 mb-5 ${styles.card__box} `}  >
                     <h3>Olho de Sauron &#x1f441;</h3>
                     <p>Você foi encarregado de realizar um reconhecimento completo dos serviços que estão rodando na máquina.
                         Utilize suas habilidades para identificar portas abertas, versões de serviços, e interpretar os resultados que encontrar com o scaneamento do Nmap 
                     </p>
 
-                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Eye",setEye)}>
+                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Eye",setEye, ipEye)}>
                     {ipEye == null ? <p> Clique Aqui para carregar a máquina e obter o IP dela </p> : 
                         <p style={{cursor: 'auto', color: /\d/.test(ipEye)? "green": "yellow"}} > {ipEye} </p>}
                     </div>
@@ -87,7 +90,7 @@ export const MainPage = () => {
                         Faça o download do arquivo jpeg.
                     </p>
 
-                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Echo",setEcho)}>
+                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Echo",setEcho, ipEcho)}>
                     {ipEcho == null ? <p> Clique Aqui para carregar a máquina e obter o IP dela </p> : 
                         <p style={{cursor: 'auto', color: /\d/.test(ipEcho)? "green": "yellow"}} > {ipEcho} </p>}
                     </div>
@@ -112,7 +115,7 @@ export const MainPage = () => {
                         de ter que viver em uma versão tão vulnerável do windows server.
                     </p>
 
-                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Bunny",setBunny)}>
+                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Bunny",setBunny, ipBunny)}>
                     {ipBunny == null ? <p> Clique Aqui para carregar a máquina e obter o IP dela </p> : 
                         <p style={{cursor: 'auto', color: /\d/.test(ipBunny)? "green": "yellow"}} > {ipBunny} </p>}
                     </div>
