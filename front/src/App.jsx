@@ -7,12 +7,12 @@ import { MainPage } from './pages/MainPage';
 function App() {
 
 
-  return (
+    return (
     <>
-      <MenuBar></MenuBar>
-      <MainPage></MainPage>
+        <MenuBar></MenuBar>
+        <MainPage></MainPage>
     </>
-  )
+    )
 }
 
 export default App
