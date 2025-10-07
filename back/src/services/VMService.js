@@ -1,5 +1,6 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import 'dotenv/config'
 
 export default class VMService{
 
@@ -32,7 +33,7 @@ export default class VMService{
             }
     }
 
-    static returnIPVM(newVM) {
+    static async returnIPVM(newVM) {
         return new Promise((resolve, reject) => {
             //exec(`powershell -NoProfile -NoLogo -ExecutionPolicy Bypass -File "src/shellScripts/returnIPVM.ps1" -newVM "${newVM}"`,
                 exec(`src/shellScripts/returnIPVM.sh  "${newVM}"`,
@@ -68,4 +69,20 @@ export default class VMService{
     return("VM Derrubada");
     });
     }
+
+
+    static returnAnswer(nameVM, answer){
+        const env = nameVM+ "Answer";
+        console.log(process.env[env])
+        console.log(answer)
+        if(answer === process.env[env]  ){
+            return true;
+            console.log("entrei")
+        }
+        else{
+            return false;
+        }   
+    }
+
+
 } 
