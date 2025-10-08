@@ -32,3 +32,13 @@ export async function createVM(nameVM, onReady) {
     }, 5000);
 }
 
+
+export async function ValidaAnswer(nameVM,answer) {
+    const res = await fetch(`${import.meta.env.VITE_SERVER}/answer/${nameVM}/${answer}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    return data;
+}
+

@@ -1,8 +1,9 @@
 import styles from "./style.module.css";
 import { useState } from 'react'
 import { Footer } from '../components/Footer/footer'
-import { createVM } from '../APIs/API_VM'
+import { createVM, ValidaAnswer } from '../APIs/API_VM'
 import { ModalTip } from '../components/ModalTip/ModalTip'
+import { useRef } from "react";
 
 export const MainPage = () => {
     const[ipEye,setEye] = useState(null)
@@ -11,7 +12,11 @@ export const MainPage = () => {
     const [showTip, setShowTip] = useState(false);
     const [textTip, setTextTip] = useState('');
     
-    async function handleClick(namevm, set,ip) {
+    const BunnyAnswer = useRef();
+    const EchoAnswer = useRef();
+    const EyeAnswer = useRef();
+
+    async function handleIP(namevm, set,ip) {
         if(ip == null){
             set("Criando VM... aguardando IP");
 
@@ -23,8 +28,23 @@ export const MainPage = () => {
         
     }
 
+
+    async function handleAnswer(namevm, answer) {
+        if(answer != null){
+            const res = await ValidaAnswer(namevm,answer)
+            if(res.message == 'correct'){
+                alert("✅ Resposta correta!");
+            }else{
+                alert("❌ Resposta incorreta!");
+            }
+        } 
+        
+    }
+
+
+
     function handleTip(text) {
-        setTextTip(text || "foi")
+        setTextTip(text)
         setShowTip(!showTip);
     }
 
@@ -53,12 +73,13 @@ export const MainPage = () => {
             <section id='maquinas' className={`pt-5 container ${styles.section}`}>
                 <h2 className='text-center fw-bolder'>Máquinas Virtuais</h2>
                 <h3 className=" fw-bold">O que são</h3>
-                <p>Atualmente temos 3 máquinas virtuais ativas (VM). Elas servem para simular um sistema real e poder treinar com as mesmas.
-                    Para uma máquina ser considerada resolvida é necessária fornecer uma flag que, ou estará escondida no sistema ou então será
-                    representada por algo relacionado a VM, como alguma versão ou nome de algum protocolo que você devê descobrir que está rodando na máquina. 
+                <p>Máquinas virtuais (VMs) são computadores simulados que rodam dentro de um host físico. 
+                    Elas reproduzem sistemas operacionais, redes e serviços reais sem exigir hardware extra. Permitindo assim montar ambientes de teste 
+                    idênticos aos encontrados em situações reais. Atualmente temos 3 máquinas virtuais ativas que treinam fundamentos diferentes da segurança da informação e teste de penetração.
                 </p>
-                    <p>Sobre as máquinas, só é fornecido o IP da rede delas e algumas dicas para caso o usuário fique perdido durante o exercicio. Posteriormente Tutoriais 
-                        completos serão disponibilizados para as máquinas assim como explicação e utilização das ferramentas utilizadas durante a invasão, além é claro da criação de novas VMs.
+                    <p>Sobre as máquinas, só é fornecido o IP da rede delas e algumas dicas para caso o usuário fique perdido durante o exercicio. O objetivo do Aluno é retornar uma
+                        Flag, que pode estar escondida dentro do sistema ou representada por alguma característica da VM como versão ou nome de usuários. Posteriormente Tutoriais 
+                        completos serão disponibilizados para as máquinas assim como explicação e utilização das ferramentas utilizadas durante a invasão, além é claro da criação de novas VMs para abordar novos assuntos e dificuldades.
                     </p>
                 
                 <div id='SauronEye' className={`container pt-2 pb-2 mt-5 mb-5 ${styles.card__box} `}  >
@@ -67,18 +88,16 @@ export const MainPage = () => {
                         Utilize suas habilidades para identificar portas abertas, versões de serviços, e interpretar os resultados que encontrar com o scaneamento do Nmap 
                     </p>
 
-                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Eye",setEye, ipEye)}>
+                    <div className={`${styles.ip__div__text}`}  onClick={() => handleIP("Sauron",setEye, ipEye)}>
                     {ipEye == null ? <p> Clique Aqui para carregar a máquina e obter o IP dela </p> : 
                         <p style={{cursor: 'auto', color: /\d/.test(ipEye)? "green": "yellow"}} > {ipEye} </p>}
                     </div>
 
                     <p >Qual serviço está rodando em uma porta não usual?</p>
                     <div className='resposta-flex row container pb-2'>
-                        <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
-                        <button className='btn btn-success offset-md-2  col-md-2 '>Confirmar</button>
-                        <button className='btn btn-warning offset-md-1 col-md-1' onClick={() => 
-                        handleTip("a VM vulnerável ainda não foi criada")}>Dica
-                        </button>
+                        <input className='ml-2 col-md-6' type="text" name="" ref={EyeAnswer} id="" placeholder='Resposta Ex: NomeServiço:Porta ' />
+                        <button className='btn btn-success offset-md-2  col-md-2 ' onClick={ () =>handleAnswer("Sauron", EyeAnswer.current.value) }
+                        >Confirmar</button>
                     </div>
                 </div>
 
@@ -90,7 +109,7 @@ export const MainPage = () => {
                         Faça o download do arquivo jpeg.
                     </p>
 
-                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Echo",setEcho, ipEcho)}>
+                    <div className={`${styles.ip__div__text}`}  onClick={() => handleIP("Echo",setEcho, ipEcho)}>
                     {ipEcho == null ? <p> Clique Aqui para carregar a máquina e obter o IP dela </p> : 
                         <p style={{cursor: 'auto', color: /\d/.test(ipEcho)? "green": "yellow"}} > {ipEcho} </p>}
                     </div>
@@ -98,10 +117,11 @@ export const MainPage = () => {
                     <p >Com a foto baixada no seu computador, qual é o herói favorito desse seu colega?</p>
                     
                     <div className='resposta-flex row container pb-2'>
-                        <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
-                        <button className='btn btn-success offset-md-2  col-md-2 '>Confirmar</button>
+                        <input className='ml-2 col-md-6' type="text" name="" id="" ref={EchoAnswer} placeholder='resposta (Nome todo em Minusculo)' />
+                        <button className='btn btn-success offset-md-2  col-md-2 ' onClick={ () =>handleAnswer("Echo", EchoAnswer.current.value) }
+                        >Confirmar</button>
                         <button className='btn btn-warning offset-md-1 col-md-1' onClick={() => 
-                        handleTip("a VM vulnerável ainda não foi criada")}>Dica
+                        handleTip("A empresa não tem uma política forte de segurança e deixou o login anonimo do FTP ativo")}>Dica
                         </button>
                     </div>
                     
@@ -115,7 +135,7 @@ export const MainPage = () => {
                         de ter que viver em uma versão tão vulnerável do windows server.
                     </p>
 
-                    <div className={`${styles.ip__div__text}`}  onClick={() => handleClick("Bunny",setBunny, ipBunny)}>
+                    <div className={`${styles.ip__div__text}`}  onClick={() => handleIP("Bunny",setBunny, ipBunny)}>
                     {ipBunny == null ? <p> Clique Aqui para carregar a máquina e obter o IP dela </p> : 
                         <p style={{cursor: 'auto', color: /\d/.test(ipBunny)? "green": "yellow"}} > {ipBunny} </p>}
                     </div>
@@ -123,8 +143,9 @@ export const MainPage = () => {
                     <p>Qual é o nome do Coelho que você resgatou?</p>
                     
                     <div className='resposta-flex row container pb-2'>
-                        <input className='ml-2 col-md-6' type="text" name="" id="" placeholder='resposta' />
-                        <button className='btn btn-success offset-md-2  col-md-2 '>Confirmar</button>
+                        <input className='ml-2 col-md-6' type="text" name="" ref={BunnyAnswer} id="BunnyAnswer" placeholder='resposta (Nome todo em Minusculo)' />
+                        <button className='btn btn-success offset-md-2  col-md-2 ' onClick={()=> handleAnswer("Bunny",BunnyAnswer.current.value)}
+                        >Confirmar</button>
                         <button className='btn btn-warning offset-md-1 col-md-1' onClick={() => 
                         handleTip("Windows server 2016 são conhecidos por serem vulneráveis ao ataque Eternal Blue")}>Dica
                         </button>
@@ -132,47 +153,28 @@ export const MainPage = () => {
                 </div>
             </section>
 
-            <section id='equipe' className={` container ${styles.section} ${styles.equipe}`}>
-                <h2 className='text-center pt-4 pb-4'>Equipe por trás do projeto</h2>
+            <section id='equipe' className={` container ${styles.section} ${styles.equipe} pb-5`}>
+                <h2 className='text-center pt-4 pb-4 fw-bolder'>Equipe por trás do projeto</h2>
                 <div className='row justify-content-around text-center'>
                     <div className='col-md-3'>
-                            <img className='img-fluid' src="https://thumbs.dreamstime.com/b/opte-pelo-%C3%ADcone-do-perfil-avatar-placeholder-cinzento-da-foto-99724602.jpg" alt="" />
-                            <p>Igor Cezar (Professor da Extensão)</p>
-                            <p>Link do Github / Link do Linkedin</p>
+                            <img className='img-fluid' src="https://avatars.githubusercontent.com/u/3826791?v=4" alt="" />
+                            <p className="d-flex flex-column"> <span className="fw-bolder"> Igor Cezar </span> <span className="fst-italic">Professor Orientador da Extensão</span></p>
+                            <p><a href="https://github.com/igorcompuff">Link do Github</a> / <a href="https://www.linkedin.com/in/igorgonzalezribeiro/">Link do Linkedin</a></p>
                     </div>
 
                     <div className='col-md-3'>
-                            <img className='img-fluid' src="https://thumbs.dreamstime.com/b/opte-pelo-%C3%ADcone-do-perfil-avatar-placeholder-cinzento-da-foto-99724602.jpg" alt="" />
-                            <p>Igor Cezar (Professor da Extensão)</p>
-                            <p>Link do Github / Link do Linkedin</p>
+                            <img className='img-fluid' src="https://avatars.githubusercontent.com/u/213132679?v=4" alt="" />
+                            <p className="fw-bolder">Perfil do Github do Projeto</p>
+                            <a href="https://github.com/LABSEC-CEFET-RJ/LABSEC-HUB">Link do Repositório no Github</a>
                     </div>
 
                     <div className='col-md-3'>
-                            <img className='img-fluid' src="https://thumbs.dreamstime.com/b/opte-pelo-%C3%ADcone-do-perfil-avatar-placeholder-cinzento-da-foto-99724602.jpg" alt="" />
-                            <p>Igor Cezar (Professor da Extensão)</p>
-                            <p>Link do Github / Link do Linkedin</p>
+                            <img className='img-fluid' src="https://avatars.githubusercontent.com/u/104049906?s=400&u=5d105196638b46841284cd3b81d81246d62ca0e4&v=4" alt="" />
+                            <p className="d-flex flex-column"> <span className="fw-bolder"> Rafael Costa </span> <span className="fst-italic"> Tech Leader e Bolsista </span></p>
+                            <p><a href="https://github.com/jake7038">Link do Github</a> /  <a href="https://www.linkedin.com/in/rafaelcostadev/">Link do Linkedin</a></p>
                     </div>
                 </div>
 
-                <div className='row pt-4 pb-4 justify-content-around text-center'>
-                    <div className='col-md-3'>
-                            <img className='img-fluid' src="https://thumbs.dreamstime.com/b/opte-pelo-%C3%ADcone-do-perfil-avatar-placeholder-cinzento-da-foto-99724602.jpg" alt="" />
-                            <p>Igor Cezar (Professor da Extensão)</p>
-                            <p>Link do Github / Link do Linkedin</p>
-                    </div>
-
-                    <div className='col-md-3'>
-                            <img className='img-fluid' src="https://thumbs.dreamstime.com/b/opte-pelo-%C3%ADcone-do-perfil-avatar-placeholder-cinzento-da-foto-99724602.jpg" alt="" />
-                            <p>Igor Cezar (Professor da Extensão)</p>
-                            <p>Link do Github / Link do Linkedin</p>
-                    </div>
-
-                    <div className='col-md-3'>
-                            <img className='img-fluid' src="https://thumbs.dreamstime.com/b/opte-pelo-%C3%ADcone-do-perfil-avatar-placeholder-cinzento-da-foto-99724602.jpg" alt="" />
-                            <p>Igor Cezar (Professor da Extensão)</p>
-                            <p>Link do Github / Link do Linkedin</p>
-                    </div>
-                </div>
 
             </section>
             {showTip && <ModalTip text={textTip} showTip={showTip} />}

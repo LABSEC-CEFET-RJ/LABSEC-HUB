@@ -1,5 +1,6 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import 'dotenv/config'
 
 export default class VMService{
 
@@ -7,8 +8,8 @@ export default class VMService{
         const execPromise = promisify(exec);
         const newVM = nameVM +  Math.floor(Math.random() * 90000) //cria um numero aleatorio para que não aja conflito com cache do VMbox ao criar uma nova VM
         
-        const command = `src/shellScripts/createVM.sh "${nameVM}" "${newVM}"`;
-        //exec(`powershell -NoProfile -NoLogo -ExecutionPolicy Bypass -File "src/shellScripts/createVM.ps1" -nameVM "${nameVM}" -newVM "${newVM}" `, 
+        // const command = `src/shellScripts/createVM.sh "${nameVM}" "${newVM}"`; comando para shell script
+        const command = `powershell -NoProfile -NoLogo -ExecutionPolicy Bypass -File "src/shellScripts/createVM.ps1" -nameVM "${nameVM}" -newVM "${newVM}" ` ;
         console.log("ligando"+nameVM)
         
             try {
@@ -32,10 +33,9 @@ export default class VMService{
             }
     }
 
-    static returnIPVM(newVM) {
+    static async returnIPVM(newVM) {
         return new Promise((resolve, reject) => {
-            //exec(`powershell -NoProfile -NoLogo -ExecutionPolicy Bypass -File "src/shellScripts/returnIPVM.ps1" -newVM "${newVM}"`,
-                exec(`src/shellScripts/returnIPVM.sh  "${newVM}"`,
+                exec(`powershell -NoProfile -NoLogo -ExecutionPolicy Bypass -File "src/shellScripts/returnIPVM.ps1" -newVM "${newVM}"`,
                 (error, stdout, stderr) => {
                     if (error) {
                         console.error(`Erro ao chamar o script: ${error.message}`);
@@ -68,4 +68,20 @@ export default class VMService{
     return("VM Derrubada");
     });
     }
+
+
+    static returnAnswer(nameVM, answer){
+        const env = nameVM+ "Answer";
+        console.log(process.env[env])
+        console.log(answer)
+        if(answer === process.env[env]  ){
+            return true;
+            console.log("entrei")
+        }
+        else{
+            return false;
+        }   
+    }
+
+
 } 
