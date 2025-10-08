@@ -88,7 +88,7 @@ export const MainPage = () => {
                         Utilize suas habilidades para identificar portas abertas, versões de serviços, e interpretar os resultados que encontrar com o scaneamento do Nmap 
                     </p>
 
-                    <div className={`${styles.ip__div__text}`}  onClick={() => handleIP("Eye",setEye, ipEye)}>
+                    <div className={`${styles.ip__div__text}`}  onClick={() => handleIP("Sauron",setEye, ipEye)}>
                     {ipEye == null ? <p> Clique Aqui para carregar a máquina e obter o IP dela </p> : 
                         <p style={{cursor: 'auto', color: /\d/.test(ipEye)? "green": "yellow"}} > {ipEye} </p>}
                     </div>

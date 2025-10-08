@@ -8,8 +8,8 @@ export default class VMService{
         const execPromise = promisify(exec);
         const newVM = nameVM +  Math.floor(Math.random() * 90000) //cria um numero aleatorio para que não aja conflito com cache do VMbox ao criar uma nova VM
         
-        const command = `src/shellScripts/createVM.sh "${nameVM}" "${newVM}"`;
-        //exec(`powershell -NoProfile -NoLogo -ExecutionPolicy Bypass -File "src/shellScripts/createVM.ps1" -nameVM "${nameVM}" -newVM "${newVM}" `, 
+        // const command = `src/shellScripts/createVM.sh "${nameVM}" "${newVM}"`; comando para shell script
+        const command = `powershell -NoProfile -NoLogo -ExecutionPolicy Bypass -File "src/shellScripts/createVM.ps1" -nameVM "${nameVM}" -newVM "${newVM}" ` ;
         console.log("ligando"+nameVM)
         
             try {
@@ -35,8 +35,7 @@ export default class VMService{
 
     static async returnIPVM(newVM) {
         return new Promise((resolve, reject) => {
-            //exec(`powershell -NoProfile -NoLogo -ExecutionPolicy Bypass -File "src/shellScripts/returnIPVM.ps1" -newVM "${newVM}"`,
-                exec(`src/shellScripts/returnIPVM.sh  "${newVM}"`,
+                exec(`powershell -NoProfile -NoLogo -ExecutionPolicy Bypass -File "src/shellScripts/returnIPVM.ps1" -newVM "${newVM}"`,
                 (error, stdout, stderr) => {
                     if (error) {
                         console.error(`Erro ao chamar o script: ${error.message}`);
