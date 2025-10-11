@@ -33,18 +33,27 @@ npm i
 make a .env in the back directory with:
 ```
 PORT = {Port Number}
+
+BunnyAnswer = {Answer for Bunny VM}
+
+EchoAnswer = {Answer for Echo VM}
+
+SauronAnswer = {Answer for Sauron VM}
+
 ```
-**Warning:** That is your Server Port and should be the same you put in the VITE_SERVER
+**Warning:** The Port Number is your Server Port and should be the same you put in the VITE_SERVER.
 
 Make sure you have Virtual Box install
 ```
 Get-Package -Name *VirtualBox*
 ```
-**Warning:** This version of the Server is builded to work on a windows 10 11 enviroment with powershell enabled. If you want to run in a linux enviroment, you will need to change the code to call for the .sh files instead of .ps
+**Warning:** This version of the Server is builded to work on a windows 10/11 enviroment with powershell enabled. If you want to run in a linux enviroment, you will need to change the code to call for the .sh files instead of .ps
 
 Download the Virtual Machines (Thhis version only has 3 Vunerable Virtual Machine)
 
 [**Click here to download the VMs**]([https://drive.google.com/file/d/1IraYBIgoGIsl2pnwfRAtmeVea7eELTC2/view?usp=sharing](https://drive.google.com/drive/folders/1tuTy3_YV-UJpq4-SsHPmAg2A-3K5s8Hg?usp=drive_link))
+
+**A Video guide for the Virtual machines is in progress**
  
 **Warning:** These VMs are vulnarable and should only be used for project and learn purposes. Do not put any personal information or use the Virtual Machine for daily routine
 
