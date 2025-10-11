@@ -12,13 +12,16 @@ export async function createVM(nameVM, onReady) {
     console.log(`Criando VM: '${newVM}`);
 
     await new Promise(res => setTimeout(res, 55000)); //quebra galho, ideal é ver o estado da VM antes
-  //inicio do pooling
+    //inicio do pooling
     const interval = setInterval(async () => {
     const statusRes = await fetch(`${import.meta.env.VITE_SERVER}/getip/${newVM}`);
     const statusData = await statusRes.json();
 
     if (statusData.status === "ready") {
         clearInterval(interval);
+        console.log( statusData.message)
+        
+        statusData.message = statusData.message.split(" ")[1];
         onReady(statusData.message, newVM); 
     }
 
@@ -27,5 +30,15 @@ export async function createVM(nameVM, onReady) {
         onReady("Erro ao criar VM", nameVM);
     }
     }, 5000);
+}
+
+
+export async function ValidaAnswer(nameVM,answer) {
+    const res = await fetch(`${import.meta.env.VITE_SERVER}/answer/${nameVM}/${answer}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    return data;
 }
 

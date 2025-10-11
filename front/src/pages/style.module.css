@@ -1,0 +1,42 @@
+.section{
+    background-color: #eeeeee;
+    scroll-margin-top: 70px;
+}
+
+.equipe{
+    p{
+        margin: 0;
+        margin-bottom: 1rem;
+    }
+}
+
+.card__box{
+    background-color: #1a2332;
+    border-radius: .25rem;
+    word-wrap: break-word;
+    color: #a4b1cd;
+    box-sizing: border-box;
+    display: block;
+    
+    p{
+        margin: 0;
+        margin-top: 1rem;
+        font-size: 110%;
+    }
+    > * + * {
+        margin-top: 1rem;
+    }
+
+}
+
+.ip__div__text{
+    display: inline-block;
+    p{
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: medium;
+    font-weight: bold;
+    cursor: pointer;
+    }
+    
+}

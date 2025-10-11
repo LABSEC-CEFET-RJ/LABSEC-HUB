@@ -29,4 +29,17 @@ export default class VMController {
         }
 
 
+        static async returnAnswer(req, res) {
+            try{
+                const namevm = req.params.namevm;
+                const answer = req.params.answer;
+                const message = await VMService.returnAnswer(namevm, answer)
+                return res.json({message: message ? "correct" : "incorrect"});
+            }
+            catch (error){
+                res.json({ erro: error.message });
+            }
+        }
+
+
 }

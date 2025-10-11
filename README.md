@@ -1,4 +1,4 @@
-# LABSEC-HUB Release 0.1
+# LABSEC-HUB SEPEX 2025.2 VERSION
 <p align="center">
   <img alt="ReactJS" src="https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=React&logoColor=black">
   <img alt="Node.js" src="https://img.shields.io/badge/Node.js-5FA04E.svg?style=for-the-badge&logo=nodedotjs&logoColor=white">
@@ -33,19 +33,29 @@ npm i
 make a .env in the back directory with:
 ```
 PORT = {Port Number}
+
+BunnyAnswer = {Answer for Bunny VM}
+
+EchoAnswer = {Answer for Echo VM}
+
+SauronAnswer = {Answer for Sauron VM}
+
 ```
-**Warning:** That is your Server Port and should be the same you put in the VITE_SERVER
+**Warning:** The Port Number is your Server Port and should be the same you put in the VITE_SERVER.
 
 Make sure you have Virtual Box install
 ```
 Get-Package -Name *VirtualBox*
 ```
-**Warning:** This version of the Server only has the Shell Scripts for powershell. So it will only works in a Windows 10 - 11 enviroment
+**Warning:** This version of the Server is builded to work on a windows 10/11 enviroment with powershell enabled. If you want to run in a linux enviroment, you will need to change the code to call for the .sh files instead of .ps
 
-Download the Bunny Virtual Machine (That version only has one Vunerable Virtual Machine)
+Download the Virtual Machines (This version only has 3 Vunerable Virtual Machine)
 
-[**Clique aqui para baixar a VM**](https://drive.google.com/file/d/1IraYBIgoGIsl2pnwfRAtmeVea7eELTC2/view?usp=sharing) 
-**Warning:** That VM is vulnarable and should only be used for this project. Do not put any personal information or use the Virtual Machine for daily routine
+[**Click here to download the VMs**](https://drive.google.com/drive/folders/1tuTy3_YV-UJpq4-SsHPmAg2A-3K5s8Hg?usp=drive_link)
+
+**A Video guide for the Virtual machines is in progress**
+ 
+**Warning:** These VMs are vulnarable and should only be used for project and learn purposes. Do not put any personal information or use the Virtual Machine for daily routine
 
 Deployed the Machine in your Virtual Box by command line or use the Graphic interface of Virtual Box to Import the .ova
 
