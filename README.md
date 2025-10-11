@@ -49,9 +49,9 @@ Get-Package -Name *VirtualBox*
 ```
 **Warning:** This version of the Server is builded to work on a windows 10/11 enviroment with powershell enabled. If you want to run in a linux enviroment, you will need to change the code to call for the .sh files instead of .ps
 
-Download the Virtual Machines (Thhis version only has 3 Vunerable Virtual Machine)
+Download the Virtual Machines (This version only has 3 Vunerable Virtual Machine)
 
-[**Click here to download the VMs**]([https://drive.google.com/file/d/1IraYBIgoGIsl2pnwfRAtmeVea7eELTC2/view?usp=sharing](https://drive.google.com/drive/folders/1tuTy3_YV-UJpq4-SsHPmAg2A-3K5s8Hg?usp=drive_link))
+[**Click here to download the VMs**](https://drive.google.com/drive/folders/1tuTy3_YV-UJpq4-SsHPmAg2A-3K5s8Hg?usp=drive_link)
 
 **A Video guide for the Virtual machines is in progress**
  
