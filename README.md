@@ -1,4 +1,4 @@
-# LABSEC-HUB Release 0.1
+# LABSEC-HUB SEPEX 2025.2 VERSION
 <p align="center">
   <img alt="ReactJS" src="https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=React&logoColor=black">
   <img alt="Node.js" src="https://img.shields.io/badge/Node.js-5FA04E.svg?style=for-the-badge&logo=nodedotjs&logoColor=white">
@@ -40,13 +40,13 @@ Make sure you have Virtual Box install
 ```
 Get-Package -Name *VirtualBox*
 ```
-**Warning:** This version of the Server only has the Shell Scripts for powershell. So it will only works in a Windows 10 - 11 enviroment
+**Warning:** This version of the Server is builded to work on a windows 10 11 enviroment with powershell enabled. If you want to run in a linux enviroment, you will need to change the code to call for the .sh files instead of .ps
 
-Download the Bunny Virtual Machine (That version only has one Vunerable Virtual Machine)
+Download the Virtual Machines (Thhis version only has 3 Vunerable Virtual Machine)
 
-[**Click here to download the VM**](https://drive.google.com/file/d/1IraYBIgoGIsl2pnwfRAtmeVea7eELTC2/view?usp=sharing)
+[**Click here to download the VMs**]([https://drive.google.com/file/d/1IraYBIgoGIsl2pnwfRAtmeVea7eELTC2/view?usp=sharing](https://drive.google.com/drive/folders/1tuTy3_YV-UJpq4-SsHPmAg2A-3K5s8Hg?usp=drive_link))
  
-**Warning:** That VM is vulnarable and should only be used for this project. Do not put any personal information or use the Virtual Machine for daily routine
+**Warning:** These VMs are vulnarable and should only be used for project and learn purposes. Do not put any personal information or use the Virtual Machine for daily routine
 
 Deployed the Machine in your Virtual Box by command line or use the Graphic interface of Virtual Box to Import the .ova
 
