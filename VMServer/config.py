@@ -2,7 +2,6 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    # Defina aqui as variáveis que você espera ler
     VM_SERVER_HOST: str 
     VM_SERVER_PORT: int
     NODE_SECRET_KEY: str
