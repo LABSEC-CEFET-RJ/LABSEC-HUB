@@ -12,7 +12,6 @@ app = FastAPI(
 
 @app.get("/")
 def read_root():
-    # Exemplo de uso: só mostra infos sensíveis se o DEBUG estiver ligado
     if settings.DEBUG_MODE:
         return {"status": "online", "mode": "DEBUG", "secret_hint": settings.NODE_SECRET_KEY[:2] + "***"}
     return {"status": "online"}
@@ -24,8 +23,7 @@ def start_vm(x_api_key: str = Header(None)):
     
     return {"message": "VM Iniciando..."}
 
-# Bloco para permitir rodar direto pelo botão "Play" do VS Code
+
 if __name__ == "__main__":
     print(f"Iniciando servidor em {settings.VM_SERVER_HOST}:{settings.VM_SERVER_PORT}")
-    # reload=True faz o servidor reiniciar quando você salva o arquivo (igual nodemon)
     uvicorn.run("main:app", host=settings.VM_SERVER_HOST, port=settings.VM_SERVER_PORT, reload=settings.DEBUG_MODE)
