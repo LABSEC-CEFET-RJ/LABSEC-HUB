@@ -18,11 +18,11 @@ export default function App() {
       <Route path="/login" element={placeholderComponent("Login")} />
       <Route path="/register" element={placeholderComponent("Register")} />
 
-      <Route path="/lesson/:id" element={placeholderComponent("Lesson")} />
-      <Route path="/module/:id" element={placeholderComponent("Module")} />
+      <Route path="/lesson/:slug" element={placeholderComponent("Lesson")} />
+      <Route path="/module/:slug" element={placeholderComponent("Module")} />
       <Route path="/modules" element={placeholderComponent("Modules Select")} />
 
-      <Route path="/404" element={placeholderComponent("Not found")} />
+      <Route path="*" element={placeholderComponent("Not found")} />
     </Routes>
   );
 }
