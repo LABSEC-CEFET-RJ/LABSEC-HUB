@@ -4,15 +4,25 @@ import {
 } from "react-router-dom";
 
 export default function App() {
+  function placeholderComponent(text: string) {
+    return (
+      <div className="flex justify-center items-center">
+        <h1 className="text-3xl font-semibold">{text}</h1>
+      </div>
+    )
+  }
+
   return (
     <Routes>
-      <Route path="/" element={<h1>Main Menu</h1>} />
-      <Route path="/login" element={<h1>Login</h1>} />
-      <Route path="/register" element={<h1>Register</h1>} />
-      <Route path="/lesson/:id" element={<h1>Lesson</h1>} />
-      <Route path="/module/:id" element={<h1>Module</h1>} />
-      <Route path="/modules" element={<h1>Module select</h1>} />
-      <Route path="/404" element={<h1>Not found</h1>} />
+      <Route path="/" element={placeholderComponent("Home")} />
+      <Route path="/login" element={placeholderComponent("Login")} />
+      <Route path="/register" element={placeholderComponent("Register")} />
+
+      <Route path="/lesson/:id" element={placeholderComponent("Lesson")} />
+      <Route path="/module/:id" element={placeholderComponent("Module")} />
+      <Route path="/modules" element={placeholderComponent("Modules Select")} />
+
+      <Route path="/404" element={placeholderComponent("Not found")} />
     </Routes>
   );
 }
