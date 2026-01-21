@@ -1,8 +1,9 @@
-import { config } from "dotenv";
-config()
+import express from 'express';
+import dotenv from 'dotenv';
+
+dotenv.config({quiet:true});
 
 import type { Request, Response } from "express";
-import express from 'express';
 
 const app = express();
 import db from '../database/knex.ts';
