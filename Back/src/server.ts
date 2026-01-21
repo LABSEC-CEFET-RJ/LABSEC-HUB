@@ -1,8 +1,11 @@
-const express = require('express');
-require('dotenv').config({quiet:true});
+import { config } from "dotenv";
+config()
 
+import type { Request, Response } from "express";
+import express from 'express';
 
 const app = express();
+import db from '../database/knex.ts';
 
 app.use(express.json());
 
