@@ -1,7 +1,33 @@
 {
+  "name": "back",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch src/server.ts",
+    "migrate:make": "npx knex migrate:make --migrations-directory database/migrations/",
+    "migrate:rollback": "npx knex migrate:rollback --migrations-directory database/migrations/",
+    "migrate:rollback:all": "npx knex migrate:rollback --all --migrations-directory database/migrations/",
+    "migrate": "npx knex migrate:latest --migrations-directory database/migrations/"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
+    "@types/knex": "^0.15.2",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "knex": "^3.1.0"
+    "jsonwebtoken": "^9.0.3",
+    "knex": "^3.1.0",
+    "pg": "^8.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.9",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }
