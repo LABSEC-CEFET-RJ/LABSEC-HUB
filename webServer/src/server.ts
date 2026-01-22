@@ -6,7 +6,6 @@ dotenv.config({quiet:true});
 import type { Request, Response } from "express";
 
 const app = express();
-import db from '../database/knex.ts';
 
 app.use(express.json());
 
