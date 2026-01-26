@@ -3,26 +3,20 @@ import {
   Route
 } from "react-router-dom";
 
-export default function App() {
-  function placeholderComponent(text: string) {
-    return (
-      <div className="flex justify-center items-center">
-        <h1 className="text-3xl font-semibold">{text}</h1>
-      </div>
-    )
-  }
+import { InputGroup } from "./components/ui/InputGroup";
 
+export default function App() {
   return (
     <Routes>
-      <Route path="/" element={placeholderComponent("Home")} />
-      <Route path="/login" element={placeholderComponent("Login")} />
-      <Route path="/register" element={placeholderComponent("Register")} />
+      <Route path="/" element={<InputGroup m="auto" label="Name" placeholder="Type your name" />} />
+      <Route path="/login" element={<h1>Login</h1>} />
+      <Route path="/register" element={<h1>Register</h1>} />
 
-      <Route path="/lesson/:slug" element={placeholderComponent("Lesson")} />
-      <Route path="/module/:slug" element={placeholderComponent("Module")} />
-      <Route path="/modules" element={placeholderComponent("Modules Select")} />
+      <Route path="/lesson/:slug" element={<h1>Lesson</h1>} />
+      <Route path="/module/:slug" element={<h1>Module</h1>} />
+      <Route path="/modules" element={<h1>Modules Select</h1>} />
 
-      <Route path="*" element={placeholderComponent("Not found")} />
+      <Route path="*" element={<h1>Not found</h1>} />
     </Routes>
   );
 }
