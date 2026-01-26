@@ -1,5 +1,18 @@
 import { defineRecipe, defineSlotRecipe } from "@chakra-ui/react";
 
+const textRecipe = defineRecipe({
+  base: {
+    color: "primary"
+  }
+})
+
+const headingRecipe = defineRecipe({
+  base: {
+    color: "primary",
+    fontWeight: "bold"
+  }
+})
+
 const buttonRecipe = defineRecipe({
   base: {
     color: "white",
@@ -25,20 +38,10 @@ const buttonRecipe = defineRecipe({
       }
     },
     size: {
-      sm: {
-        px: "1rem",
-        py: "0.5rem",
-        fontSize: "0.875rem"
-      },
       md: {
         px: "1.5rem",
         py: "0.5rem",
         fontSize: "1rem"
-      },
-      lg: {
-        px: "2rem",
-        py: "0.5rem",
-        fontSize: "1.25rem"
       }
     }
   },
@@ -94,18 +97,10 @@ const checkboxSlotRecipe = defineSlotRecipe({
   },
   variants: {
     size: {
-      sm: {
-        control: { width: "4", height: "4" },
-        label: { fontSize: "sm" },
-      },
       md: {
         control: { width: "5", height: "5" },
         label: { fontSize: "md" },
-      },
-      lg: {
-        control: { width: "6", height: "6" },
-        label: { fontSize: "lg" },
-      },
+      }
     },
   },
   defaultVariants: {
@@ -114,9 +109,11 @@ const checkboxSlotRecipe = defineSlotRecipe({
 })
 
 export const recipes = {
-  buttonRecipe,
-  inputRecipe,
-  inputLabelRecipe
+  button: buttonRecipe,
+  input: inputRecipe,
+  inputLabel: inputLabelRecipe,
+  heading: headingRecipe,
+  text: textRecipe
 }
 
 export const slotRecipes = {

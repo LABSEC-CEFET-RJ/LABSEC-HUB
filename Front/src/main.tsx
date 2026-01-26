@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
-import { Provider } from './components/ui/provider.tsx'
+import { Provider } from './components/provider.tsx'
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';

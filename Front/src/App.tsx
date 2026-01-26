@@ -1,22 +1,21 @@
+import { Text } from "@chakra-ui/react";
 import {
   Routes,
   Route
 } from "react-router-dom";
 
-import { InputGroup } from "./components/ui/InputGroup";
-
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<InputGroup m="auto" label="Name" placeholder="Type your name" />} />
-      <Route path="/login" element={<h1>Login</h1>} />
-      <Route path="/register" element={<h1>Register</h1>} />
+      <Route path="/" element={<Text>Home</Text>} />
+      <Route path="/login" element={<Text>Login</Text>} />
+      <Route path="/register" element={<Text>Register</Text>} />
 
-      <Route path="/lesson/:slug" element={<h1>Lesson</h1>} />
-      <Route path="/module/:slug" element={<h1>Module</h1>} />
-      <Route path="/modules" element={<h1>Modules Select</h1>} />
+      <Route path="/lesson/:slug" element={<Text>Lesson</Text>} />
+      <Route path="/module/:slug" element={<Text>Module</Text>} />
+      <Route path="/modules" element={<Text>Modules Select</Text>} />
 
-      <Route path="*" element={<h1>Not found</h1>} />
+      <Route path="*" element={<Text>Not found</Text>} />
     </Routes>
   );
 }

@@ -1,5 +1,6 @@
 import { defaultConfig, defineConfig, createSystem } from "@chakra-ui/react"
 import { slotRecipes } from "./recipes"
+import { recipes } from "./recipes"
 
 const themeConfig = defineConfig({
   theme: {
@@ -47,6 +48,7 @@ const themeConfig = defineConfig({
         destructive: { value: "#ff2e4aff" },
       }
     },
+    recipes,
     slotRecipes,
   },
   globalCss: {
