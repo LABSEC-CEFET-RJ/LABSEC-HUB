@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({quiet:true});
 
+import type { Request, Response } from "express";
 
 const app = express();
 
