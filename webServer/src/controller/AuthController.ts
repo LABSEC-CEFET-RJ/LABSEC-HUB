@@ -1,0 +1,26 @@
+import { Request, Response } from "express";
+import { AuthService } from "../service/AuthService";
+
+export class AuthController {
+
+    authService
+
+    constructor(){
+        this.authService = new AuthService()
+    }
+
+    async login(req: Request, res: Response) {
+        try{
+
+            const { email, password } = req.body
+
+            const result = await this.authService.login(
+                { email, password }
+            );
+
+            return res.json(result)
+        } catch(error) {
+
+        }
+    }
+}
