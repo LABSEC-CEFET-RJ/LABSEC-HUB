@@ -2,11 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 import { UserPayload } from "../interfaces/user.interface";
 
-const secretKey = process.env.JWT_SECRET || ''
-
-interface UserRequest extends Request {
+export interface AuthenticatedUserRequest extends Request {
     user: UserPayload
 }
+
+const secretKey = process.env.JWT_SECRET || ''
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 
@@ -20,11 +20,11 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     try {
         const payload = verify(token, secretKey) as UserPayload
 
-        if (!payload.id || !payload.email){
+        if (!payload.id || !payload.email || !payload.points){
             return res.status(500).send()
         }
 
-        (req as UserRequest).user = payload
+        (req as AuthenticatedUserRequest).user = payload
         next()
     } catch (error) {
         res.status(403).send()
