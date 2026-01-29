@@ -1,6 +1,6 @@
-import { LoginUserDTO, UserPayload } from "../interfaces/user.interface";
-import { createToken as signJwtToken } from "../lib/jwt";
-import { UserRepository } from "../repository/UserRepository";
+import { LoginUserDTO, UserPayload } from "../interfaces/user.interface.ts";
+import { createToken as signJwtToken } from "../lib/jwt.ts";
+import { UserRepository } from "../repository/UserRepository.ts";
 import * as bcrypt from 'bcrypt'
 
 export class AuthService {
@@ -16,7 +16,7 @@ export class AuthService {
 
             const userLogin = await this.userRepository.findByEmail(user.email)
 
-            if (!user) throw new Error('invalid credentials')
+            if (!userLogin) throw new Error('invalid credentials')
 
             const matchPassword = await bcrypt.compare(
                 user.password, 
@@ -27,10 +27,11 @@ export class AuthService {
             
             const userPayload = {
                 email: userLogin.email,
-                points: userLogin.number
+                nickname: userLogin.nickname,
+                points: userLogin.points
             }
 
-            const token = signJwtToken(userPayload)
+            const token = signJwtToken(userPayload as UserPayload)
 
             return {
                 token,

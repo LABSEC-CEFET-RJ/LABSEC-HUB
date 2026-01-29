@@ -1,5 +1,5 @@
-import knex from "../database/knex"
-import { User } from "../interfaces/user.interface"
+import knex from "../database/knex.ts"
+import { type User } from "../interfaces/user.interface.ts"
 
 export class UserRepository {
 

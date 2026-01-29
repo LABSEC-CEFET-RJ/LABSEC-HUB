@@ -1,8 +1,8 @@
 // src/database/knex.ts
-import knex, { Knex } from 'knex'
+import knex from 'knex'
 import 'dotenv/config'
-import knexConfig from '../../knexfile'
+import knexConfig from '../../knexfile.js'
 
-const knexInstance = knex(knexConfig as Knex.Config)
+const knexInstance = knex(knexConfig as knex.Knex.Config)
 
 export default knexInstance
