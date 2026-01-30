@@ -1,7 +1,8 @@
-import { UserPayload } from "../interfaces/user.interface";
+import { type UserPayload } from "../interfaces/user.interface.ts";
 import jwt from 'jsonwebtoken'
+import "dotenv/config"
 
-const secretKey = process.env.JWT_SECRET || ''
+const secretKey = process.env.JWT_SECRET_KEY || 'supersecret'
 const expiresIn = process.env.JWT_EXPIRES_IN || '15m'
 
 export const createToken = (payload : UserPayload) => {
@@ -9,7 +10,7 @@ export const createToken = (payload : UserPayload) => {
         payload,
         secretKey,
         {
-            expiresIn: Number(expiresIn)
+            expiresIn: expiresIn as jwt.SignOptions['expiresIn']
         }
     )
 
