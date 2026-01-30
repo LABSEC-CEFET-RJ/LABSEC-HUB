@@ -11,6 +11,8 @@ const mockUser = {
     nickname: 'test_user'
 }
 
+const hashedPassword = '$2a$12$BaSYSFQ1/96.P89q9RlCF.vCFk..tbSlxVzhrjZ/kt3OxfQaIZeBu'
+
 const fakeDb = () => ({
     select() {
         return this
@@ -18,7 +20,7 @@ const fakeDb = () => ({
     where() {
         return this
     },
-    first: async () => mockUser
+    first: async () => ({ ...mockUser, password: hashedPassword })
 })
 
 describe('User auth test suite', async () => {
@@ -36,7 +38,7 @@ describe('User auth test suite', async () => {
         const user = await repo.findByEmail()
     
         assert.equal(user.email, mockUser.email)
-        assert.equal(user.password, mockUser.password)
+        assert.equal(user.password, hashedPassword)
         assert.equal(user.points, mockUser.points)
         assert.equal(user.nickname, mockUser.nickname)
     })

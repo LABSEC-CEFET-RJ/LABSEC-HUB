@@ -18,7 +18,10 @@ export class MockAuthService {
 
             if (!userLogin) throw new Error('couldn\'t find user')
 
-            const matchPassword = user.password == userLogin.password
+            const matchPassword = await bcrypt.compare(
+                user.password,
+                userLogin.password
+            )
             
             if (!matchPassword) throw new Error('passwords doesn\'t match')
             
