@@ -1,12 +1,12 @@
-import { Administrator, UpdateAdministrator } from "../types/administrator";
+import { AdministratorDTO, UpdateAdministratorDTO } from "../types/administrator";
 import DatabaseConnection from "../database/connection/databaseConnection";
-import { UserNotFoundError, EmailInUseError } from "../errors/userErrors";
+import { UserNotFoundError, EmailInUseError, RootUpdateError } from "../errors/userErrors";
 import AdminValidator from "../validators/adminValidator";
 
 const database = DatabaseConnection.getInstance();
 
 export default class AdminService {
-    public static async createAdmin(data: Administrator) {
+    public static async createAdmin(data: AdministratorDTO) {
         await AdminValidator.validateCreateAdmin(data);
 
         const emailExistsInAdminTable = await database('admin').where(data.email).first();
@@ -21,7 +21,7 @@ export default class AdminService {
         return "Administrador criado";
     }
 
-    public static async getAdmin(id: string): Promise<Administrator> {
+    public static async getAdmin(id: string): Promise<AdministratorDTO> {
         const admin = await database('admin').where({id}).first();
 
         if(!admin) {
@@ -30,18 +30,25 @@ export default class AdminService {
         return admin;
     }
 
-    public static async getAllAdmins(): Promise<Administrator[]> {
-        const admins = await database('admin').select('*'); 
+    public static async getAllAdmins(): Promise<AdministratorDTO[]> {
+        const admins = await database('admin').select('nickname', 'email');
         return admins;
     }
 
-    public static async updateAdmin(id: string, data: UpdateAdministrator) {
+    public static async updateAdmin(id: string, data: UpdateAdministratorDTO) {
         await AdminValidator.validateUpdateAdmin(data);
         const admin = await AdminService.getAdmin(id);
 
         if(!admin) {
             throw new UserNotFoundError();
         }
+        
+        const isRoot = admin.email === process.env.ROOT_EMAIL;
+
+        if(isRoot) {
+            throw new RootUpdateError();
+        }
+
 
         await database('admin').where({id}).first().update(data);
         return "Administrador atualizado";
@@ -49,6 +56,10 @@ export default class AdminService {
 
     public static async deleteAdmin(id: string) {
         const admin = await AdminService.getAdmin(id);
+
+        if(admin.email === process.env.ROOT_EMAIL) {
+            throw new RootUpdateError("O administrador root não pode ter sua conta removida");
+        }
 
         if(!admin) {
             throw new UserNotFoundError();
