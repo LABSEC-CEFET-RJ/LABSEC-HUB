@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { AuthService } from "../service/AuthService.ts";
+import { AppError } from "@/interfaces/errors/AppError.ts";
 
 export class AuthController {
 
@@ -11,7 +12,6 @@ export class AuthController {
 
     async login(req: Request, res: Response) {
         try{
-
             const { email, password } = req.body
 
             const result = await this.authService.login(
@@ -19,8 +19,10 @@ export class AuthController {
             );
 
             return res.json(result)
-        } catch(error) {
-
+        } catch(error: AppError | any) {
+            return res.status(error.statusCode).json({
+                error: error.message
+            })
         }
     }
 }

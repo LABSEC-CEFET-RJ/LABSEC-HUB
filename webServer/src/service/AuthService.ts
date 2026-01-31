@@ -1,3 +1,4 @@
+import { AppError } from "@/interfaces/errors/AppError.ts";
 import { LoginUserDTO, UserPayload } from "../interfaces/user.interface.ts";
 import { createToken as signJwtToken } from "../lib/jwt.ts";
 import { UserRepository } from "../repository/UserRepository.ts";
@@ -16,14 +17,14 @@ export class AuthService {
 
             const userLogin = await this.userRepository.findByEmail(user.email)
 
-            if (!userLogin) throw new Error('invalid credentials')
+            if (!userLogin) throw new AppError('invalid credentials', 404)
 
             const matchPassword = await bcrypt.compare(
                 user.password, 
                 userLogin.password
             )
 
-            if (!matchPassword) throw new Error('invalid credentials')
+            if (!matchPassword) throw new AppError('invalid credentials', 404)
             
             const userPayload = {
                 email: userLogin.email,
@@ -42,7 +43,9 @@ export class AuthService {
                 }
             }
         } catch(error) {
-            throw new Error('user does not exist')
+            if (!(error instanceof AppError)){
+                throw new AppError('db error', 500)
+            }
         }
     }
 
