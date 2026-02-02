@@ -1,7 +1,15 @@
 import HeaderMock from "../components/header/HeaderMock.tsx";
 import FooterMock from "../components/footer/FooterMock.tsx";
 import Noticias from "../components/noticias/Noticias.tsx";
-import { Box, Flex, Text, Button, Image, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  Image,
+  HStack,
+  VStack,
+} from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
 function MainMenu() {
@@ -11,122 +19,132 @@ function MainMenu() {
         <HeaderMock />
       </Box>
 
-      {/* Div do Menu Principal */}
-      <Box flex="1" w="100%">
-        {/*Conteúdo Principal + Notícias */}
-        <Box
-          display="flex"
-          flexDirection={{ base: "column", md: "row" }}
-          justifyContent="space-between"
-          w="100%"
-          h="100%"
-          mt={{ md: "50px" }}
-          gap={{ base: "50px" }}
+      {/* Área Principal */}
+      <Box flex="1" w="100%" bg="gray.50">
+        <Flex
+          maxW="1600px"
+          mx="auto"
+          p={{ base: 4, md: 8, xl: 12 }}
+          direction={{ base: "column", xl: "row" }}
+          gap={{ base: 10, xl: 10 }}
+          alignItems="start"
         >
-          {/* Conteúdo Principal */}
-          <Flex
-            flex="0.7"
-            mt={{ base: "25px" }}
-            ml={{ md: "100px" }}
-            direction={{ base: "column", md: "column" }}
-            gap={{ base: "20px", md: "50px" }}
-          >
+          <Flex flex="1" direction="column" gap={8} ml={{ xl: "50px" }}>
             <Flex
-              direction={{ base: "row", md: "row" }}
-              gap={{ base: "", md: "25px" }}
-              justifyContent={{ base: "space-between" }}
-              ml={{ base: "50px" }}
-              mr={{ base: "50px" }}
+              direction={{ base: "column", md: "row" }}
+              alignItems={{ base: "center", md: "flex-start" }}
+              gap={8}
+              border="solid 1px black"
             >
               <Image
-                ml={{ md: "" }}
                 src="src/assets/LabSecLogo.png"
-                alt=""
-                w={{ base: "200px", md: "300px" }}
-                flex={{ md: "0.3" }}
+                alt="Logo LabSec"
+                w={{ base: "180px", md: "220px", lg: "280px" }}
+                objectFit="contain"
               />
-              <Flex
-                direction="column"
-                flex={{ md: "0.7" }}
-                alignSelf={{ base: "center", md: "end" }}
-                justifyContent={{ base: "center", md: "start" }}
-                alignItems={{ base: "center", md: "start" }}
-                p={{ md: "25px" }}
-              >
-                <Flex
-                  direction={{ base: "column", md: "column" }}
-                  align={{ base: "center", md: "start" }}
-                >
-                  <Text color="primary" fontSize="4xl">
-                    Bem Vindo ao HUB do
-                  </Text>
 
-                  {/* O HStack mantém as letras coloridas na mesma linha */}
-                  <HStack lineHeight="1">
-                    <Text color="secondary" fontSize="6xl" fontWeight="black">
-                      L
+              <VStack
+                alignItems={{ base: "center", md: "flex-start" }}
+                textAlign={{ base: "center", md: "left" }}
+              >
+                <Text
+                  color="primary"
+                  fontSize={{ base: "xl", md: "2xl" }}
+                  fontWeight="medium"
+                  fontFamily="monospace"
+                >
+                  Bem Vindo ao HUB do
+                </Text>
+
+                {/* LABSEC Colorido */}
+                <HStack>
+                  {["L", "A", "B", "S", "E", "C"].map((letter, index) => (
+                    <Text
+                      key={letter}
+                      color={index % 2 === 0 ? "secondary" : "primary"}
+                      fontSize={{ base: "5xl", sm: "6xl", lg: "7xl" }}
+                      fontWeight="black"
+                      lineHeight="1"
+                    >
+                      {letter}
                     </Text>
-                    <Text color="primary" fontSize="6xl" fontWeight="black">
-                      A
-                    </Text>
-                    <Text color="secondary" fontSize="6xl" fontWeight="black">
-                      B
-                    </Text>
-                    <Text color="primary" fontSize="6xl" fontWeight="black">
-                      S
-                    </Text>
-                    <Text color="secondary" fontSize="6xl" fontWeight="black">
-                      E
-                    </Text>
-                    <Text color="primary" fontSize="6xl" fontWeight="black">
-                      C
-                    </Text>
-                  </HStack>
-                </Flex>
-                <Text fontWeight="bold">
+                  ))}
+                </HStack>
+
+                <Text
+                  fontWeight="bold"
+                  fontSize={{ base: "sm", md: "md" }}
+                  color="primary"
+                  letterSpacing="wider"
+                >
                   LABORATÓRIO DE SEGURANÇA CIBERNÉTICA
                 </Text>
-                <Text mt="30px" mb="30px" fontSize="3xl">
-                  Hack, Aprenda, Proteja.
-                </Text>
-                <Flex direction="row" gap="40px">
-                  <Button
-                    as={RouterLink}
-                    // @ts-ignore
-                    to="/courses"
+
+                {/* Slogan e Botões */}
+                <Box mt={6}>
+                  <Text
+                    fontSize={{ base: "2xl", md: "3xl" }}
+                    fontWeight="medium"
+                    borderBottom="3px solid"
+                    borderColor="primary"
+                    display="inline-block"
+                    mb={6}
                   >
-                    Veja os Cursos
-                  </Button>
-                  <Button
-                    variant={"secondary" as any}
-                    as={RouterLink}
-                    // @ts-ignore
-                    to="/maquinas"
+                    Hack, Aprenda, Proteja.
+                  </Text>
+
+                  <Flex
+                    gap={4}
+                    direction={{ base: "column", sm: "row" }}
+                    w="100%"
                   >
-                    Invada Máquinas
-                  </Button>
-                </Flex>
-              </Flex>
+                    <Button
+                      as={RouterLink}
+                      // @ts-ignore
+                      to="/courses"
+                      size="lg"
+                      bg="primary"
+                      _hover={{ bg: "primary.600" }}
+                      color="white"
+                    >
+                      Veja os Cursos
+                    </Button>
+
+                    <Button
+                      as={RouterLink}
+                      // @ts-ignore
+                      to="/maquinas"
+                      variant={"secondary" as any}
+                      size="lg"
+                    >
+                      Invada Máquinas
+                    </Button>
+                  </Flex>
+                </Box>
+              </VStack>
             </Flex>
+
             <Text
-              mt={{ base: "25px", md: "50px" }}
-              ml={{ base: "20px", md: "150px" }}
-              mr={{ base: "20px", md: "150px" }}
-              fontSize="xl"
-              justifyContent={{ base: "center" }}
-              alignContent={{ base: "center" }}
-              textAlign={{ base: "center" }}
+              maxW="900px"
+              fontSize={{ base: "md", md: "lg" }}
+              color="gray.600"
+              lineHeight="1.8"
+              textAlign={{ base: "center", md: "center" }}
+              mt={4}
+              mx="180px"
             >
               Nossa Missão é oferecer uma plataforma gratuita para estudantes
-              Brasileiros consumirem conteudo hacker e treinamento em máquinas
+              Brasileiros consumirem conteúdo hacker e treinamento em máquinas
               virtuais para que possam trilhar uma carreira na área de segurança
-              cibernética
+              cibernética.
             </Text>
           </Flex>
 
-          {/* Notícias */}
-          <Noticias />
-        </Box>
+          {/* === NOTÍCIAS === */}
+          <Box w={{ base: "100%", xl: "380px" }} minW={{ xl: "350px" }}>
+            <Noticias />
+          </Box>
+        </Flex>
       </Box>
 
       <FooterMock />
