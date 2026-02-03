@@ -136,7 +136,7 @@ function MainMenu() {
               lineHeight="1.8"
               textAlign={{ base: "center", md: "center" }}
               mt={4}
-              mx="180px"
+              mx={{ xl: "180px" }}
             >
               Nossa Missão é oferecer uma plataforma gratuita para estudantes
               Brasileiros consumirem conteúdo hacker e treinamento em máquinas
