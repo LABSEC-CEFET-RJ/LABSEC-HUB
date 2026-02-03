@@ -1,13 +1,11 @@
 import { Text } from "@chakra-ui/react";
-import {
-  Routes,
-  Route
-} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import MainMenu from "./pages/MainMenu.tsx";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Text>Home</Text>} />
+      <Route path="/" element={<MainMenu />} />
       <Route path="/login" element={<Text>Login</Text>} />
       <Route path="/register" element={<Text>Register</Text>} />
 
