@@ -29,14 +29,12 @@ function MainMenu() {
           gap={{ base: 10, xl: 10 }}
           alignItems={{ xl: "start" }}
           mt={{ md: "50px" }}
-          border="solid 1px black"
         >
           <Flex
             flex="1"
             direction="column"
             gap={8}
             ml={{ sm: "0px", xl: "50px" }}
-            border="solid 1px red"
           >
             <Flex
               direction={{ base: "column", md: "row" }}
