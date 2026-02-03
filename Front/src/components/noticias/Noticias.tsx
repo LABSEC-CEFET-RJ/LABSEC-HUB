@@ -46,8 +46,8 @@ function Noticias() {
       borderColor="gray.200"
       rounded="lg"
       shadow="md"
-      h={{ base: "auto", xl: "400px" }}
-      maxH={{ base: "400px", xl: "600px" }}
+      h={{ base: "auto", xl: "450px" }}
+      maxH={{ base: "400px", xl: "500px" }}
       overflow="hidden"
       w={{ base: "100%", xl: "40px" }}
       minW={{ xl: "350px" }}
