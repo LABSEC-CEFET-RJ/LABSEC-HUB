@@ -1,35 +1,38 @@
 import { AppError } from "@/interfaces/errors/AppError.ts";
-import { LoginUserDTO, UserPayload } from "../interfaces/user.interface.ts";
+import { UserPayload } from "../interfaces/user.interface.ts";
 import { createToken as signJwtToken } from "../lib/jwt.ts";
-import { UserRepository } from "../repository/UserRepository.ts";
 import * as bcrypt from 'bcrypt'
+import knex from "knex";
 
-export class AuthService {
+export class AuthService  {
 
-    userRepository
+    
 
-    constructor() {
-        this.userRepository = new UserRepository()
-    }
+    /**
+     * @description Realiza Login.
+     * @param {string} email - O email do usuário.
+     * @param {string} password - A senha do usuário.
+     * @returns {Promise<string>}
+     */
+    async login(email: string, password: string) {
 
-    async login(user: LoginUserDTO) {
         try {
 
-            const userLogin = await this.userRepository.findByEmail(user.email)
-
-            if (!userLogin) throw new AppError('invalid credentials', 404)
+            const user = await knex('user').select('id', 'nickname', 'email', 'points', 'password').where({ email }).first()    
+            
+            if (!user) throw new AppError('invalid credentials', 401)
 
             const matchPassword = await bcrypt.compare(
-                user.password, 
-                userLogin.password
+                password, 
+                user.password
             )
 
-            if (!matchPassword) throw new AppError('invalid credentials', 404)
+            if (!matchPassword) throw new AppError('invalid credentials', 401)
             
             const userPayload = {
-                email: userLogin.email,
-                nickname: userLogin.nickname,
-                points: userLogin.points
+                email: user.email,
+                nickname: user.nickname,
+                points: user.points
             }
 
             const token = signJwtToken(userPayload as UserPayload)
@@ -37,15 +40,16 @@ export class AuthService {
             return {
                 token,
                 user: {
-                    id: userLogin.id,
-                    email: userLogin.email,
-                    points: userLogin.points
+                    id: user.id,
+                    email: user.email,
+                    points: user.points
                 }
             }
         } catch(error) {
-            if (!(error instanceof AppError)){
-                throw new AppError('db error', 500)
+            if (error instanceof AppError) {
+            throw error
             }
+            throw new AppError('db error', 500)
         }
     }
 

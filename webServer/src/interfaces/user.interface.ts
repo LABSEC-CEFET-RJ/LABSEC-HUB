@@ -15,7 +15,7 @@ export interface User {
     nickname: string;
 }
 
-export interface LoginUserDTO {
+export interface LoginUser {
     email: string;
     password: string;
 }

@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { AuthService } from "../service/AuthService.ts";
+import  {AuthService}  from "../service/AuthService.ts";
 import { AppError } from "@/interfaces/errors/AppError.ts";
 
-export class AuthController {
+export class AuthController  {
 
     authService
 
@@ -14,14 +14,17 @@ export class AuthController {
         try{
             const { email, password } = req.body
 
-            const result = await this.authService.login(
-                { email, password }
-            );
+            const result = await this.authService.login(email, password );
 
             return res.json(result)
-        } catch(error: AppError | any) {
+        } catch(error: any) {
+            if (error instanceof AppError){
             return res.status(error.statusCode).json({
                 error: error.message
+            })
+            }
+            return res.status(500).json({
+                error: "Internal server error"
             })
         }
     }

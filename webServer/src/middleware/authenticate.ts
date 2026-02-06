@@ -6,7 +6,7 @@ export interface AuthenticatedUserRequest extends Request {
     user: UserPayload
 }
 
-const secretKey = process.env.JWT_SECRET || ''
+const secretKey = process.env.JWT_SECRET
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 
@@ -18,14 +18,16 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     }
 
     try {
-        const payload = verify(token, secretKey) as UserPayload
-
-        if (!payload.id || !payload.email || !payload.points){
+        if(secretKey){
+            const payload = verify(token, secretKey) as UserPayload
+            if (!payload.id || !payload.email || !payload.points){
             return res.status(500).send()
         }
 
         (req as AuthenticatedUserRequest).user = payload
         next()
+        }
+
     } catch (error) {
         res.status(403).send()
     }
