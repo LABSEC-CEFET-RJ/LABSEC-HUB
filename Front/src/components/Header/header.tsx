@@ -1,42 +1,54 @@
-import styles from "./style.module.css";
-import { useNavigate } from 'react-router-dom';
-import logoLabsec from '../../assets/Logo_name_labsec-removebg-preview 1.svg';
-import logo2labsec from '../../assets/Rectangle.svg'
+import { Flex, Box, Image, Button, HStack } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import logoLabsec from "../../assets/Logo_name_labsec-removebg-preview 1.svg";
+import logo2labsec from "../../assets/Rectangle.svg";
 
-function Header() {
-    const navigate = useNavigate();
-    async function login(){
-        console.log('login')
-    }
+export default function Header() {
+  const navigate = useNavigate();
 
-    function navigation(event: { currentTarget: { getAttribute: (arg0: string) => any; }; }){
+  const login = async () => {
+    console.log("login");
+  };
 
-       const rota = event.currentTarget.getAttribute('data-route')
-       navigate(rota)
-    }
+  const navigation = (route: string) => {
+    navigate(route);
+  };
 
-    return(
-        <header className={`container text-center ${styles.header}`}>
-           <div className={` container text-center ${styles.logos}`}>
-        
-            <img alt="logo" src={logo2labsec}/>
-            <img  className={`container ${styles.logos2}`} alt="Logo2" src={logoLabsec}/>
-           </div>
-           <div className={`${styles.links}`}>
-            
-            <button data-route="/" onClick={navigation}>Home</button>
-            <button data-route="/?" onClick={navigation}>Aulas</button>
-            <button data-route="/?" onClick={navigation}>FAQ</button>
-            <button data-route="/About" onClick={navigation}>Sobre</button>
-           </div>
-           <div className={`${styles.access}`}>
-            <button onClick={login}>Login</button>
-            <button>Contatar</button>
-           </div>
-        </header>
+  return (
+    <Flex
+      as="header"
+      w="100%"
+      px={8}
+      py={4}
+      align="center"
+      justify="space-between"
+      boxShadow="sm"
+      position="sticky"
+      top={0}
+      bg="white"
+      zIndex={10}
+    >
+      
+      <HStack >
+        <Image src={logo2labsec} alt="logo-base" h="40px" objectFit="contain" />
+        <Image src={logoLabsec} alt="logo-labsec" h="40px" objectFit="contain" />
+      </HStack>
 
-    )
+      
+      <HStack>
+        <Button variant="ghost" color='black'  onClick={() => navigation("/")}>Home</Button>
+        <Button variant="ghost" color='black' onClick={() => navigation("/?")}>Aulas</Button>
+        <Button variant="ghost" color='black' onClick={() => navigation("/?")}>FAQ</Button>
+        <Button variant="ghost" color='black' onClick={() => navigation("/About")}>Sobre</Button>
+      </HStack>
+
+      
+      <HStack >
+        <Button colorScheme="blue" color='black' variant="outline" onClick={login}>
+          Login
+        </Button>
+        <Button colorScheme="blue">Contatar</Button>
+      </HStack>
+    </Flex>
+  );
 }
-
-
-export default Header;
