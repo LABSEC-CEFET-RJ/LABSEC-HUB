@@ -1,4 +1,3 @@
-// src/database/knex.ts
 import knex from 'knex'
 import 'dotenv/config'
 import knexConfig from '../../knexfile.js'
