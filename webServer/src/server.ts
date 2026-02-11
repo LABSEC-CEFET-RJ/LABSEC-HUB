@@ -7,7 +7,7 @@ dotenv.config({quiet:true});
 const app = express();
 
 app.use(express.json());
-app.use('/auth', router)
+app.use('/', router)
 
 const PORT = process.env.PORT;
 

@@ -10,7 +10,7 @@ export class AuthController  {
         this.authService = new AuthService()
     }
 
-    async login(req: Request, res: Response) {
+    login = async (req: Request, res: Response) => {
         try{
             const { email, password } = req.body
 
@@ -24,7 +24,7 @@ export class AuthController  {
             })
             }
             return res.status(500).json({
-                error: "Internal server error"
+                error: error.message || 'Internal Server Error'
             })
         }
     }

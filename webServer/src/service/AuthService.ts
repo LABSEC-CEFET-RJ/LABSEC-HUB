@@ -2,7 +2,7 @@ import { AppError } from "@/interfaces/errors/AppError.ts";
 import { UserPayload } from "../interfaces/user.interface.ts";
 import { createToken as signJwtToken } from "../lib/jwt.ts";
 import * as bcrypt from 'bcrypt'
-import knex from "knex";
+import knex from "@/database/knex.ts";
 
 export class AuthService  {
 
