@@ -17,8 +17,13 @@ export class AuthService  {
     public async login(email: string, password: string) {
 
         try {
-
-            const user = await knexInstance('user').select('id', 'nickname', 'email', 'points', 'password').where({ email }).first()    
+            let isadmin = false;
+            let user = await knexInstance('user').select('id', 'nickname', 'email', 'points', 'password').where({ email }).first()    
+            
+            if (!user){
+                user = await knexInstance('administrator').select('id', 'nickname', 'email',  'password').where({ email }).first()
+                isadmin = true;
+            } 
             
             if (!user) throw new AppError('invalid credentials', 401)
             
@@ -29,22 +34,18 @@ export class AuthService  {
 
             if (!matchPassword) throw new AppError('invalid credentials', 401)
             
+            
+            
             const userPayload: UserPayload = {
+                id: user.id,
                 email: user.email,
                 nickname: user.nickname,
-                points: user.points
+                admin: isadmin
             }
 
             const token = signJwtToken(userPayload)
 
-            return {
-                token,
-                user: {
-                    id: user.id,
-                    email: user.email,
-                    points: user.points
-                }
-            }
+            return {token}
         } catch(error) {
             throw error
         }
