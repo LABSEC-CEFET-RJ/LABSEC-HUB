@@ -16,13 +16,7 @@ export const createToken = (payload : UserPayload) => {
     throw new Error("JWT_EXPIRES_IN is not defined")
     }
     
-    const token = jwt.sign(
-        payload,
-        secretKey,
-        {
-            expiresIn: expiresIn as jwt.SignOptions['expiresIn']
-        }
-    )
+    const token = jwt.sign(payload,secretKey,{ expiresIn: "24h" })
 
     return token
 }

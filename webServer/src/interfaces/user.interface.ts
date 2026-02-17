@@ -2,9 +2,10 @@ import { type JwtPayload  } from "jsonwebtoken";
 
 
 export interface UserPayload extends JwtPayload {
+    id: string,
     email: string;
     nickname: string;
-    points: number;
+    admin: boolean;
 }
 
 export interface User {
