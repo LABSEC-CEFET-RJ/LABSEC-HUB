@@ -2,7 +2,7 @@ import { Box, Center } from "@chakra-ui/react";
 
 function Footer() {
   return (
-    <Center bg="blue.900" h="100px">
+    <Center bg="blue.900" h="10vh">
       <Box>Footer</Box>
     </Center>
   );

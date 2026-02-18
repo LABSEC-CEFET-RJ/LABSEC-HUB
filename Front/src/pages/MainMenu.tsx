@@ -63,17 +63,48 @@ function MainMenu() {
 
                 {/* LABSEC Colorido */}
                 <HStack>
-                  {["L", "A", "B", "S", "E", "C"].map((letter, index) => (
-                    <Text
-                      key={letter}
-                      color={index % 2 === 0 ? "secondary" : "primary"}
-                      fontSize={{ base: "5xl", sm: "6xl", lg: "7xl" }}
-                      fontWeight="black"
-                      lineHeight="1"
-                    >
-                      {letter}
-                    </Text>
-                  ))}
+                  <Text
+                    color="secondary"
+                    fontSize={{ base: "5xl", sm: "6xl", lg: "7xl" }}
+                    fontWeight="black"
+                  >
+                    L
+                  </Text>
+                  <Text
+                    color="primary"
+                    fontSize={{ base: "5xl", sm: "6xl", lg: "7xl" }}
+                    fontWeight="black"
+                  >
+                    A
+                  </Text>
+                  <Text
+                    color="primary"
+                    fontSize={{ base: "5xl", sm: "6xl", lg: "7xl" }}
+                    fontWeight="black"
+                  >
+                    B
+                  </Text>
+                  <Text
+                    color="primary"
+                    fontSize={{ base: "5xl", sm: "6xl", lg: "7xl" }}
+                    fontWeight="black"
+                  >
+                    S
+                  </Text>
+                  <Text
+                    color="secondary"
+                    fontSize={{ base: "5xl", sm: "6xl", lg: "7xl" }}
+                    fontWeight="black"
+                  >
+                    E
+                  </Text>
+                  <Text
+                    color="primary"
+                    fontSize={{ base: "5xl", sm: "6xl", lg: "7xl" }}
+                    fontWeight="black"
+                  >
+                    C
+                  </Text>
                 </HStack>
 
                 <Text
