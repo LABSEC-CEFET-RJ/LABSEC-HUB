@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import  {AuthService}  from "../service/AuthService.ts";
-import { AppError } from "@/interfaces/errors/AppError.ts";
+import  {AuthService}  from "../service/authService.ts";
 
 export class AuthController  {
     private readonly authService = new AuthService()

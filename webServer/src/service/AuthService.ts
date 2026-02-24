@@ -17,13 +17,8 @@ export class AuthService  {
     public async login(email: string, password: string) {
 
         try {
-            let isadmin = false;
-            let user = await knexInstance('user').select('id', 'nickname', 'email', 'points', 'password').where({ email }).first()    
+            const user = await knexInstance('user').select('public_id', 'nickname', 'email', 'password', 'isadmin').where({ email }).first()    
             
-            if (!user){
-                user = await knexInstance('administrator').select('id', 'nickname', 'email',  'password').where({ email }).first()
-                isadmin = true;
-            } 
             
             if (!user) throw new AppError('invalid credentials', 401)
             
@@ -37,10 +32,10 @@ export class AuthService  {
             
             
             const userPayload: UserPayload = {
-                id: user.id,
+                public_id: user.public_id,
                 email: user.email,
                 nickname: user.nickname,
-                admin: isadmin
+                admin: Boolean(user.isadmin)
             }
 
             const token = signJwtToken(userPayload)
