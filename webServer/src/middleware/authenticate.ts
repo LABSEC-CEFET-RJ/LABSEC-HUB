@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { verify } from "jsonwebtoken";
+import jwt  from "jsonwebtoken";
 import { UserPayload } from "../interfaces/user.interface";
 
 export interface AuthenticatedUserRequest extends Request {
@@ -13,16 +13,15 @@ export class AuthMiddleware {
 
         const header = req.headers.authorization
         const token = header && header.split(' ')[1]
-
         if(!token) {
             return res.status(401).send()
         }
 
         try {
             if(secretKey){
-                const payload = verify(token, secretKey) as UserPayload
-                if (!payload.id || !payload.email || !payload.points){
-                return res.status(500).send()
+                const payload = jwt.verify(token, secretKey) as UserPayload
+                if (!payload.public_id || !payload.email ){
+                return res.status(500).send("Token invalido")
             }
 
             (req as AuthenticatedUserRequest).user = payload
@@ -38,13 +37,13 @@ export class AuthMiddleware {
    * @method ensureAdmin
    * @description Verifica se o usuário é administrador.
    */
-    public static ensureAdmin(req: AuthenticatedUserRequest, res: Response, next: NextFunction): any {
+    public static ensureAdmin(req: Request, res: Response, next: NextFunction): any {
         try {
+
         AuthMiddleware.ensureAuthenticated(req, res, () => {
             if (!req.user?.admin) {
             throw new Error("Acesso negado. Permissão de administrador necessária.");
             }
-            
             return next();
         });
         } catch (error) {
@@ -56,7 +55,7 @@ export class AuthMiddleware {
    * @method authorizeRoot
    * @description Verifica se é o email do root.
    */
-    public static authorizeRoot(req: AuthenticatedUserRequest, res: Response, next: NextFunction): any {
+    public static ensureRoot(req: Request, res: Response, next: NextFunction): any {
         AuthMiddleware.ensureAdmin(req, res, ()=>{
         try {
 
@@ -72,10 +71,3 @@ export class AuthMiddleware {
         });
     }
 }
-
-
-
-
-
-
-

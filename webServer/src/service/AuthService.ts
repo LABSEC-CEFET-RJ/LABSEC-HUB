@@ -32,7 +32,7 @@ export class AuthService  {
             
             
             const userPayload: UserPayload = {
-                public_id: user.id,
+                public_id: user.public_id,
                 email: user.email,
                 nickname: user.nickname,
                 admin: Boolean(user.isadmin)

@@ -8,13 +8,6 @@ export interface UserPayload extends JwtPayload {
     admin: boolean;
 }
 
-export interface User {
-    public_id: string;
-    email: string;
-    password: string;
-    points: number;
-    nickname: string;
-}
 
 export interface LoginUser {
     email: string;
