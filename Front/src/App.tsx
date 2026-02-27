@@ -1,6 +1,7 @@
 import { Text } from "@chakra-ui/react";
 import { Routes, Route } from "react-router-dom";
 import MainMenu from "./pages/MainMenu.tsx";
+import NotFound from "./pages/NotFound.tsx";
 
 export default function App() {
   return (
@@ -13,7 +14,7 @@ export default function App() {
       <Route path="/module/:slug" element={<Text>Module</Text>} />
       <Route path="/modules" element={<Text>Modules Select</Text>} />
 
-      <Route path="*" element={<Text>Not found</Text>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

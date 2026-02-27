@@ -63,10 +63,14 @@ function MainMenu() {
 
                 {/* LABSEC Colorido */}
                 <HStack>
-                  {["L", "A", "B", "S", "E", "C"].map((letter, index) => (
+                  {["L", "A", "B", "S", "E", "C"].map((letter) => (
                     <Text
                       key={letter}
-                      color={index % 2 === 0 ? "secondary" : "primary"}
+                      color={
+                        ["L", "S", "C"].includes(letter)
+                          ? "secondary"
+                          : "primary"
+                      }
                       fontSize={{ base: "5xl", sm: "6xl", lg: "7xl" }}
                       fontWeight="black"
                       lineHeight="1"
