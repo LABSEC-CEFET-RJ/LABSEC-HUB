@@ -3,10 +3,10 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import Aula from './pages/Aula/TelaAula'
 
 export default function App() {
-  return (
-    <Routes>
+  <Routes>
       <Route path="/" element={<Text>Home</Text>} />
       <Route path="/login" element={<Text>Login</Text>} />
       <Route path="/register" element={<Text>Register</Text>} />
@@ -17,5 +17,9 @@ export default function App() {
 
       <Route path="*" element={<Text>Not found</Text>} />
     </Routes>
+  return (
+    <>
+      <Aula/>    
+    </>
   );
 }

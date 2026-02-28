@@ -1,13 +1,30 @@
 {/*Import Header From ./components/Header/header.tsx */}
 import {Box, Center, Stack, Text, Image, Separator, Flex, Checkbox} from '@chakra-ui/react'
-import NMAP from '../../assets/NMAP.svg'
+import Header from '../../components/Header/header'
+import Footer from '../../components/Footer/footer'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
+
 
 function Aula(){
+
+    const [image, setImage] = useState<string>('');
+
+    async function getImage(){
+            const response = await axios.get("rota que pega o nome da imagem")
+            const res = response.data
+            setImage(res.name)
+    }
+
+    useEffect(() => {
+        getImage()
+    }, [])
 
     return(
         <>
 
-        {/* <Header/> */}
+         <Header/> 
         <Stack direction='column'  width='100%'>
             <Box bg="#9ca1a6">
             <Stack  ml='5%'>
@@ -31,7 +48,7 @@ function Aula(){
                         <Stack>
                             <Text>Apresentação do NMAP</Text>
                             <Text>Texto de descrição</Text>
-                                <Image width='50%' height='20%' src={NMAP}/>
+                                <Image width='50%' height='20%' src={`../../assets/${image}.svg`}/>
                             <Box></Box>
                         </Stack>
 
@@ -122,6 +139,7 @@ function Aula(){
             </Center>
 
         </Stack>
+        <Footer />
         </>
     )
 
