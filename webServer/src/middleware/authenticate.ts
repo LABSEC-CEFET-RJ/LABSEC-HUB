@@ -9,6 +9,10 @@ export interface AuthenticatedUserRequest extends Request {
 const secretKey = process.env.JWT_SECRET
 export class AuthMiddleware {
 
+    /**
+   * @method ensureAuthenticated
+   * @description Verifica se o usuário está autenticado.
+   */
     public static ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
 
         const header = req.headers.authorization
