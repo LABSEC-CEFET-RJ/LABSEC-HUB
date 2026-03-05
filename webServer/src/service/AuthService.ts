@@ -15,7 +15,7 @@ export class AuthService  {
     public async login(email: string, password: string) {
 
         try {
-            const user = await knexInstance('user').select('public_id', 'nickname', 'email', 'password', 'isadmin').where({ email }).first()    
+            const user = await knexInstance('user').select('id', 'public_id', 'nickname', 'email', 'password', 'isadmin').where({ email }).first()    
             
             if (!user) throw new AppError('invalid credentials', 401)
             
@@ -27,6 +27,7 @@ export class AuthService  {
             if (!matchPassword) throw new AppError('invalid credentials', 401)            
             
             const userPayload: UserPayload = {
+                id: user.id,
                 public_id: user.public_id,
                 email: user.email,
                 nickname: user.nickname,
