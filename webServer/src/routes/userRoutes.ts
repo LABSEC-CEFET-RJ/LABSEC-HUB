@@ -11,11 +11,11 @@ router
      * @param {string} lesson_public_id
      * @returns { message: string  }
      */
-router.post('/lesson', AuthMiddleware.ensureAuthenticated, userController.saveLesson)
+router.post('/lesson/progress', AuthMiddleware.ensureAuthenticated, userController.saveLesson)
 
 
 /**
-     * @route POST /user/lesson/progress
+     * @route POST /user/create
      * @description Cria um usuario, só administradores podem acessar
      * @param {string} nickname
      * @param {string} email
