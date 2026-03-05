@@ -15,6 +15,10 @@ const knexConfig = {
         extension: 'cjs',
         directory: './src/database/migrations'
     },
+    seeds: {
+        extension: 'cjs',
+        directory: './src/database/seeds'
+    }
 }
 
 export default knexConfig
