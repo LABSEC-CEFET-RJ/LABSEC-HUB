@@ -5,7 +5,7 @@ import bcrypt from "bcrypt"
 export class UserService  {
 
     saveLesson = async (lesson_public_id: string, user_public_id: string) => {
-            const lesson = await knexInstance("lesson").select("id").where({ public_id: lesson_public_id }).first()
+        const lesson = await knexInstance("lesson").select("id").where({ public_id: lesson_public_id }).first()
         if (!lesson) {
             throw new AppError("lição não encontrada", 404)
         }

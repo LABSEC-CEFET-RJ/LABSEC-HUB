@@ -6,8 +6,6 @@ import knexInstance from "../database/knex.ts";
 
 export class AuthService  {
 
-    
-
     /**
      * @description Realiza Login.
      * @param {string} email - O email do usuário.
@@ -19,7 +17,6 @@ export class AuthService  {
         try {
             const user = await knexInstance('user').select('public_id', 'nickname', 'email', 'password', 'isadmin').where({ email }).first()    
             
-            
             if (!user) throw new AppError('invalid credentials', 401)
             
             const matchPassword = await bcrypt.compare(
@@ -27,9 +24,7 @@ export class AuthService  {
                 user.password
             )
 
-            if (!matchPassword) throw new AppError('invalid credentials', 401)
-            
-            
+            if (!matchPassword) throw new AppError('invalid credentials', 401)            
             
             const userPayload: UserPayload = {
                 public_id: user.public_id,
