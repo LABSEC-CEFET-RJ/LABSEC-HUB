@@ -1,0 +1,25 @@
+services:
+
+  api:
+    container_name: labsec_node
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.docker
+    depends_on:
+      - db
+
+  db:
+    container_name: labsec_postgres
+    image: postgres:16
+    restart: always
+    env_file:
+      - .env.docker
+    ports:
+      - "5532:5532"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      
+volumes:
+  postgres_data:
