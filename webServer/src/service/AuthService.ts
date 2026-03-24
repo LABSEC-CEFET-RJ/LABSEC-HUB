@@ -3,6 +3,7 @@ import { UserPayload } from "../interfaces/user.interface.ts";
 import { createToken as signJwtToken } from "../lib/jwt.ts";
 import * as bcrypt from 'bcrypt'
 import knexInstance from "../database/knex.ts";
+import { ResponseAuthUser } from "@/interfaces/auth.interface.ts";
 
 export class AuthService  {
 
@@ -10,12 +11,14 @@ export class AuthService  {
      * @description Realiza Login.
      * @param {string} email - O email do usuário.
      * @param {string} password - A senha do usuário.
-     * @returns {Promise<string>}
+     * @returns {Promise<string>} O token JWT do usuário autenticado.
      */
     public async login(email: string, password: string) {
 
         try {
-            const user = await knexInstance('user').select('id', 'public_id', 'nickname', 'email', 'password', 'isadmin').where({ email }).first()    
+            const user = await knexInstance<ResponseAuthUser>('user')
+                .select('*')
+                .where({ email }).first()    
             
             if (!user) throw new AppError('invalid credentials', 401)
             
