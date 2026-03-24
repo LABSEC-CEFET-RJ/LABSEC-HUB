@@ -1,27 +1,37 @@
 import { Router } from "express";
 import { AuthMiddleware } from "@/middleware/authenticate";
 import { VMController } from "@/controller/VMController";
+import { UserHasVMController } from "@/controller/UserHasVMController";
 
 const router = Router()
 
 /**
- * @route POST /vm * @desc Criar uma nova máquina virtual para o usuário autenticado
+ * @route GET /vm
+ * @desc Obter todas as máquinas virtuais
+ * @access Public
+*/
+router.get('/', VMController.getAll)
+
+/**
+ * @route POST /vm *
+ * @desc Criar uma nova máquina virtual para o usuário autenticado
  * @access Private
  */
-router.post('/', AuthMiddleware.ensureAuthenticated, VMController.create)
+router.post('/', AuthMiddleware.ensureAdmin, VMController.create)
+
+router.put('/:vmId', AuthMiddleware.ensureAdmin, VMController.update)
+
+router.delete('/:vmId', AuthMiddleware.ensureAdmin, VMController.delete)
 
 /**
  * @route POST /vm/is-active
  * @desc Verificar se uma máquina virtual está ativa
  * @access Private
  */
-router.post('/is-active', AuthMiddleware.ensureAuthenticated, VMController.checkIsActive)
+router.get('/:vmId/user/:userId/is-active', AuthMiddleware.ensureAuthenticated, UserHasVMController.checkIsActive)
 
-/**
- * @route GET /vm
- * @desc Obter todas as máquinas virtuais
- * @access Private
- */
-router.get('/', VMController.getAll)
+router.post('/:vmId/user/:userId', AuthMiddleware.ensureAdmin, UserHasVMController.createVM)
+
+router.delete('/:vmId/user/:userId', AuthMiddleware.ensureAdmin, UserHasVMController.deleteVM)
 
 export default router
