@@ -3,14 +3,16 @@ import knex from '../database/knex'
 
 export class VMService {
 
-    static create = async (name: string, creator: string, description: string) => {
+    static create = async (name: string, creator: string, description: string): Promise<ResponseVM> => {
         try {
             
-            const [vm] = await knex('virtual_machine').insert({
+            const [vm] = await knex<ResponseVM>('virtual_machine')
+.insert({
                 name,
                 creator,
                 'descricao': description
-            }).returning('*')
+            })
+.returning('*')
 
             return vm
         } catch (error) {
@@ -19,26 +21,9 @@ export class VMService {
         }
     }
 
-    static checkIsActive = async (vmId: string, userId: string) => {
+    static getAll = async (): Promise<ResponseVM[]> => {
         try {
-            
-            const [isActive] = await knex('is_vm_active').insert({ 
-                virtual_machine_id: vmId, 
-                user_id: userId 
-            }).returning('*')
-
-            if(isActive){
-                return true
-            }
-            return false
-        } catch (error: any) {
-            throw new AppError(error.message || "Erro ao verificar status da máquina virtual", 500)
-        }
-    }
-
-    static getAll = async () => {
-        try {
-            const vms = await knex('virtual_machine').select('*')
+            const vms = await knex<ResponseVM>('virtual_machine').select('*')
             return vms
         } catch (error: any) {
             throw new AppError(error.message || "Erro ao buscar máquinas virtuais", 500)
