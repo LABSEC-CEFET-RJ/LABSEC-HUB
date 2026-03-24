@@ -1,5 +1,6 @@
 import { AppError } from '@/interfaces/errors/AppError'
 import knex from '../database/knex'
+import { ResponseVM } from '@/interfaces/vm.interface'
 
 export class VMService {
 
@@ -7,12 +8,12 @@ export class VMService {
         try {
             
             const [vm] = await knex<ResponseVM>('virtual_machine')
-.insert({
-                name,
-                creator,
-                'descricao': description
-            })
-.returning('*')
+                .insert({
+                    name,
+                    creator,
+                    'descricao': description
+                })
+                .returning('*')
 
             return vm
         } catch (error) {
@@ -27,6 +28,37 @@ export class VMService {
             return vms
         } catch (error: any) {
             throw new AppError(error.message || "Erro ao buscar máquinas virtuais", 500)
+        }
+    }
+
+    static update = async (
+        vmId: string,
+        name?: string,
+        description?: string
+    ): Promise<ResponseVM> => {
+        try {
+            const [vm] = await knex<ResponseVM>('virtual_machine')
+                .where({ public_id: vmId })
+                .update({
+                    name,
+                    'descricao': description
+                })
+                .returning('*')
+            return vm
+        } catch (error: any) {
+            throw new AppError(error.message || "Erro ao atualizar máquina virtual", 500)
+        }
+    }
+
+    static delete = async (
+        vmId: string
+    ) => {
+        try {
+            await knex('virtual_machine')
+                .where({ public_id: vmId })
+                .del()
+        } catch (error: any) {
+            throw new AppError(error.message || "Erro ao deletar máquina virtual", 500)
         }
     }
 }

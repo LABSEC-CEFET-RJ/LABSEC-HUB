@@ -1,5 +1,5 @@
 import { AppError } from "@/interfaces/errors/AppError"
-import { UserPayload } from "@/interfaces/user.interface"
+import { RequestVM } from "@/interfaces/vm.interface"
 import { VMService } from "@/service/VMService"
 import { Request, Response } from "express"
 
@@ -12,25 +12,11 @@ export class VMController {
 
     static create = async (req: Request, res: Response) => {
         try {
-            const { name, creator, description } = req.body
+            const { name, description } = (req.body as RequestVM)
+            const creator = req.user?.nickname || 'admin'
             const result = await VMService.create(name, creator, description)
 
             return res.json({ vm: result })
-        } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ error: error.message })
-            }
-            return res.status(500).json({ error: error.message || 'Internal Server Error' })
-        }
-    }
-
-    static checkIsActive = async (req: Request, res: Response) => {
-        try {
-            const { vmId } = req.body
-            const userId = (req.user as UserPayload).id
-            const result = await VMService.checkIsActive(vmId, userId)
-
-            return res.json({ isActive: result})
         } catch (error: any) {
             if (error instanceof AppError) {
                 return res.status(error.statusCode).json({ error: error.message })
@@ -43,6 +29,37 @@ export class VMController {
         try {
             const vms = await VMService.getAll()
             return res.json({ vms })
+        } catch (error: any) {
+            if (error instanceof AppError) {
+                return res.status(error.statusCode).json({ error: error.message })
+            }
+            return res.status(500).json({ error: error.message || 'Internal Server Error' })
+        }
+    }
+
+    static update = async (req: Request, res: Response) => {
+        try {
+            const { vmId } = req.params
+            const vm = (req.body as RequestVM)
+            const updatedVm = await VMService.update(
+                vmId as string, 
+                vm.name, 
+                vm.description
+            )
+            return res.status(200).send({ vm: updatedVm })
+        } catch (error: any) {
+            if (error instanceof AppError) {
+                return res.status(error.statusCode).json({ error: error.message })
+            }
+            return res.status(500).json({ error: error.message || 'Internal Server Error' })
+        }
+    }
+
+    static delete = async (req: Request, res: Response) => {
+        try {
+            const { vmId } = req.params
+            const deletedVm = await VMService.delete(vmId as string)
+            return res.status(200).send()
         } catch (error: any) {
             if (error instanceof AppError) {
                 return res.status(error.statusCode).json({ error: error.message })
