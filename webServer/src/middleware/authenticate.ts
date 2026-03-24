@@ -25,13 +25,12 @@ export class AuthMiddleware {
             if(secretKey){
                 const payload = jwt.verify(token, secretKey) as UserPayload
                 if (!payload.public_id || !payload.email ){
-                return res.status(500).send("Token invalido")
+                    return res.status(500).send("Token invalido")
+                }
+                
+                (req as AuthenticatedUserRequest).user = payload
+                next()
             }
-
-            (req as AuthenticatedUserRequest).user = payload
-            next()
-            }
-
         } catch (error) {
             res.status(403).send()
         }
