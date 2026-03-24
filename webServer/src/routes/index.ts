@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authRouter from './auth'
-import userRouter from './userRoutes'
+import userRouter from './user'
 import vmRouter from './virtual_machine'
 import moduleRouter from './module'
 
