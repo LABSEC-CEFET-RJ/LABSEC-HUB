@@ -35,7 +35,7 @@ export class VMService {
         vmId: string,
         name?: string,
         description?: string
-    ): Promise<ResponseVM> => {
+    ): Promise<ResponseVM | undefined> => {
         try {
             const [vm] = await knex<ResponseVM>('virtual_machine')
                 .where({ public_id: vmId })
@@ -44,9 +44,18 @@ export class VMService {
                     'descricao': description
                 })
                 .returning('*')
+
+            if (!vm) {
+                throw new AppError("Máquina virtual não encontrada", 404)
+            }
+
             return vm
         } catch (error: any) {
-            throw new AppError(error.message || "Erro ao atualizar máquina virtual", 500)
+            if (!(error instanceof AppError)){
+                throw new AppError(error.message || "Erro ao atualizar máquina virtual", 500)
+            }
+
+            throw error
         }
     }
 
@@ -54,11 +63,19 @@ export class VMService {
         vmId: string
     ) => {
         try {
-            await knex('virtual_machine')
+            const vm = await knex('virtual_machine')
                 .where({ public_id: vmId })
                 .del()
+
+            if (!vm) {
+                throw new AppError("Máquina virtual não encontrada", 404)
+            }
         } catch (error: any) {
-            throw new AppError(error.message || "Erro ao deletar máquina virtual", 500)
+            if (!(error instanceof AppError)){
+                throw new AppError(error.message || "Erro ao deletar máquina virtual", 500)
+            }
+
+            throw error
         }
     }
 }

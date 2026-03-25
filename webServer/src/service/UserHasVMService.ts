@@ -3,8 +3,6 @@ import { AppError } from "@/interfaces/errors/AppError"
 
 
 export class UserHasVMService {
-
-
     static create = async (vmId: string, userId: string) => {
         try {
             const [userVm] = await knex('is_vm_active').insert({
@@ -27,7 +25,7 @@ export class UserHasVMService {
                     user_id: userId
                 })
             
-            return vm ? true : false
+            return vm.length ? true : false
         } catch (error: any) {
             throw new AppError(error.message || "Erro ao verificar se o usuário está ligado à VM", 500)
         }
@@ -35,14 +33,22 @@ export class UserHasVMService {
 
     static delete = async (vmId: string, userId: string) => {
         try {
-            await knex('is_vm_active')
+            const count = await knex('is_vm_active')
                 .where({
                     virtual_machine_id: vmId,
                     user_id: userId
                 })
                 .del()
+
+            if (!count) {
+                throw new AppError("O usuário não está ligado à VM", 400)
+            }
         } catch (error: any) {
-            throw new AppError(error.message || "Erro ao desligar o usuário da VM", 500)
+            if(!(error instanceof AppError)){
+                throw new AppError(error.message || "Erro ao desligar o usuário da VM", 500)
+            }
+
+            throw error
         }
     }
 }
