@@ -1,71 +1,90 @@
-import { AdministratorDTO, UpdateAdministratorDTO } from "../types/administrator";
 import DatabaseConnection from "../database/connection/databaseConnection";
-import { UserNotFoundError, EmailInUseError, RootUpdateError } from "../errors/userErrors";
-import AdminValidator from "../validators/adminValidator";
+import { EmailInUseError, RootDeleteError, RootUpdateError, UserNotFoundError } from "../errors/userErrors";
+import { CreateUserDTO, UpdateUserDTO } from "../types/user";
+import { AdminValidator } from "../validators/userValidator";
+import bcrypt from 'bcrypt'
 
 const database = DatabaseConnection.getInstance();
 
-export default class AdminService {
-    public static async createAdmin(data: AdministratorDTO) {
-        await AdminValidator.validateCreateAdmin(data);
+const saltRounds = process.env.SALT_ROUNDS ?? 10
 
-        const emailExistsInAdminTable = await database('admin').where(data.email).first();
-        const emailExistsInUserTable = await database('user').where(data.email).first();
-        const emailExistsInDatabase = emailExistsInAdminTable || emailExistsInUserTable;
+export class AdminService {
+    private readonly validator = new AdminValidator();
 
-        if(emailExistsInDatabase) {
+    public async createAdmin(data: CreateUserDTO) {
+        await this.validator.validateCreateAdmin(data);
+
+        const emailExistsInDatabase = await database('user')
+            .where({ email: data.email })
+            .first();
+
+        if (emailExistsInDatabase) {
             throw new EmailInUseError();
         }
 
-        await database('admin').insert(data);
-        return "Administrador criado";
+        const hashedPassword = await bcrypt.hash(data.password, saltRounds)
+
+        const result = await database('user')
+            .insert({
+                ...data,
+                password: hashedPassword,
+                isadmin: '1'
+            })
+            .returning(['public_id', 'nickname'])
+
+        return result[0]
     }
 
-    public static async getAdmin(id: string): Promise<AdministratorDTO> {
-        const admin = await database('admin').where({id}).first();
+    public async getAdminByPublicId(public_id: string) {
+        const admin = await database('user').where({ public_id, isadmin: '1' }).first()
 
-        if(!admin) {
+        if (!admin) {
             throw new UserNotFoundError();
         }
         return admin;
     }
 
-    public static async getAllAdmins(): Promise<AdministratorDTO[]> {
-        const admins = await database('admin').select('nickname', 'email');
+    public async getAllAdmins() {
+        const admins = await database('user').select().where({ isadmin: '1' });
         return admins;
     }
 
-    public static async updateAdmin(id: string, data: UpdateAdministratorDTO) {
-        await AdminValidator.validateUpdateAdmin(data);
-        const admin = await AdminService.getAdmin(id);
+    public async updateAdmin(public_id: string, data: UpdateUserDTO) {
+        await this.validator.validateUpdateAdmin(data);
+        const admin = await this.getAdminByPublicId(public_id);
 
-        if(!admin) {
+        if (!admin) {
             throw new UserNotFoundError();
         }
-        
-        const isRoot = admin.email === process.env.ROOT_EMAIL;
 
-        if(isRoot) {
+        const isRoot = admin.email === process.env.ROOT_EMAIL;
+        if (isRoot) {
             throw new RootUpdateError();
         }
 
-
-        await database('admin').where({id}).first().update(data);
-        return "Administrador atualizado";
+        const result = await database('user')
+            .where({ public_id, isadmin: '1' })
+            .first()
+            .update({
+                ...data,
+                ...(data.password && { password: await bcrypt.hash(data.password, saltRounds) })
+            })
+            .returning('*');
+        return result[0];
     }
 
-    public static async deleteAdmin(id: string) {
-        const admin = await AdminService.getAdmin(id);
-
-        if(admin.email === process.env.ROOT_EMAIL) {
-            throw new RootUpdateError("O administrador root não pode ter sua conta removida");
+    public async deleteAdmin(public_id: string) {
+        const admin = await this.getAdminByPublicId(public_id);
+        if (!admin) {
+            throw new UserNotFoundError()
         }
 
-        if(!admin) {
-            throw new UserNotFoundError();
+        const isRoot = admin.email === process.env.ROOT_EMAIL;
+        if (isRoot) {
+            throw new RootDeleteError();
         }
 
-        await database('admin').where({id}).first().del();
-        return "Administrador removido";
+        const result = await database('user').where({ public_id, 'isadmin': '1' }).first().del().returning(['public_id', 'nickname']);
+        return result[0];
     }
 }

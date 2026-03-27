@@ -1,29 +1,31 @@
 import { NextFunction, Request, Response } from "express";
-import AdminService from "../service/adminService";
+import { AdminService } from "../service/adminService";
 import { HttpCode } from "../errors/error.config";
-import { AdministratorDTO, UpdateAdministratorDTO } from "../types/administrator";
+import { CreateUserDTO, UpdateUserDTO } from "../types/user";
 
-export default class AdminController {
-    public static async createAdmin(req: Request, res: Response, next: NextFunction) {
+export class AdminController {
+    private readonly service = new AdminService()
+
+    public createAdmin = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { nickname, email, password } = req.body;
-            const data: AdministratorDTO = {
+            const data: CreateUserDTO = {
                 nickname,
                 email,
                 password
             };
-            await AdminService.createAdmin(data);
+            const response = await this.service.createAdmin(data);
 
-            return res.status(HttpCode.CREATED)
-        } catch(error) {
+            return res.status(HttpCode.CREATED).json(response)
+        } catch (error) {
             next(error)
         }
     }
 
-    public static async getAdmin(req: Request, res: Response, next: NextFunction) {
+    public getAdminByPublicId = async (req: Request<{ public_id: string }>, res: Response, next: NextFunction) => {
         try {
-            const id = req.body;
-            const admin = await AdminService.getAdmin(id);
+            const { public_id } = req.params
+            const admin = await this.service.getAdminByPublicId(public_id);
 
             return res.status(HttpCode.OK).json(admin);
         } catch (error) {
@@ -31,38 +33,41 @@ export default class AdminController {
         }
     }
 
-    public static async getAllAdmins(req: Request, res: Response, next: NextFunction) {
+    public getAllAdmins = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const admins = await AdminService.getAllAdmins();
+            const admins = await this.service.getAllAdmins();
             return res.status(HttpCode.OK).json(admins);
-        } catch(error) {
+        } catch (error) {
             next(error)
         }
     }
 
-    public static async updateAdmin(req: Request, res: Response, next: NextFunction) {
+    public updateAdmin = async (req: Request<{ public_id: string }>, res: Response, next: NextFunction) => {
         try {
-            const { id, nickname, password } = req.body;
-            const data: UpdateAdministratorDTO = {
+            const { public_id } = req.params
+            const { nickname, email, password } = req.body;
+            const data: UpdateUserDTO = {
                 nickname,
+                email,
                 password
             };
-            await AdminService.updateAdmin(id, data);
+            const result = await this.service.updateAdmin(public_id, data);
 
-            return res.status(HttpCode.OK);
-        } catch(error) {
+            // ensure request completes; status() alone does not send a response body
+            return res.status(HttpCode.OK).json(result);
+        } catch (error) {
             next(error);
         }
     }
 
-    public static async deleteAdmin(req: Request, res: Response, next: NextFunction) {
+    public deleteAdmin = async (req: Request<{ public_id: string }>, res: Response, next: NextFunction) => {
         try {
-            const { id } = req.body;
+            const { public_id } = req.params;
 
-            await AdminService.deleteAdmin(id);
+            const result = await this.service.deleteAdmin(public_id);
 
-            return res.status(HttpCode.OK);
-        } catch(error) {
+            return res.status(HttpCode.OK).json(result);
+        } catch (error) {
             next(error);
         }
     }

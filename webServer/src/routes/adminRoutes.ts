@@ -1,82 +1,65 @@
-/**
- * @fileoverview Módulo de rotas para gerenciamento de administradores.
- * 
- * Este módulo define as rotas HTTP para operações CRUD de administradores,
- * delegando a lógica de negócio para o {@link AdminController}.
- * 
- * @module routes/adminRoutes
- */
-
 import { Router } from "express";
-import AdminController from "../controller/adminController";
+import { AdminController } from "../controller/adminController";
 
-/**
- * Router do Express configurado com as rotas de administrador.
- * @type {Router}
- */
-const router: Router = Router()
+const router = Router()
+const controller = new AdminController()
 
 // TODO: Adicionar autenticação (apenas administradores podem realizar requisições para estas rotas)
+
 router
+    // TODO: Adicionar autenticação de administrador root
     /**
      * @route GET /admin
-     * @description Obtém os dados de um administrador específico pelo ID.
-     * @access Privado
-     * 
-     * @requestBody {Object} body
-     * @requestBody {number} body.id - ID único do administrador
+     *
+     * @param {string} public_id
      * 
      * @response {200} OK - Retorna os dados do administrador
-     * @responseBody {Object} admin - Dados do administrador encontrado
+     * @responseBody {Object} admin
      * 
-     * @throws {UserNotFoundError} 404 - Administrador não encontrado
+     * @throws {UserNotFoundError}
      */
-    .get('/admin', AdminController.getAdmin)
+    .get('/:public_id', controller.getAdminByPublicId)
 
     /**
-     * @route GET /admins
-     * @description Lista todos os administradores cadastrados no sistema.
-     * @access Privado
+     * @route GET /admin/all
      * 
      * @response {200} OK - Retorna lista de administradores
-     * @responseBody {Array<Object>} admins - Lista de todos os administradores
+     * @responseBody {Array<Object>}
      */
-    .get('/admins', AdminController.getAllAdmins)
+    .get('/', controller.getAllAdmins)
 
     /**
      * @route POST /admin
-     * @description Cria um novo administrador no sistema.
-     * @access Privado
      * 
-     * @response {201} Created - Administrador criado com sucesso
+     * @response {201} Created
      * 
-     * @throws {EmailInUseError} 409 - E-mail já está em uso por outro administrador
-     * @throws {ValidationError} 400 - Dados inválidos (nickname, email ou password)
+     * @throws {EmailInUseError}
+     * @throws {ValidationError}
      */
-    .post('/admin', AdminController.createAdmin)
+    .post('/', controller.createAdmin)
 
     /**
-     * @route PATCH /admin
+     * @route PUT /admin
      * @description Atualiza os dados de um administrador existente.
-     * @access Privado
      * 
-     * @param {string} id - ID do administrador a ser atualizado
-     * @param {string} nickname - Novo nome do administrador (opcional)
-     * @param {string} password - Nova senha do administrador (opcional)
+     * @param {string} public_id
+     * @param {string} nickname
+     * @param {string} password
      * 
-     * @throws {UserNotFoundError} 404 - Administrador não encontrado
-     * @throws {RootUpdateError} 403 - Não é permitido alterar o administrador root
+     * @throws {UserNotFoundError} 404
+     * @throws {RootUpdateError} 403
      */
-    .patch('/admin', AdminController.updateAdmin)
+    .put('/:public_id', controller.updateAdmin)
 
+    // TODO: Adicionar autenticação de administrador root
     /**
      * @route DELETE /admin
-     * @description Remove um administrador do sistema.
-     * @access Privado
      * 
-     * @param {string} id - ID do administrador a ser removido
+     * @param {string} public_id
      * 
-     * @throws {UserNotFoundError} 404 - Administrador não encontrado
-     * @throws {RootUpdateError} 403 - Não é permitido remover o administrador root
+     * @throws {UserNotFoundError} 404
+     * @throws {RootUpdateError} 403
      */
-    .delete('/admin', AdminController.deleteAdmin)
+    .delete('/:public_id', controller.deleteAdmin)
+
+export default router
