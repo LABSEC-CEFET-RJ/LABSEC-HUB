@@ -18,8 +18,10 @@ export class AuthService  {
 
         try {
             const user = await knexInstance('user').select('public_id', 'nickname', 'email', 'password', 'isadmin').where({ email }).first()    
-            
-            
+         
+            const isAdminValue:number = parseInt(user.isadmin)
+            const booleanIsAdmin:boolean = Boolean(isAdminValue)
+
             if (!user) throw new AppError('invalid credentials', 401)
             
             const matchPassword = await bcrypt.compare(
@@ -35,8 +37,9 @@ export class AuthService  {
                 public_id: user.public_id,
                 email: user.email,
                 nickname: user.nickname,
-                admin: Boolean(user.isadmin)
+                admin: booleanIsAdmin
             }
+
 
             const token = signJwtToken(userPayload)
 
