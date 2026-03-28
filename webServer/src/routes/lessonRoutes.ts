@@ -42,6 +42,6 @@ router.patch('/update/:public_id', AuthMiddleware.ensureAdmin , lessonController
      * @description Deleta uma lesson do banco dado o public_id dela
      * @returns { message: string  }
      */
-router.post('/delete/:public_id', AuthMiddleware.ensureAdmin , )
+router.delete('/delete/:public_id', AuthMiddleware.ensureAdmin , lessonController.DeleteLesson)
 
 export default router

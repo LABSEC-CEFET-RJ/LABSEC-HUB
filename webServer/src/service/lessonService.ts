@@ -50,11 +50,22 @@ export class LessonService  {
             const user = await knexInstance("user").select("id").where({ public_id: user_public_id }).first()
             const lesson = {...payload , updated_by: user.id }
             await knexInstance("lesson").where({ public_id: public_id }).update(lesson); 
-            return "Atualizado com sucesso"
+            return "Lição atualizada com sucesso"
 
         } catch (error: any) {
             console.error("Mensagem:", error.message);
                 throw error;
+        }
+    }
+
+
+    DeleteLesson = async (public_id : String) => {
+        try {
+            await  knexInstance("lesson").where({public_id: public_id}).del();
+            return "Lição deletada com sucesso"
+        } catch (error: any) {
+            console.error("Mensagem:", error.message);
+            throw error;
         }
     }
 

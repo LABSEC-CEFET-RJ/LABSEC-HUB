@@ -52,4 +52,16 @@ export class LessonController  {
         }
     }
 
+    DeleteLesson = async (req: Request, res: Response) => {
+        try {
+            const { public_id } = req.params; 
+            const result = await this.lessonService.DeleteLesson(String(public_id));
+            return res.status(HttpCode.CREATED).json({message: result});
+
+        } catch (error: any) {
+            return res.status(error.statusCode).json({message: error.message})
+        }
+
+    }
+
 }

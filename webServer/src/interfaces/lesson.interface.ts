@@ -1,7 +1,7 @@
 import { UUID } from "node:crypto";
 
 export interface Lesson {
-    public_id: UUID,
+    public_id: string,
     slug: string,
     title: string,
     subtitle: string,
