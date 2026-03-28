@@ -5,7 +5,7 @@ export interface UserPayload extends JwtPayload {
     public_id: string,
     email: string;
     nickname: string;
-    admin: boolean;
+    isadmin: boolean;
 }
 
 
