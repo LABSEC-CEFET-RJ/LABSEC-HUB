@@ -1,4 +1,4 @@
-import { AppError } from "@/interfaces/errors/AppError"
+import { HttpCode, HttpError } from "@/errors/error.config"
 import { RequestVM } from "@/interfaces/vm.interface"
 import { VMService } from "@/service/VMService"
 import { Request, Response } from "express"
@@ -18,10 +18,10 @@ export class VMController {
 
             return res.json({ vm: result })
         } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ error: error.message })
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
             }
-            return res.status(500).json({ error: error.message || 'Internal Server Error' })
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
     }
 
@@ -30,10 +30,10 @@ export class VMController {
             const vms = await VMService.getAll()
             return res.json({ vms })
         } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ error: error.message })
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
             }
-            return res.status(500).json({ error: error.message || 'Internal Server Error' })
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
     }
 
@@ -46,12 +46,12 @@ export class VMController {
                 vm.name, 
                 vm.description
             )
-            return res.status(200).send({ vm: updatedVm })
+            return res.status(HttpCode.OK).send({ vm: updatedVm })
         } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ error: error.message })
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
             }
-            return res.status(500).json({ error: error.message || 'Internal Server Error' })
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
     }
 
@@ -59,12 +59,12 @@ export class VMController {
         try {
             const { vmId } = req.params
             const deletedVm = await VMService.delete(vmId as string)
-            return res.status(200).send()
+            return res.status(HttpCode.OK).send()
         } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ error: error.message })
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
             }
-            return res.status(500).json({ error: error.message || 'Internal Server Error' })
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
     }
 }

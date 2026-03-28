@@ -1,6 +1,5 @@
 import knex from "@/database/knex"
-import { AppError } from "@/interfaces/errors/AppError"
-
+import { HttpCode, HttpError } from "@/errors/error.config"
 
 export class ModuleService {
     
@@ -14,7 +13,7 @@ export class ModuleService {
                 user_id: userId,
             })
         } catch (error) {
-            throw new AppError("Erro ao atualizar progresso do módulo", 500)
+            throw new HttpError({ message: "Erro ao atualizar progresso do módulo", status: HttpCode.INTERNAL_SERVER_ERROR})
         }
     }
 }

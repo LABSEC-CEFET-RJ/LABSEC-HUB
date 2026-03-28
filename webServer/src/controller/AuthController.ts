@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import  {AuthService}  from "../service/AuthService.ts";
-import { AppError } from "@/interfaces/errors/AppError.ts";
+import { HttpCode, HttpError } from "@/errors/error.config.ts";
 
 export class AuthController  {
     private readonly authService = new AuthService()
@@ -13,10 +13,10 @@ export class AuthController  {
 
             return res.json(result)
         } catch(error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ message: error.message })
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ message: error.message })
             }
-            return res.status(500).json({ message: error.message || 'Internal Server Error' })
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ message: error.message || 'Internal Server Error' })
         }
     }
 }

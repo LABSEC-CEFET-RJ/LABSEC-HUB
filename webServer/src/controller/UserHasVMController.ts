@@ -1,5 +1,4 @@
-import { AppError } from "@/interfaces/errors/AppError"
-import { UserPayload } from "@/interfaces/user.interface"
+import { HttpCode, HttpError } from "@/errors/error.config"
 import { UserHasVMService } from "@/service/UserHasVMService"
 import { Request, Response } from "express"
 
@@ -12,10 +11,10 @@ export class UserHasVMController {
             const userVm = await UserHasVMService.create(vmId as string, userId as string)
             return res.json({ vm: userVm })
         } catch (error: any){
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ error: error.message })
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
             }
-            return res.status(500).json({ error: error.message || 'Internal Server Error' })
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
     }
 
@@ -26,10 +25,10 @@ export class UserHasVMController {
 
             return res.json({ isActive: result})
         } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ error: error.message })
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
             }
-            return res.status(500).json({ error: error.message || 'Internal Server Error' })
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
     }
 
@@ -38,12 +37,12 @@ export class UserHasVMController {
             const { vmId, userId } = req.params
 
             await UserHasVMService.delete(vmId as string, userId as string)
-            return res.json(200).send()
+            return res.json(HttpCode.OK).send()
         } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ error: error.message })
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
             }
-            return res.status(500).json({ error: error.message || 'Internal Server Error' })
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
     }
 }

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserService } from "@/service/UserService";
-import { HttpCode } from "@/errors/error.config";
+import { HttpCode, HttpError } from "@/errors/error.config";
 
 export class UserController  {
 
@@ -14,7 +14,10 @@ export class UserController  {
             const response = await this.UserService.saveLesson(lesson_public_id, String(user_public_id));
             return res.status(HttpCode.CREATED).json({message: response});
         } catch (error: any) {
-            return res.status(error.statusCode).json({message: error.message})
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
+            }
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
 
     }
@@ -26,10 +29,11 @@ export class UserController  {
             const response = await this.UserService.createUser(nickname, email, password);
             return res.status(HttpCode.CREATED).json({message: response});
         } catch (error: any) {
-            const statusCode = error.statusCode || 500
-            return res.status(statusCode).json({message: error.message || "Erro interno do servidor"})
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
+            }
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
-
     }
 
 }

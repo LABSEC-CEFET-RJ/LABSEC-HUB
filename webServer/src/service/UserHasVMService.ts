@@ -1,6 +1,5 @@
 import knex from "@/database/knex"
-import { AppError } from "@/interfaces/errors/AppError"
-
+import { HttpCode, HttpError } from "@/errors/error.config"
 
 export class UserHasVMService {
     static create = async (vmId: string, userId: string) => {
@@ -12,7 +11,7 @@ export class UserHasVMService {
 
             return userVm
         } catch (error: any) {
-            throw new AppError(error.message || "Erro ao ligar o usuário à VM", 500)
+            throw new HttpError({ message: error.message || "Erro ao ligar o usuário à VM", status: HttpCode.INTERNAL_SERVER_ERROR})
         }
     }
 
@@ -27,7 +26,7 @@ export class UserHasVMService {
             
             return vm.length ? true : false
         } catch (error: any) {
-            throw new AppError(error.message || "Erro ao verificar se o usuário está ligado à VM", 500)
+            throw new HttpError({ message: error.message || "Erro ao verificar se o usuário está ligado à VM", status: HttpCode.INTERNAL_SERVER_ERROR})
         }
     }
 
@@ -41,13 +40,9 @@ export class UserHasVMService {
                 .del()
 
             if (!count) {
-                throw new AppError("O usuário não está ligado à VM", 400)
+                throw new HttpError({ message: "O usuário não está ligado à VM", status: HttpCode.NOT_FOUND})
             }
         } catch (error: any) {
-            if(!(error instanceof AppError)){
-                throw new AppError(error.message || "Erro ao desligar o usuário da VM", 500)
-            }
-
             throw error
         }
     }

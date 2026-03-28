@@ -1,4 +1,4 @@
-import { AppError } from "@/interfaces/errors/AppError"
+import { HttpCode, HttpError } from "@/errors/error.config"
 import { UserPayload } from "@/interfaces/user.interface"
 import { ModuleService } from "@/service/ModuleService"
 import { Request, Response } from "express"
@@ -17,11 +17,11 @@ export class ModuleController {
 
             return res.json({ module: result })
         } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ error: error.message })
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
             }
 
-            return res.status(500).json({ error: error.message })
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
     }
 
@@ -33,11 +33,11 @@ export class ModuleController {
 
             return res.json({ success: result })
         } catch (error: any) {
-            if (error instanceof AppError) {
-                return res.status(error.statusCode).json({ error: error.message })
+            if (error instanceof HttpError) {
+                return res.status(error.status).json({ error: error.message })
             }
 
-            return res.status(500).json({ error: error.message })
+            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
     }
 }

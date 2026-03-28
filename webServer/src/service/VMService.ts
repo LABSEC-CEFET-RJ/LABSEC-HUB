@@ -1,6 +1,6 @@
-import { AppError } from '@/interfaces/errors/AppError'
 import knex from '../database/knex'
 import { ResponseVM } from '@/interfaces/vm.interface'
+import { HttpCode, HttpError } from '@/errors/error.config'
 
 export class VMService {
 
@@ -17,8 +17,7 @@ export class VMService {
 
             return vm
         } catch (error) {
-            console.error("Erro ao criar máquina virtual:", error)
-            throw new AppError("Erro ao criar máquina virtual", 500)
+            throw new HttpError({ message: "Erro ao criar máquina virtual", status:HttpCode.INTERNAL_SERVER_ERROR})
         }
     }
 
@@ -27,7 +26,7 @@ export class VMService {
             const vms = await knex<ResponseVM>('virtual_machine').select('*')
             return vms
         } catch (error: any) {
-            throw new AppError(error.message || "Erro ao buscar máquinas virtuais", 500)
+            throw new HttpError({ message: "Erro ao buscar máquinas virtuais", status: HttpCode.INTERNAL_SERVER_ERROR})
         }
     }
 
@@ -46,15 +45,11 @@ export class VMService {
                 .returning('*')
 
             if (!vm) {
-                throw new AppError("Máquina virtual não encontrada", 404)
+                throw new HttpError({ message: "Máquina virtual não encontrada", status: HttpCode.NOT_FOUND})
             }
 
             return vm
         } catch (error: any) {
-            if (!(error instanceof AppError)){
-                throw new AppError(error.message || "Erro ao atualizar máquina virtual", 500)
-            }
-
             throw error
         }
     }
@@ -68,13 +63,9 @@ export class VMService {
                 .del()
 
             if (!vm) {
-                throw new AppError("Máquina virtual não encontrada", 404)
+                throw new HttpError({ message: "Máquina virtual não encontrada", status: HttpCode.NOT_FOUND})
             }
         } catch (error: any) {
-            if (!(error instanceof AppError)){
-                throw new AppError(error.message || "Erro ao deletar máquina virtual", 500)
-            }
-
             throw error
         }
     }
