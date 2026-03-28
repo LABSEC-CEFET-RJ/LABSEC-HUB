@@ -1,7 +1,6 @@
 import knexInstance from "@/database/knex";
 import { AppError } from "@/interfaces/errors/AppError";
 import bcrypt from "bcrypt"
-import knex from "knex";
 
 export class UserService  {
 
@@ -101,7 +100,7 @@ export class UserService  {
         if (user) {
         return "Email já cadastrado"
         }
-        console.log(password)
+        
         const hashedPassword = await bcrypt.hash(password, 10)
 
         await knexInstance("user").insert({
