@@ -18,7 +18,7 @@ export class LessonController  {
             return res.status(HttpCode.CREATED).json({message: result});
             
         } catch (error: any) {
-        return res.status(error.statusCode).json({message: error.message})
+        return res.status(HttpCode.BAD_REQUEST).json({message: error.message})
         }
     }
 
@@ -31,7 +31,7 @@ export class LessonController  {
             return res.status(HttpCode.OK).json({message: result});
             
         } catch (error: any) {
-        return res.status(error.statusCode).json({message: error.message})
+        return res.status(HttpCode.BAD_REQUEST).json({message: error.message})
         }
     }
 
@@ -45,10 +45,10 @@ export class LessonController  {
 
             const result = await this.lessonService.UpdateLesson(payload, String(user_public_id), String(public_id) );
 
-            return res.status(HttpCode.CREATED).json({message: result});
+            return res.status(HttpCode.OK).json({message: result});
             
         } catch (error: any) {
-        return res.status(error.statusCode).json({message: error.message})
+            return res.status(HttpCode.BAD_REQUEST).json({message: error.message})
         }
     }
 
@@ -56,10 +56,10 @@ export class LessonController  {
         try {
             const { public_id } = req.params; 
             const result = await this.lessonService.DeleteLesson(String(public_id));
-            return res.status(HttpCode.CREATED).json({message: result});
+            return res.status(HttpCode.OK).json({message: result});
 
         } catch (error: any) {
-            return res.status(error.statusCode).json({message: error.message})
+            return res.status(HttpCode.BAD_REQUEST).json({message: error.message})
         }
 
     }
