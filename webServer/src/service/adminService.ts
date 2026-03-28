@@ -30,22 +30,27 @@ export class AdminService {
                 password: hashedPassword,
                 isadmin: '1'
             })
-            .returning(['public_id', 'nickname'])
+            .returning(['public_id', 'nickname', 'email', 'points', 'isadmin'])
 
         return result[0]
     }
 
     public async getAdminByPublicId(public_id: string) {
-        const admin = await database('user').where({ public_id, isadmin: '1' }).first()
+        const admin = await database('user')
+            .select('nickname', 'email', 'points', 'isadmin')
+            .where({ public_id, isadmin: '1' })
+            .first()
 
         if (!admin) {
-            throw new UserNotFoundError();
+            throw new UserNotFoundError("Administrador não encontrado");
         }
         return admin;
     }
 
     public async getAllAdmins() {
-        const admins = await database('user').select().where({ isadmin: '1' });
+        const admins = await database('user')
+            .select('public_id', 'nickname', 'email', 'points', 'isadmin')
+            .where({ isadmin: '1' });
         return admins;
     }
 
@@ -54,7 +59,7 @@ export class AdminService {
         const admin = await this.getAdminByPublicId(public_id);
 
         if (!admin) {
-            throw new UserNotFoundError();
+            throw new UserNotFoundError("Administrador não encontrado");
         }
 
         const isRoot = admin.email === process.env.ROOT_EMAIL;
@@ -62,21 +67,23 @@ export class AdminService {
             throw new RootUpdateError();
         }
 
+        const hashedPassword = data.password ? await bcrypt.hash(data.password, saltRounds) : undefined
+
         const result = await database('user')
             .where({ public_id, isadmin: '1' })
             .first()
             .update({
                 ...data,
-                ...(data.password && { password: await bcrypt.hash(data.password, saltRounds) })
+                ...(hashedPassword && { password: hashedPassword })
             })
-            .returning('*');
+            .returning(['nickname', 'email', 'points', 'isadmin']);
         return result[0];
     }
 
     public async deleteAdmin(public_id: string) {
         const admin = await this.getAdminByPublicId(public_id);
         if (!admin) {
-            throw new UserNotFoundError()
+            throw new UserNotFoundError();
         }
 
         const isRoot = admin.email === process.env.ROOT_EMAIL;
@@ -84,7 +91,12 @@ export class AdminService {
             throw new RootDeleteError();
         }
 
-        const result = await database('user').where({ public_id, 'isadmin': '1' }).first().del().returning(['public_id', 'nickname']);
+        const result = await database('user')
+            .where({ public_id, 'isadmin': '1' })
+            .first()
+            .del()
+            .returning(['public_id', 'nickname']);
+
         return result[0];
     }
 }
