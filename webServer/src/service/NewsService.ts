@@ -1,13 +1,14 @@
 import { HttpError } from "@/errors/error.config.ts";
 import knexInstance from "../database/knex.ts";
-import knex from "knex";
 
 export class NewsService {
 
 
     getAllNews = async () =>{
         try{
-            const getAllNews = await knexInstance("news").select("*").orderBy("created_at", "desc");
+            const getAllNews = await knexInstance("news as n").join("user as a", "n.created_by", "a.id").join("user as b", "n.updated_by", "b.id")
+            .select("n.public_id", "n.slug", "n.title", "n.subtitle", "n.body", "n.created_at", "n.updated_at", "a.nickname as created_by", "b.nickname as updated_by"  )
+            .orderBy("created_at", "desc");
             return getAllNews;
         }catch(err:any){
             if(err instanceof HttpError){
@@ -18,7 +19,6 @@ export class NewsService {
 
     createNews = async (title:string,subtitle:string,body:string, userId:string,slug:string) => {
         try{
-
             const getPrivateId = await knexInstance("user").select("id").where({public_id:userId}).first();
             const slugBase = slug.toLowerCase().replace(/ /g, "-");
             const slugAlt = `${slugBase}-${Date.now()}`;
@@ -27,6 +27,7 @@ export class NewsService {
                 subtitle,
                 body,
                 created_at: knexInstance.fn.now(),
+                updated_at: knexInstance.fn.now(),
                 created_by: getPrivateId.id,
                 slug: slugAlt,
                 updated_by: getPrivateId.id

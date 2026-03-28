@@ -10,20 +10,17 @@ export class NewsController{
     getAllNews = async (req:Request,res:Response) => {
         try{
             const news = await this.newsService.getAllNews();
-            if(!news) throw new Error("Nenhuma notícia encontrada")
+            console.log(news?.length)
+            if(news?.length == 0) throw new Error("Nenhuma notícia encontrada")
             return res.status(HttpCode.OK).json({response: news})
         }catch(err:any){
-            if(err instanceof HttpError){
-                res.status(HttpCode.INTERNAL_SERVER_ERROR).json({message: err.message})
-            }
+            res.status(HttpCode.INTERNAL_SERVER_ERROR).json({message: err.message})
         }
     }
 
     createNews = async (req: Request, res: Response) =>{
         try{
-           
             const userId = req.user?.public_id
-            console.log("User ID:", ); 
             if(!userId) {
                 return res.status(401).json({ message: 'Usuário não autenticado' });
             }

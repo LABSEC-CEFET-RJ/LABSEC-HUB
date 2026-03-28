@@ -7,6 +7,6 @@ const router = Router()
 
 router.get('/all', newsController.getAllNews)
 router.post('/create', AuthMiddleware.ensureAdmin ,newsController.createNews)
-router.put('/update/:slug', AuthMiddleware.ensureAdmin, newsController.updateNews)
+router.patch('/update/:slug', AuthMiddleware.ensureAdmin, newsController.updateNews)
 router.delete('/delete/:slug', AuthMiddleware.ensureAdmin, newsController.deleteNews)
 export default router

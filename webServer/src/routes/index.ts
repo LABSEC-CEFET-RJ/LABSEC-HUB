@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authRouter from './auth'
 import userRouter from './userRoutes'
-import newsRouter from './news'
+import newsRouter from './newsRoutes'
 import lessonRouter from "./lessonRoutes"
 
 const router = Router()
