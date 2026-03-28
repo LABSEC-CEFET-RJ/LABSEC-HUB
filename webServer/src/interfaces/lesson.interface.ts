@@ -6,8 +6,10 @@ export interface Lesson {
     title: string,
     subtitle: string,
     body: Text,
-    created_by: Date,
-    updated_at: Date
+    created_at: Date,
+    updated_at: Date,
+    created_by: string | number,
+    updated_by: string | number
 }
 
 export type LessonPartial = Partial<Lesson>

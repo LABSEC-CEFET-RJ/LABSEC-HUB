@@ -19,15 +19,15 @@ router.post('/create', AuthMiddleware.ensureAdmin , lessonController.CreateLesso
 
 
 /**
-     * @route GET lesson/:PUBLIC_ID
+     * @route GET lesson//get/:public_id
      * @description Retorna uma lesson dado o public_id dela
      * @returns { lesson: Lesson  }
      */
-router.post('/:PUBLIC_ID', AuthMiddleware.ensureAdmin , )
+router.get('/get/:public_id', AuthMiddleware.ensureAuthenticated , lessonController.GetLesson)
 
 
 /**
-     * @route UPDATE lesson/update/:PUBLIC_ID
+     * @route UPDATE lesson/update/:public_id
      * @description Atualiza uma lesson dado o public_id dela
      * @param {string} slug
      * @param {string} title
@@ -35,13 +35,13 @@ router.post('/:PUBLIC_ID', AuthMiddleware.ensureAdmin , )
      * @param {text} body
      * @returns { message: string  }
      */
-router.post('/update/:PUBLIC_ID', AuthMiddleware.ensureAdmin , )
+router.patch('/update/:public_id', AuthMiddleware.ensureAdmin , lessonController.UpdateLesson)
 
 /**
-     * @route DELETE lesson/delete/:PUBLIC_ID
+     * @route DELETE lesson/delete/:public_id
      * @description Deleta uma lesson do banco dado o public_id dela
      * @returns { message: string  }
      */
-router.post('/delete/:PUBLIC_ID', AuthMiddleware.ensureAdmin , )
+router.post('/delete/:public_id', AuthMiddleware.ensureAdmin , )
 
 export default router

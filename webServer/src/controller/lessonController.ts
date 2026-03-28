@@ -22,4 +22,34 @@ export class LessonController  {
         }
     }
 
+
+    GetLesson = async (req: Request, res: Response) => {
+        try {
+            const { public_id } = req.params; 
+            const result = await this.lessonService.GetLesson(String(public_id));
+
+            return res.status(HttpCode.OK).json({message: result});
+            
+        } catch (error: any) {
+        return res.status(error.statusCode).json({message: error.message})
+        }
+    }
+
+    UpdateLesson = async (req: Request, res: Response) => {
+        try {
+            const { public_id } = req.params; 
+            const lesson: LessonPartial = req.body as LessonPartial
+            const date: Date = new Date();
+            const user_public_id = req.user?.public_id
+            const payload  = {...lesson, updated_at: date  }
+
+            const result = await this.lessonService.UpdateLesson(payload, String(user_public_id), String(public_id) );
+
+            return res.status(HttpCode.CREATED).json({message: result});
+            
+        } catch (error: any) {
+        return res.status(error.statusCode).json({message: error.message})
+        }
+    }
+
 }
