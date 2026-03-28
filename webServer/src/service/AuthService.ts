@@ -3,6 +3,7 @@ import { UserPayload } from "../interfaces/user.interface.ts";
 import { createToken as signJwtToken } from "../lib/jwt.ts";
 import * as bcrypt from 'bcrypt'
 import knexInstance from "../database/knex.ts";
+import { isNumberObject } from "node:util/types";
 
 export class AuthService  {
 
@@ -28,14 +29,12 @@ export class AuthService  {
             )
 
             if (!matchPassword) throw new AppError('invalid credentials', 401)
-            
-            
-            
+
             const userPayload: UserPayload = {
                 public_id: user.public_id,
                 email: user.email,
                 nickname: user.nickname,
-                admin: Boolean(user.isadmin)
+                isadmin: Boolean(Number(user.isadmin))
             }
 
             const token = signJwtToken(userPayload)
