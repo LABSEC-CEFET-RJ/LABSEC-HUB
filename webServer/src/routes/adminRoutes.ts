@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { AdminController } from "../controller/adminController";
+import { AuthMiddleware } from "@/middleware/authenticate";
 
 const router = Router()
 const controller = new AdminController()
@@ -18,7 +19,7 @@ router
      * 
      * @throws {UserNotFoundError}
      */
-    .get('/:public_id', controller.getAdminByPublicId)
+    .get('/:public_id', AuthMiddleware.ensureAdmin, controller.getAdminByPublicId)
 
     /**
      * @route GET /admin/all
@@ -26,7 +27,7 @@ router
      * @response {200} OK - Retorna lista de administradores
      * @responseBody {Array<Object>}
      */
-    .get('/', controller.getAllAdmins)
+    .get('/', AuthMiddleware.ensureAdmin, controller.getAllAdmins)
 
     /**
      * @route POST /admin
@@ -36,7 +37,7 @@ router
      * @throws {EmailInUseError}
      * @throws {ValidationError}
      */
-    .post('/', controller.createAdmin)
+    .post('/', AuthMiddleware.ensureRoot, controller.createAdmin)
 
     /**
      * @route PUT /admin
@@ -49,7 +50,7 @@ router
      * @throws {UserNotFoundError} 404
      * @throws {RootUpdateError} 403
      */
-    .put('/:public_id', controller.updateAdmin)
+    .put('/:public_id', AuthMiddleware.ensureRoot, controller.updateAdmin)
 
     // TODO: Adicionar autenticação de administrador root
     /**
@@ -60,6 +61,6 @@ router
      * @throws {UserNotFoundError} 404
      * @throws {RootUpdateError} 403
      */
-    .delete('/:public_id', controller.deleteAdmin)
+    .delete('/:public_id', AuthMiddleware.ensureRoot, controller.deleteAdmin)
 
 export default router

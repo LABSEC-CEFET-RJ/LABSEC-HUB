@@ -73,24 +73,4 @@ export class HttpError extends Error {
             Error.captureStackTrace(this, this.constructor)
         }
     }
-
-    /**
-     * Converte o erro para um objeto JSON serializado.
-     * @returns {HttpErrorFields} Objeto contendo status e mensagem do erro
-     */
-    public toJSON(): HttpErrorFields {
-        return {
-            status: this.status,
-            message: this.message
-        }
-    }
-
-    /**
-     * Envia a mensagem de erro como resposta HTTP.
-     * @param {Response} express_response - Objeto de resposta do Express
-     * @returns {void}
-     */
-    public sendMessage(express_response: Response) {
-        express_response.status(this.status).json(this.toJSON)
-    }
 }
