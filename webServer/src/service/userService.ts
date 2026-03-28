@@ -1,7 +1,6 @@
 import knexInstance from "@/database/knex";
 import { AppError } from "@/interfaces/errors/AppError";
 import bcrypt from "bcrypt"
-import knex from "knex";
 
 export class UserService  {
 
