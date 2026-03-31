@@ -2,7 +2,7 @@
 
 export interface RequestVM {
     name: string;
-    description: string;
+    descricao: string;
 }
 
 export interface ResponseVM {
@@ -10,5 +10,4 @@ export interface ResponseVM {
     name: string;
     creator: string;
     descricao: string;
-    created_at: Date;
 }

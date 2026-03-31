@@ -6,7 +6,6 @@ exports.up = async function(knex) {
       table.string("name", 45).notNullable()
       table.string("creator", 128)
       table.string("descricao", 255)
-      table.timestamps(true, true)
     });
 };
 

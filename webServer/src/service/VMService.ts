@@ -4,7 +4,7 @@ import { HttpCode, HttpError } from '@/errors/error.config'
 
 export class VMService {
 
-    private static VM_COLUMNS = ['name', 'public_id', 'descricao', 'creator', 'created_at']
+    private static VM_COLUMNS = ['name', 'public_id', 'descricao', 'creator']
 
     static create = async (name: string, creator: string, description: string) => {
         try {
@@ -25,7 +25,7 @@ export class VMService {
 
     static getAll = async () => {
         try {
-            const [vms] = await knex<ResponseVM>('virtual_machine')
+            const vms = await knex<ResponseVM>('virtual_machine')
                 .select(this.VM_COLUMNS)
             return vms
         } catch (error: any) {
@@ -36,14 +36,16 @@ export class VMService {
     static update = async (
         vmId: string,
         name?: string,
-        description?: string
+        descricao?: string,
+        creator?: string
     ) => {
         try {
             const [vm] = await knex<ResponseVM>('virtual_machine')
                 .where({ public_id: vmId })
                 .update({
                     name,
-                    'descricao': description
+                    descricao,
+                    creator
                 })
                 .returning(this.VM_COLUMNS)
 

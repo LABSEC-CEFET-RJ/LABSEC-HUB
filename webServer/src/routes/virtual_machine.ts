@@ -8,17 +8,25 @@ const router = Router()
 /**
  * @route GET /vm
  * @desc Obter todas as máquinas virtuais
- * @access Public
+ * @access Usuario logado
 */
 router.get('/', AuthMiddleware.ensureAuthenticated,  VMController.getAll)
 
 /**
  * @route POST /vm *
  * @desc Criar uma nova máquina virtual para o usuário autenticado
+ * @param {string} name - nome da VM
+ * @param {}
  * @access Private
  */
 router.post('/', AuthMiddleware.ensureAdmin, VMController.create)
 
+
+/**
+ * @route POST /vm *
+ * @desc Criar uma nova máquina virtual para o usuário autenticado
+ * @access Private
+ */
 router.patch('/:vmId', AuthMiddleware.ensureAdmin, VMController.update)
 
 router.delete('/:vmId', AuthMiddleware.ensureAdmin, VMController.delete)
