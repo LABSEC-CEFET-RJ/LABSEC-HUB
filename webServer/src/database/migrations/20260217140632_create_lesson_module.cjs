@@ -5,6 +5,7 @@ exports.up = async function(knex) {
         table.integer('lesson_id').unsigned().notNullable().references('id').inTable('lesson').onDelete('CASCADE');
         table.integer('module_id').unsigned().notNullable().references('id').inTable('module').onDelete('CASCADE');
         table.integer("position").unsigned().notNullable();
+        table.timestamps(true, true)
     })
 };
 
