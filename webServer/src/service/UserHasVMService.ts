@@ -9,7 +9,7 @@ export class UserHasVMService {
                 user_id: userId
             }).returning('*')
 
-            return userVm
+            return userVm ? true : false
         } catch (error: any) {
             throw new HttpError({ message: error.message || "Erro ao ligar o usuário à VM", status: HttpCode.INTERNAL_SERVER_ERROR})
         }

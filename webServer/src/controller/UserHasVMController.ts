@@ -8,8 +8,8 @@ export class UserHasVMController {
         try {
             const { vmId, userId } = req.params
 
-            const userVm = await UserHasVMService.create(vmId as string, userId as string)
-            return res.json({ vm: userVm })
+            const created = await UserHasVMService.create(vmId as string, userId as string)
+            return res.json({ created })
         } catch (error: any){
             if (error instanceof HttpError) {
                 return res.status(error.status).json({ error: error.message })
