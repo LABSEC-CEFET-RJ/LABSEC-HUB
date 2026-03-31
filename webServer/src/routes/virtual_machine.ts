@@ -19,7 +19,7 @@ router.get('/', AuthMiddleware.ensureAuthenticated,  VMController.getAll)
  */
 router.post('/', AuthMiddleware.ensureAdmin, VMController.create)
 
-router.put('/:vmId', AuthMiddleware.ensureAdmin, VMController.update)
+router.patch('/:vmId', AuthMiddleware.ensureAdmin, VMController.update)
 
 router.delete('/:vmId', AuthMiddleware.ensureAdmin, VMController.delete)
 
