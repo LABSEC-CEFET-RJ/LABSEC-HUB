@@ -44,12 +44,13 @@ export class AuthMiddleware {
         try {
 
         AuthMiddleware.ensureAuthenticated(req, res, () => {
-            if (!req.user?.admin) {
+            if (!req.user?.isadmin) {
             throw new Error("Acesso negado. Permissão de administrador necessária.");
             }
             return next();
         });
-        } catch (error) {
+        } catch (error: any) {
+            console.log(error.message)
             next(error)
         }
     }
