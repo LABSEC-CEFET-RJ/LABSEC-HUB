@@ -10,7 +10,7 @@ const router = Router()
  * @desc Obter todas as máquinas virtuais
  * @access Public
 */
-router.get('/', VMController.getAll)
+router.get('/', AuthMiddleware.ensureAuthenticated,  VMController.getAll)
 
 /**
  * @route POST /vm *

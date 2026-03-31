@@ -9,7 +9,6 @@ services:
       - .env
     depends_on:
       - db
-
   db:
     container_name: labsec_postgres
     image: postgres:16
