@@ -9,10 +9,10 @@ services:
       - .env
     depends_on:
       - db
+      - adminer
   db:
     container_name: labsec_postgres
     image: postgres:16
-    restart: always
     env_file:
       - .env
     ports:
@@ -20,5 +20,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       
+  adminer:
+    container_name: labsec_adminer
+    image: adminer
+    ports:
+      - "8080:8080"
 volumes:
   postgres_data:
