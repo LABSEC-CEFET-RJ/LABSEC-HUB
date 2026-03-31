@@ -4,16 +4,18 @@ import { HttpCode, HttpError } from '@/errors/error.config'
 
 export class VMService {
 
-    static create = async (name: string, creator: string, description: string): Promise<ResponseVM> => {
+    private static VM_COLUMNS = ['name', 'public_id', 'descricao', 'creator', 'created_at']
+
+    static create = async (name: string, creator: string, description: string) => {
         try {
             
             const [vm] = await knex<ResponseVM>('virtual_machine')
                 .insert({
                     name,
                     creator,
-                    'descricao': description
+                    descricao: description
                 })
-                .returning('*')
+                .returning(this.VM_COLUMNS)
 
             return vm
         } catch (error) {
@@ -21,9 +23,10 @@ export class VMService {
         }
     }
 
-    static getAll = async (): Promise<ResponseVM[]> => {
+    static getAll = async () => {
         try {
-            const vms = await knex<ResponseVM>('virtual_machine').select('*')
+            const [vms] = await knex<ResponseVM>('virtual_machine')
+                .select(this.VM_COLUMNS)
             return vms
         } catch (error: any) {
             throw new HttpError({ message: "Erro ao buscar máquinas virtuais", status: HttpCode.INTERNAL_SERVER_ERROR})
@@ -34,7 +37,7 @@ export class VMService {
         vmId: string,
         name?: string,
         description?: string
-    ): Promise<ResponseVM | undefined> => {
+    ) => {
         try {
             const [vm] = await knex<ResponseVM>('virtual_machine')
                 .where({ public_id: vmId })
@@ -42,7 +45,7 @@ export class VMService {
                     name,
                     'descricao': description
                 })
-                .returning('*')
+                .returning(this.VM_COLUMNS)
 
             if (!vm) {
                 throw new HttpError({ message: "Máquina virtual não encontrada", status: HttpCode.NOT_FOUND})
@@ -61,6 +64,7 @@ export class VMService {
             const vm = await knex('virtual_machine')
                 .where({ public_id: vmId })
                 .del()
+                .returning(this.VM_COLUMNS)
 
             if (!vm) {
                 throw new HttpError({ message: "Máquina virtual não encontrada", status: HttpCode.NOT_FOUND})
