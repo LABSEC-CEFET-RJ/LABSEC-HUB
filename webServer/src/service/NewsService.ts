@@ -42,25 +42,22 @@ export class NewsService {
 
     }
 
-    updateNews = async (title:string,subtitle:string,body:string, userId:string, slugParam:string) => {
+    updateNews = async (data:any, userId:string, slugParam:string) => {
         try{
             console.log("Slug recebido no serviço:", slugParam);
             const getPrivateId = await knexInstance("user").select("id").where({public_id:userId}).first();
 
             //const existing = await knexInstance("news").where({ slug: slugParam }).first();
             //console.log("Existe?", existing);
-        
-            const news = await knexInstance("news").update({
-                title: title,
-                subtitle: subtitle,
-                body: body,
-                updated_at: knexInstance.fn.now(),
-                updated_by: getPrivateId.id
-            }).where({slug:slugParam})
+            if (data.title && data.title.length > 45) {
+                throw new Error("O título só pode ter até 45 caracteres");
+            }
+            data.updated_at = knexInstance.fn.now();
+            data.updated_by = getPrivateId.id;
+
+            const news = await knexInstance("news").update(data).where({slug:slugParam})
 
             if(!news) throw new Error("Erro ao atualizar notícia");
-            console.log("aaaaa")
-
     
 
             return news;

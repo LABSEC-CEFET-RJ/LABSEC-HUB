@@ -42,19 +42,20 @@ export class NewsController{
                 return res.status(401).json({ message: 'Usuário não autenticado' });
             }
 
-            const {title,subtitle,body} = req.body;
+            const updateData = req.body;
 
             const {slug} = req.params;
             const slugParam = String(slug)
 
-            if(title.length > 45){
-                return res.status(400).json({message:"O título só pode ter até 45 caracteres"});
+            if (Object.keys(updateData).length === 0) {
+                return res.status(400).json({ message: "Envie pelo menos um campo para atualizar" });
             }
+
             if(!slugParam) {
                 return res.status(400).json({ message: 'Slug da notícia é obrigatório' });
             }
             
-            const result = await this.newsService.updateNews(title,subtitle,body,userId,slugParam);
+            const result = await this.newsService.updateNews(updateData,userId,slugParam);
 
             return res.status(HttpCode.OK).json({response: result, message: "Notícia atualizada com sucesso" });
         }catch(err:any){
