@@ -9,6 +9,10 @@ export interface AuthenticatedUserRequest extends Request {
 const secretKey = process.env.JWT_SECRET
 export class AuthMiddleware {
 
+    /**
+   * @method ensureAuthenticated
+   * @description Verifica se o usuário está autenticado.
+   */
     public static ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
 
         const header = req.headers.authorization
@@ -21,13 +25,12 @@ export class AuthMiddleware {
             if(secretKey){
                 const payload = jwt.verify(token, secretKey) as UserPayload
                 if (!payload.public_id || !payload.email ){
-                return res.status(500).send("Token invalido")
+                    return res.status(500).send("Token invalido")
+                }
+                
+                (req as AuthenticatedUserRequest).user = payload
+                next()
             }
-
-            (req as AuthenticatedUserRequest).user = payload
-            next()
-            }
-
         } catch (error) {
             res.status(403).send()
         }
