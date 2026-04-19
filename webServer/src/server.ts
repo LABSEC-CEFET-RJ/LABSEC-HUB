@@ -1,11 +1,14 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import router from './routes';
+import { errorHandler } from './middleware/errorHandler';
+
 dotenv.config({quiet:true});
 const app = express();
 
 app.use(express.json());
 app.use(router)
+app.use(errorHandler)
 
 const PORT = process.env.PORT;
 
