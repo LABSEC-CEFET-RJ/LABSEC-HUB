@@ -1,18 +1,18 @@
 import knexInstance from "@/database/knex";
-import { AppError } from "@/interfaces/errors/AppError";
+import { HttpCode, HttpError } from "@/errors/error.config";
 import bcrypt from "bcrypt"
 
 export class UserService  {
 
     saveLesson = async (lesson_public_id: string, user_public_id: string) => {
-            const lesson = await knexInstance("lesson").select("id").where({ public_id: lesson_public_id }).first()
+        const lesson = await knexInstance("lesson").select("id").where({ public_id: lesson_public_id }).first()
         if (!lesson) {
-            throw new AppError("lição não encontrada", 404)
+            throw new HttpError({ message: "lição não encontrada", status: HttpCode.NOT_FOUND})
         }
 
         const user = await knexInstance("user").select("id").where({ public_id: user_public_id }).first()
         if (!user) {
-            throw new AppError("Usuário não encontrado",404)
+            throw new HttpError({ message: "Usuário não encontrado", status:HttpCode.NOT_FOUND})
         }
 
         const exists = await knexInstance("lesson_progress").where({ lesson_id: lesson.id, user_id: user.id}).first()
@@ -98,7 +98,7 @@ export class UserService  {
 
         const user = await knexInstance("user").select("public_id").where({ email: email }).first()
         if (user) {
-        return "Email já cadastrado"
+            return "Email já cadastrado"
         }
         
         const hashedPassword = await bcrypt.hash(password, 10)

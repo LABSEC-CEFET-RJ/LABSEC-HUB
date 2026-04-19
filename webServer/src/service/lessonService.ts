@@ -1,9 +1,6 @@
 import { Lesson, LessonPartial } from "@/interfaces/lesson.interface";
 import knexInstance from "../database/knex.ts";
 
-
-
-
 export class LessonService  {
 
     CreateLesson = async (payload: LessonPartial, user_public_id: string) => {
@@ -15,7 +12,6 @@ export class LessonService  {
             return "Cadastrado com sucesso"
 
         } catch (error: any) {
-            console.error("Mensagem:", error.message);
                 throw error;
         }
     }
@@ -23,9 +19,11 @@ export class LessonService  {
     GetLesson = async (public_id: string) => {
         try {
             const lessonDb = await knexInstance("lesson").select("*").where({ public_id: public_id }).first()
+            
             if (!lessonDb) {
                 throw new Error("Lesson não encontrada");
             }
+            delete lessonDb.id
             var user, userUpdate
             if(lessonDb.created_by === lessonDb.updated_by ){
                 user = await knexInstance("user").select("nickname").where({ id: lessonDb.created_by }).first()
@@ -38,7 +36,6 @@ export class LessonService  {
             const lesson: Lesson = {...lessonDb ,  created_by: user.nickname , updated_by: userUpdate.nickname}
             return lesson
         } catch (error: any) {
-            console.error("Mensagem:", error.message);
                 throw error;
         }
         
@@ -53,7 +50,6 @@ export class LessonService  {
             return "Lição atualizada com sucesso"
 
         } catch (error: any) {
-            console.error("Mensagem:", error.message);
                 throw error;
         }
     }
@@ -64,7 +60,6 @@ export class LessonService  {
             await  knexInstance("lesson").where({public_id: public_id}).del();
             return "Lição deletada com sucesso"
         } catch (error: any) {
-            console.error("Mensagem:", error.message);
             throw error;
         }
     }

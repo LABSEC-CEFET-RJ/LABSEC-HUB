@@ -1,4 +1,4 @@
-import { AppError } from "@/interfaces/errors/AppError.ts";
+import { AppError } from "@/interfaces/errors/AppError.ts";   
 import { UserPayload } from "../interfaces/user.interface.ts";
 import { createToken as signJwtToken } from "../lib/jwt.ts";
 import * as bcrypt from 'bcrypt'
@@ -19,8 +19,8 @@ export class AuthService  {
 
         try {
             const user = await knexInstance('user').select('public_id', 'nickname', 'email', 'password', 'isadmin').where({ email }).first()    
-            
-            
+         
+
             if (!user) throw new AppError('invalid credentials', 401)
             
             const matchPassword = await bcrypt.compare(
@@ -34,8 +34,9 @@ export class AuthService  {
                 public_id: user.public_id,
                 email: user.email,
                 nickname: user.nickname,
-                isadmin: Boolean(Number(user.isadmin))
+                isadmin: user.isadmin
             }
+
 
             const token = signJwtToken(userPayload)
 

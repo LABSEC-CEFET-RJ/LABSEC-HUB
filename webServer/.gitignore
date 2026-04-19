@@ -12,6 +12,7 @@ pnpm-debug.log*
 # =========================
 .env
 .env.*
+!.env.docker.example
 !.env.example
 
 # =========================
