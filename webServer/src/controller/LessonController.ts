@@ -7,7 +7,7 @@ export class LessonController  {
         
     private readonly lessonService = new LessonService()
 
-    CreateLesson = async (req: Request, res: Response) => {
+    createLesson = async (req: Request, res: Response) => {
         try {
             const lesson: LessonPartial = req.body as LessonPartial
             const date: Date = new Date();
@@ -23,7 +23,7 @@ export class LessonController  {
     }
 
 
-    GetLesson = async (req: Request, res: Response) => {
+    getLesson = async (req: Request, res: Response) => {
         try {
             const { public_id } = req.params; 
             const result = await this.lessonService.GetLesson(String(public_id));
@@ -35,7 +35,7 @@ export class LessonController  {
         }
     }
 
-    UpdateLesson = async (req: Request, res: Response) => {
+    updateLesson = async (req: Request, res: Response) => {
         try {
             const { public_id } = req.params; 
             const lesson: LessonPartial = req.body as LessonPartial
@@ -52,7 +52,7 @@ export class LessonController  {
         }
     }
 
-    DeleteLesson = async (req: Request, res: Response) => {
+    deleteLesson = async (req: Request, res: Response) => {
         try {
             const { public_id } = req.params; 
             const result = await this.lessonService.DeleteLesson(String(public_id));
