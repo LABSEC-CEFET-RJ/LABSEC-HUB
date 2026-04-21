@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthMiddleware } from "@/middleware/authenticate";
-import { LessonController } from "@/controller/lessonController";
+import { LessonController } from "@/controller/LessonController";
 
 const router = Router()
 const lessonController = new LessonController()

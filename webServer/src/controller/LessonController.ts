@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { LessonService } from "@/service/lessonService";
+import { LessonService } from "@/service/LessonService";
 import { HttpCode } from "@/errors/error.config";
 import { Lesson , LessonPartial } from "@/interfaces/lesson.interface";
 
