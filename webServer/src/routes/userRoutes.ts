@@ -30,15 +30,6 @@ router.post('/module/progress', AuthMiddleware.ensureAuthenticated, userControll
 router.post('/course/progress', AuthMiddleware.ensureAuthenticated, userController.saveCourse);
 
 /**
-     * @route POST /user/vm/active
-     * @description Verifica se há uma máquina virtual ativa para o usuário e a acorda se necessário
-     * @param {string} virtual_machine_public_id
-     * @returns { message: string  }
-     */
-router.post('/vm/active', AuthMiddleware.ensureAuthenticated, userController.wakeVMInstance);
-
-
-/**
      * @route POST /user/create
      * @description Cria um usuario, só administradores podem acessar
      * @param {string} nickname
