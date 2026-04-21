@@ -26,13 +26,14 @@ export class UserController  {
         try{
             const { module_public_id } = req.body;
             const user_public_id = req.user?.public_id;
+
             if(!user_public_id || !module_public_id){
                 return res.status(HttpCode.BAD_REQUEST).json({message: "Missing or wrong parameters"});
             }    
             const response = await this.UserService.saveModule(module_public_id, String(user_public_id));
             return res.status(HttpCode.CREATED).json({message: response});
         }catch(error:any){
-            return res.status(error.statusCode || 500).json({ message: error.message || "Unexpected Error" });
+            return res.status(error.statusCode || 500).json({ message: error.message });
         }
     }
 
@@ -46,25 +47,10 @@ export class UserController  {
             const response = await this.UserService.saveCourse(course_public_id, String(user_public_id));
             return res.status(HttpCode.CREATED).json({message: response});
         }catch(err:any){
-            return res.status(err.statusCode || 500).json({ message: err.message || "Unexpected Error" });
+            return res.status(err.statusCode || 500).json({ message: err.message });
 
         }
     }
-
-    wakeVMInstance = async (req:Request, res: Response)=>{
-        try{
-            const { virtual_machine_public_id } = req.body;
-            const user_public_id = req.user?.public_id;
-            if(!user_public_id || !virtual_machine_public_id){
-                return res.status(HttpCode.BAD_REQUEST).json({message: "Missing or wrong parameters"});
-            }
-            const response = await this.UserService.wakeVMInstance(virtual_machine_public_id, String(user_public_id));
-            return res.status(HttpCode.OK).json({message: response});
-        }catch(err:any){
-            return res.status(err.statusCode || 500).json({ message: err.message || "Unexpected Error" });
-        }
-    }
-
 
     createUser = async (req: Request, res: Response) => {
         try {
