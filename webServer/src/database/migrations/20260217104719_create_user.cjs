@@ -1,5 +1,8 @@
-
+/**
+ * @param { import("knex").Knex } knex
+ */
 exports.up = async function(knex) {
+    
     await knex.schema.createTable("user", (table) => {
         table.increments("id").primary()
         table.uuid('public_id').defaultTo(knex.fn.uuid())
