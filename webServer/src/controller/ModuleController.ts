@@ -24,20 +24,4 @@ export class ModuleController {
             return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
         }
     }
-
-    static saveProgress = async (req: Request, res: Response) => {
-        try {
-            const { moduleId } = req.body
-            const userId = (req.user as UserPayload).id
-            const result = await ModuleService.saveProgress(moduleId, userId)
-
-            return res.json({ success: result })
-        } catch (error: any) {
-            if (error instanceof HttpError) {
-                return res.status(error.status).json({ error: error.message })
-            }
-
-            return res.status(HttpCode.INTERNAL_SERVER_ERROR).json({ error: error.message })
-        }
-    }
 }

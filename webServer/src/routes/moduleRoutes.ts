@@ -15,13 +15,6 @@ const router = Router()
    */
 router.post('/', AuthMiddleware.ensureAdmin, ModuleController.createModule)
 
-/**
-   * @route POST /module/progress
-   * @access Private (Admin)
-   * @param {string} moduleId - ID do módulo
-   * @param {string} userId - ID do usuário
-   * @description Salva o progresso de um módulo
-   */
-router.post('/progress', AuthMiddleware.ensureAuthenticated, ModuleController.saveProgress)
+
 
 export default router;
