@@ -33,11 +33,11 @@ export class UserService  {
     saveModule = async (module_public_id: string, user_public_id: string) =>{
         const module = await knexInstance("module").select("id").where({ public_id: module_public_id }).first();
         if(!module){
-            throw new AppError("Module not found",404)
+            throw new HttpError({ message: "Module not found", status: HttpCode.NOT_FOUND })
         }
         const user = await knexInstance("user").select("id").where({ public_id: user_public_id }).first();
         if (!user) {
-            throw new AppError("User not found",404);
+            throw new HttpError({ message: "User not found", status: HttpCode.NOT_FOUND });
         }
 
         const exists = await knexInstance("module_progress").where({ module_id: module.id, user_id: user.id}).first();
@@ -55,11 +55,11 @@ export class UserService  {
     saveCourse = async (course_public_id: string, user_public_id: string) =>{
         const course = await knexInstance("course").select("id").where({ public_id: course_public_id }).first();
         if(!course){
-            throw new AppError("Course not found",404)
+            throw new HttpError({ message: "Course not found", status: HttpCode.NOT_FOUND })
         }
         const user = await knexInstance("user").select("id").where({ public_id: user_public_id }).first();
         if (!user) {
-            throw new AppError("User not found",404);
+            throw new HttpError({ message: "User not found", status: HttpCode.NOT_FOUND});
         }
 
         const exists = await knexInstance("course_progress").where({ course_id: course.id, user_id: user.id}).first();
@@ -77,11 +77,11 @@ export class UserService  {
     wakeVMInstance = async (virtual_machine_public_id: string, user_public_id: string) => {
         const vmInstance = await knexInstance("virtual_machine").select("id").where({ public_id: virtual_machine_public_id }).first();
         if (!vmInstance) {
-            throw new AppError("Virtual Machine not found",404)
+            throw new HttpError({ message: "Virtual Machine not found", status: HttpCode.NOT_FOUND })
         }
         const user = await knexInstance("user").select("id").where({ public_id: user_public_id }).first();
         if (!user) {
-            throw new AppError("User not found",404);
+            throw new HttpError({ message: "User not found", status: HttpCode.NOT_FOUND});
         }
         const exists = await knexInstance("is_vm_active").where({ virtual_machine_id: vmInstance.id, user_id: user.id}).first();
         if(exists){

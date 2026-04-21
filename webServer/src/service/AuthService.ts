@@ -1,9 +1,8 @@
-import { AppError } from "@/interfaces/errors/AppError.ts";   
 import { UserPayload } from "../interfaces/user.interface.ts";
 import { createToken as signJwtToken } from "../lib/jwt.ts";
 import * as bcrypt from 'bcrypt'
 import knexInstance from "../database/knex.ts";
-import { isNumberObject } from "node:util/types";
+import { HttpCode, HttpError } from "@/errors/error.config.ts";
 
 export class AuthService  {
 
@@ -21,14 +20,14 @@ export class AuthService  {
             const user = await knexInstance('user').select('public_id', 'nickname', 'email', 'password', 'isadmin').where({ email }).first()    
          
 
-            if (!user) throw new AppError('invalid credentials', 401)
+            if (!user) throw new HttpError({ message: 'invalid credentials', status: HttpCode.UNAUTHORIZED })
             
             const matchPassword = await bcrypt.compare(
                 password, 
                 user.password
             )
 
-            if (!matchPassword) throw new AppError('invalid credentials', 401)
+            if (!matchPassword) throw new HttpError({ message: 'invalid credentials', status: HttpCode.FORBIDDEN })
 
             const userPayload: UserPayload = {
                 public_id: user.public_id,
