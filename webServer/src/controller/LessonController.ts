@@ -13,7 +13,7 @@ export class LessonController  {
             const date: Date = new Date();
             const user_public_id = req.user?.public_id
             const payload  = {...lesson, created_at: date, updated_at : date  }
-            const result = await this.lessonService.CreateLesson(payload, String(user_public_id));
+            const result = await this.lessonService.createLesson(payload, String(user_public_id));
 
             return res.status(HttpCode.CREATED).json({message: result});
             
@@ -26,7 +26,7 @@ export class LessonController  {
     getLesson = async (req: Request, res: Response) => {
         try {
             const { public_id } = req.params; 
-            const result = await this.lessonService.GetLesson(String(public_id));
+            const result = await this.lessonService.getLesson(String(public_id));
 
             return res.status(HttpCode.OK).json({message: result});
             
@@ -43,7 +43,7 @@ export class LessonController  {
             const user_public_id = req.user?.public_id
             const payload  = {...lesson, updated_at: date  }
 
-            const result = await this.lessonService.UpdateLesson(payload, String(user_public_id), String(public_id) );
+            const result = await this.lessonService.updateLesson(payload, String(user_public_id), String(public_id) );
 
             return res.status(HttpCode.OK).json({message: result});
             
@@ -55,7 +55,7 @@ export class LessonController  {
     deleteLesson = async (req: Request, res: Response) => {
         try {
             const { public_id } = req.params; 
-            const result = await this.lessonService.DeleteLesson(String(public_id));
+            const result = await this.lessonService.deleteLesson(String(public_id));
             return res.status(HttpCode.OK).json({message: result});
 
         } catch (error: any) {

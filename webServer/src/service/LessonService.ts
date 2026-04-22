@@ -3,7 +3,7 @@ import knexInstance from "../database/knex.ts";
 
 export class LessonService  {
 
-    CreateLesson = async (payload: LessonPartial, user_public_id: string) => {
+    createLesson = async (payload: LessonPartial, user_public_id: string) => {
 
         try {
             const user = await knexInstance("user").select("id").where({ public_id: user_public_id }).first()
@@ -16,7 +16,7 @@ export class LessonService  {
         }
     }
 
-    GetLesson = async (public_id: string) => {
+    getLesson = async (public_id: string) => {
         try {
             const lessonDb = await knexInstance("lesson").select("*").where({ public_id: public_id }).first()
             
@@ -41,7 +41,7 @@ export class LessonService  {
         
     }
 
-    UpdateLesson = async (payload: LessonPartial, user_public_id: string,  public_id: string) => {
+    updateLesson = async (payload: LessonPartial, user_public_id: string,  public_id: string) => {
 
         try {
             const user = await knexInstance("user").select("id").where({ public_id: user_public_id }).first()
@@ -55,7 +55,7 @@ export class LessonService  {
     }
 
 
-    DeleteLesson = async (public_id : String) => {
+    deleteLesson = async (public_id : String) => {
         try {
             await  knexInstance("lesson").where({public_id: public_id}).del();
             return "Lição deletada com sucesso"
