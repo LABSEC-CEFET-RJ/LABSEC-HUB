@@ -10,7 +10,9 @@ import { Request, Response } from "express"
  */
 export class VMController {
 
-    static create = async (req: Request, res: Response) => {
+    private readonly vmService = new VMService()
+
+    create = async (req: Request, res: Response) => {
         try {
             const { name, descricao } = (req.body as Partial<ResponseVM>)
             if(!name || !descricao){
@@ -18,7 +20,7 @@ export class VMController {
             }
             let creator = req.body.creator
             creator = !creator ? "admin": creator
-            const result = await VMService.create(name, creator, descricao)
+            const result = await this.vmService.create(name, creator, descricao)
             return res.json({ vm: result })
         } catch (error: any) {
             if (error instanceof HttpError) {
@@ -28,9 +30,9 @@ export class VMController {
         }
     }
 
-    static getAll = async (req: Request, res: Response) => {
+    getAll = async (req: Request, res: Response) => {
         try {
-            const vms = await VMService.getAll()
+            const vms = await this.vmService.getAll()
             return res.json({ vms })
         } catch (error: any) {
             if (error instanceof HttpError) {
@@ -40,11 +42,11 @@ export class VMController {
         }
     }
 
-    static update = async (req: Request, res: Response) => {
+    update = async (req: Request, res: Response) => {
         try {
             const { vmId } = req.params
             const vm = (req.body as Partial<ResponseVM>)
-            const updatedVm = await VMService.update(
+            const updatedVm = await this.vmService.update(
                 vmId as string, 
                 vm.name, 
                 vm.descricao,
@@ -59,11 +61,11 @@ export class VMController {
         }
     }
 
-    static delete = async (req: Request, res: Response) => {
+    delete = async (req: Request, res: Response) => {
         try {
             const { vmId } = req.params
-            const deletedVm = await VMService.delete(vmId as string)
-            return res.status(HttpCode.OK).send("Deletado com sucesso")
+            const deletedVm = await this.vmService.delete(vmId as string)
+            return res.status(HttpCode.OK).send({ message: "VM deletada com sucesso"})
         } catch (error: any) {
             if (error instanceof HttpError) {
                 return res.status(error.status).json({ error: error.message })
