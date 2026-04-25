@@ -20,7 +20,7 @@ router.patch('/:moduleId', AuthMiddleware.ensureAdmin, moduleController.updateMo
 router.delete('/:moduleId', AuthMiddleware.ensureAdmin, moduleController.deleteModule)
 
 /* Module has Lesson */
-router.post('/:moduleId/lesson', AuthMiddleware.ensureAdmin, moduleController.createLesson)
+router.post('/:moduleId/lesson/:lessonId', AuthMiddleware.ensureAdmin, moduleController.createLesson)
 router.get('/:moduleId/lesson/:lessonId', AuthMiddleware.ensureAdmin, moduleController.getLessonById)
 router.patch('/:moduleId/lesson/:lessonId', AuthMiddleware.ensureAdmin, moduleController.updateLesson)
 router.delete('/:moduleId/lesson/:lessonId', AuthMiddleware.ensureAdmin, moduleController.deleteLesson)

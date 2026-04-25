@@ -143,7 +143,7 @@ export class ModuleController {
             const { lessonId } = req.params
             await this.moduleService.deleteLesson(lessonId as string)
 
-            return res.status(HttpCode.OK).send({ message: "Lição deletada com sucesso"})
+            return res.status(HttpCode.OK).send({ message: "Lição removida do módulo com sucesso"})
         } catch (error: any) {
             if (error instanceof HttpError) {
                 return res.status(error.status).json({ error: error.message })
