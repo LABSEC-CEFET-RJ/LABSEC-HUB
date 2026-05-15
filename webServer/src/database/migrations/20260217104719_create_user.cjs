@@ -10,7 +10,7 @@ exports.up = async function(knex) {
         table.string("email", 255).notNullable().unique()
         table.integer("points")
         table.string("password", 255).notNullable()
-        table.enu("isadmin", ["0", "1"]).notNullable().defaultTo(0)
+        table.boolean("isadmin").notNullable().defaultTo(false)
         table.timestamps(true, true)
     });
 };
