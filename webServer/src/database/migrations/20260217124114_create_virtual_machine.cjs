@@ -1,4 +1,6 @@
-
+/**
+ * @param { import("knex").Knex } knex
+ */
 exports.up = async function(knex) {
   await knex.schema.createTable("virtual_machine", (table) => {
       table.increments("id").primary()

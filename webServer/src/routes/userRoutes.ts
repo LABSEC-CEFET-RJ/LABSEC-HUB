@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthMiddleware } from "@/middleware/authenticate";
-import { UserController } from "@/controller/userController";
+import { UserController } from "@/controller/UserController";
 const router = Router()
 const userController = new UserController()
 
@@ -28,15 +28,6 @@ router.post('/module/progress', AuthMiddleware.ensureAuthenticated, userControll
      * @returns { message: string  }
      */
 router.post('/course/progress', AuthMiddleware.ensureAuthenticated, userController.saveCourse);
-
-/**
-     * @route POST /user/vm/active
-     * @description Verifica se há uma máquina virtual ativa para o usuário e a acorda se necessário
-     * @param {string} virtual_machine_public_id
-     * @returns { message: string  }
-     */
-router.post('/vm/active', AuthMiddleware.ensureAuthenticated, userController.wakeVMInstance);
-
 
 /**
      * @route POST /user/create

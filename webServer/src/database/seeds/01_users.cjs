@@ -3,7 +3,12 @@ require('dotenv').config()
 const bcrypt = require('bcrypt')
 
 exports.seed = async function (knex) {
+
+  await knex('lesson_module').del()
+  await knex('module').del()
+  await knex('lesson').del()
   await knex('user').del()
+
   const users = Array.from({ length: 20 }, () => ({
     nickname: faker.internet.username(),
     email: faker.internet.email(),

@@ -11,6 +11,7 @@ app.use(router)
 app.use(errorHandler)
 
 const PORT = process.env.PORT;
+const host = process.env.DB_HOST
 
 if(!PORT){
     throw new Error("Variável de ambiente PORT não definida");

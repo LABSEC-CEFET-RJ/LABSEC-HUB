@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { AdminService } from "../service/adminService";
+import { AdminService } from "../service/AdminService";
 import { HttpCode } from "../errors/error.config";
 import { CreateUserDTO, UpdateUserDTO } from "../types/user";
 

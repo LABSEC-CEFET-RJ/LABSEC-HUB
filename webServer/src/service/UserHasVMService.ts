@@ -2,7 +2,8 @@ import knex from "@/database/knex"
 import { HttpCode, HttpError } from "@/errors/error.config"
 
 export class UserHasVMService {
-    static create = async (vmId: string, userId: string) => {
+    
+    create = async (vmId: string, userId: string) => {
         try {
             const [userVm] = await knex('is_vm_active').insert({
                 virtual_machine_id: vmId,
@@ -15,7 +16,7 @@ export class UserHasVMService {
         }
     }
 
-    static checkIsActive = async (vmId: string, userId: string) => {
+    checkIsActive = async (vmId: string, userId: string) => {
         try {
             const vm = await knex('is_vm_active')
                 .select('*')
@@ -30,7 +31,7 @@ export class UserHasVMService {
         }
     }
 
-    static delete = async (vmId: string, userId: string) => {
+    delete = async (vmId: string, userId: string) => {
         try {
             const count = await knex('is_vm_active')
                 .where({

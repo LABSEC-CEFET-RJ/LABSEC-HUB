@@ -4,11 +4,13 @@ import { Request, Response } from "express"
 
 export class UserHasVMController {
 
-    static createVM = async (req: Request, res: Response) => {
+    private readonly service = new UserHasVMService()
+
+    createVM = async (req: Request, res: Response) => {
         try {
             const { vmId, userId } = req.params
 
-            const created = await UserHasVMService.create(vmId as string, userId as string)
+            const created = await this.service.create(vmId as string, userId as string)
             return res.json({ created })
         } catch (error: any){
             if (error instanceof HttpError) {
@@ -18,10 +20,10 @@ export class UserHasVMController {
         }
     }
 
-    static checkIsActive = async (req: Request, res: Response) => {
+    checkIsActive = async (req: Request, res: Response) => {
         try {
             const { vmId, userId } = req.params
-            const result = await UserHasVMService.checkIsActive(vmId as string, userId as string)
+            const result = await this.service.checkIsActive(vmId as string, userId as string)
 
             return res.json({ isActive: result})
         } catch (error: any) {
@@ -32,11 +34,11 @@ export class UserHasVMController {
         }
     }
 
-    static deleteVM = async (req: Request, res: Response) => {
+    deleteVM = async (req: Request, res: Response) => {
         try {
             const { vmId, userId } = req.params
 
-            await UserHasVMService.delete(vmId as string, userId as string)
+            await this.service.delete(vmId as string, userId as string)
             return res.json(HttpCode.OK).send()
         } catch (error: any) {
             if (error instanceof HttpError) {

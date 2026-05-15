@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthMiddleware } from "@/middleware/authenticate";
-import { LessonController } from "@/controller/lessonController";
+import { LessonController } from "@/controller/LessonController";
 
 const router = Router()
 const lessonController = new LessonController()
@@ -15,15 +15,15 @@ router
      * @param {text} body
      * @returns {message: string}
      */
-router.post('/create', AuthMiddleware.ensureAdmin , lessonController.CreateLesson)
+router.post('/', AuthMiddleware.ensureAdmin , lessonController.createLesson)
 
 
 /**
-     * @route GET lesson//get/:public_id
+     * @route GET lesson/get/:public_id
      * @description Retorna uma lesson dado o public_id dela
      * @returns { lesson: Lesson  }
      */
-router.get('/get/:public_id', AuthMiddleware.ensureAuthenticated , lessonController.GetLesson)
+router.get('/:public_id', AuthMiddleware.ensureAuthenticated , lessonController.getLesson)
 
 
 /**
@@ -35,13 +35,13 @@ router.get('/get/:public_id', AuthMiddleware.ensureAuthenticated , lessonControl
      * @param {text} body
      * @returns { message: string  }
      */
-router.patch('/update/:public_id', AuthMiddleware.ensureAdmin , lessonController.UpdateLesson)
+router.patch('/:public_id', AuthMiddleware.ensureAdmin , lessonController.updateLesson)
 
 /**
      * @route DELETE lesson/delete/:public_id
      * @description Deleta uma lesson do banco dado o public_id dela
      * @returns { message: string  }
      */
-router.delete('/delete/:public_id', AuthMiddleware.ensureAdmin , lessonController.DeleteLesson)
+router.delete('/:public_id', AuthMiddleware.ensureAdmin , lessonController.deleteLesson)
 
 export default router
