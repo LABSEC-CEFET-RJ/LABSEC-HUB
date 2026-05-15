@@ -1,6 +1,6 @@
-import { defaultConfig, defineConfig, createSystem } from "@chakra-ui/react"
-import { slotRecipes } from "./recipes"
-import { recipes } from "./recipes"
+import { defaultConfig, defineConfig, createSystem } from "@chakra-ui/react";
+import { slotRecipes } from "./recipes";
+import { recipes } from "./recipes";
 
 const themeConfig = defineConfig({
   theme: {
@@ -39,27 +39,26 @@ const themeConfig = defineConfig({
           800: { value: "#5B131D" },
           900: { value: "#420E15" },
         },
-      }
+      },
     },
     semanticTokens: {
       colors: {
         primary: { value: "{colors.primary.500}" },
         secondary: { value: "{colors.secondary.500}" },
         destructive: { value: "#ff2e4aff" },
-      }
+      },
     },
     recipes,
     slotRecipes,
   },
   globalCss: {
-    "body": {
-      backgroundColor: "#dfdfdfff",
-      fontFamily: "Roboto, sans-serif"
-    }
-  }
-})
+    body: {
+      backgroundColor: "rgb(245, 245, 245)",
+      fontFamily: "Roboto, sans-serif",
+    },
+  },
+});
 
-const theme = createSystem(defaultConfig, themeConfig)
+const theme = createSystem(defaultConfig, themeConfig);
 
-export default theme
-
+export default theme;

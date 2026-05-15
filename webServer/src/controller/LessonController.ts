@@ -1,0 +1,67 @@
+import { Request, Response } from "express";
+import { LessonService } from "@/service/LessonService";
+import { HttpCode } from "@/errors/error.config";
+import { Lesson , LessonPartial } from "@/interfaces/lesson.interface";
+
+export class LessonController  {
+        
+    private readonly lessonService = new LessonService()
+
+    createLesson = async (req: Request, res: Response) => {
+        try {
+            const lesson: LessonPartial = req.body as LessonPartial
+            const date: Date = new Date();
+            const user_public_id = req.user?.public_id
+            const payload  = {...lesson, created_at: date, updated_at : date  }
+            const result = await this.lessonService.createLesson(payload, String(user_public_id));
+
+            return res.status(HttpCode.CREATED).json({message: result});
+            
+        } catch (error: any) {
+        return res.status(HttpCode.BAD_REQUEST).json({message: error.message})
+        }
+    }
+
+
+    getLesson = async (req: Request, res: Response) => {
+        try {
+            const { public_id } = req.params; 
+            const result = await this.lessonService.getLesson(String(public_id));
+
+            return res.status(HttpCode.OK).json({message: result});
+            
+        } catch (error: any) {
+        return res.status(HttpCode.BAD_REQUEST).json({message: error.message})
+        }
+    }
+
+    updateLesson = async (req: Request, res: Response) => {
+        try {
+            const { public_id } = req.params; 
+            const lesson: LessonPartial = req.body as LessonPartial
+            const date: Date = new Date();
+            const user_public_id = req.user?.public_id
+            const payload  = {...lesson, updated_at: date  }
+
+            const result = await this.lessonService.updateLesson(payload, String(user_public_id), String(public_id) );
+
+            return res.status(HttpCode.OK).json({message: result});
+            
+        } catch (error: any) {
+            return res.status(HttpCode.BAD_REQUEST).json({message: error.message})
+        }
+    }
+
+    deleteLesson = async (req: Request, res: Response) => {
+        try {
+            const { public_id } = req.params; 
+            const result = await this.lessonService.deleteLesson(String(public_id));
+            return res.status(HttpCode.OK).json({message: result});
+
+        } catch (error: any) {
+            return res.status(HttpCode.BAD_REQUEST).json({message: error.message})
+        }
+
+    }
+
+}

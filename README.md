@@ -1,4 +1,4 @@
-# LABSEC-HUB SEPEX 2025.2 VERSION
+# LABSEC-HUB 2026 VERSION
 <p align="center">
   <img alt="ReactJS" src="https://img.shields.io/badge/React-61DAFB.svg?style=for-the-badge&logo=React&logoColor=black">
   <img alt="Node.js" src="https://img.shields.io/badge/Node.js-5FA04E.svg?style=for-the-badge&logo=nodedotjs&logoColor=white">
